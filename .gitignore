@@ -1,0 +1,29 @@
+# .NET specific patterns
+
+# NuGet packages
+ClassMate/packages/
+*.nupkg
+
+# Build results
+ClassMate/bin/
+ClassMate/obj/
+
+# Visual Studio and IDE specific patterns
+ClassMate/.vs/
+ClassMate/*.suo
+ClassMate/*.user
+ClassMate/*.vscode/
+ClassMate/*.vssscc
+ClassMate/*.pidb
+ClassMate/*.log
+ClassMate/*.bak
+ClassMate/*.Cache
+ClassMate/[Tt]emp
+ClassMate/*.tmp
+ClassMate/*.bak
+ClassMate/*.cache
+
+
+# Ignore Node.js dependencies
+Frontend/node_modules/
+Frontend/my-app/node_modules/
