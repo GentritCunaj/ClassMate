@@ -26,4 +26,4 @@ ClassMate/*.cache
 
 # Ignore Node.js dependencies
 Frontend/node_modules/
-Frontend/my-app/node_modules/
+Frontend/react-app/node_modules/
