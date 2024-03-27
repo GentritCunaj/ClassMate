@@ -37,7 +37,31 @@ namespace ClassMate.Controllers
             _roleManager = roleManager;
         }
 
-   
+
+
+        [HttpGet("allUsers")]
+        public async Task<ActionResult<ServiceResponse<IEnumerable<ApplicationUser>>>> GetUsersWithRoles(string roleName)
+        {
+            var response = new ServiceResponse<IEnumerable<ApplicationUser>>();
+
+            // Check if the role exists
+            var role = await _roleManager.FindByNameAsync(roleName);
+            if (role == null)
+            {
+                response.Success = false;
+                response.Message = $"Role '{roleName}' not found.";
+                return BadRequest(response);
+            }
+
+            // Get users who have the specified role
+            var usersWithRole = await _userManager.GetUsersInRoleAsync(roleName);
+
+            response.Data = usersWithRole;
+            response.Success = true;
+            response.Message = roleName;
+            return Ok(response);
+        }
+
 
         [HttpPost("loginUser")]
         public async Task<ActionResult<ServiceResponse<string>>> Login(Login login)
