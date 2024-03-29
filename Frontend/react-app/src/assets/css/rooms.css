@@ -1,0 +1,51 @@
+.roomsDiv {
+    height: 50%;
+}
+.roomsCard {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    top: 20%;
+    justify-content: center;
+    gap: 10%;
+}
+.createRoom {
+    width: 40%;
+    border-radius: 15px;
+    height: 150px;
+    background-color: rgb(132 134 215);
+    cursor: pointer;
+    padding: 20px 10px 0 10px;
+}
+.fontSvg {
+    height: 30px;
+    position: relative;
+    left: 10px;
+    top: 5px;
+}
+
+.paraDiv {
+    position: relative;
+    left: 2%;
+    top: 20%;
+}
+
+.joinRoom {
+    width: 40%;
+    border-radius: 15px;
+    height: 150px;
+    background-color: rgb(255 141 30);
+    cursor: pointer;
+    padding: 20px 10px 0 10px;
+}
+.roomP {
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: white;
+}
+
+.createRoom:hover,
+.joinRoom:hover {
+    opacity: 0.9;
+}
