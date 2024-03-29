@@ -14,6 +14,7 @@ const style = {
   borderRadius:'15px',
   boxShadow: 0,
   p: 4,
+  
 };
 const ModalSuccess= ({onClose}) => {
    
@@ -24,6 +25,7 @@ const ModalSuccess= ({onClose}) => {
     onClose={onClose}
     aria-labelledby="modal-modal-title"
     aria-describedby="modal-modal-description"
+    style={{ backdropFilter: "blur(5px)" }}
   >
     <Box sx={style}>
     <h2 style={{color:"green"}} className="text-2xl font-semibold mb-4 text-center">Room Created Successfully</h2>

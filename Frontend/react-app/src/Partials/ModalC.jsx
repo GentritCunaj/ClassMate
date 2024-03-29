@@ -17,6 +17,7 @@ const style = {
   borderRadius:'15px',
   boxShadow: 0,
   p: 4,
+
 };
 const ModalC= ({ onClose }) => {
    
@@ -30,7 +31,8 @@ const ModalC= ({ onClose }) => {
     creatorId: 'f1ff8554-e8f5-4415-932c-dbf0ad5a6034', 
     visibility: 0, // Default value
     type: 0,
-    reports:0
+    reports:0,
+    
   });
 
   const dispatch = useDispatch();
@@ -67,6 +69,7 @@ const ModalC= ({ onClose }) => {
     onClose={onClose}
     aria-labelledby="modal-modal-title"
     aria-describedby="modal-modal-description"
+    style={{ backdropFilter: "blur(5px)" }}
   >
     <Box sx={style}>
     <h2 className="text-2xl font-semibold mb-4 text-center">Create Study Room</h2>
@@ -113,7 +116,7 @@ const ModalC= ({ onClose }) => {
               {error && (
                 <p className="text-red-500">Please fill in all required fields</p>
               )}
-              <button style={{background:"black"}} className="btn btn-primary mt-4">Create</button>
+              <button style={{background:"black",border:"2px solid black"}} className="btn btn-primary mt-4">Create</button>
             </form>
     </Box>
   </Modal>
