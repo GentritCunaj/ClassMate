@@ -36,7 +36,7 @@ const [rowperpage, rowperpagechange] = useState(5);
   return (
     <>
      <div id="dashboardContainer" class="container pt-4">
-    <TableContainer id="tableContainer" sx={{width:1000,}}>
+    <TableContainer id="tableContainer"  sx={{width:1000,}}>
     <Table stickyHeader>
         <TableHead>
             <TableRow>

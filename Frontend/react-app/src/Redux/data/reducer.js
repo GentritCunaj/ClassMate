@@ -4,16 +4,25 @@ const initialState = {
     teachers:[],
     students:[],
     admins:[],
-    loading:false
+    loading:false,
+    modalCreated:false
     
 }
 
 export default function dataReducer(state = initialState, { type, payload }) {
     switch (type) {
         case types.GET_USERS_REQUEST:
+        case types.POST_STUDY_GROUP_REQUEST: 
             return {...state,loading:true}
 
-       
+        case types.SET_CREATED_MODAL:
+          return {
+            ...state,
+            modalCreated: payload
+          };     
+       case types.POST_STUDY_GROUP_SUCCESS:
+        return {...state,loading:false,modalCreated:true}
+
        case types.GET_USERS_SUCCESS:
         console.log(payload,"payload");
           if (payload.message == 'Teacher'){

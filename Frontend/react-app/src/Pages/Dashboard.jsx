@@ -7,7 +7,7 @@ const Dashboard = () => {
     <div class="dashboardContainer">
    
    <Sidebar/>
-   <div style={{display:"flex",flexDirection:"column",margin:"0 auto"}}>
+   <div style={{display:"flex",flexDirection:"column",margin:"0 auto",height:"100vh"}}>
 
   
    <Cards/> 
