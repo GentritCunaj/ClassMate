@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ClassMate.Models
 {
@@ -14,5 +16,21 @@ namespace ClassMate.Models
         public string Password { get; set; }
 
         public string Role {  get; set; }
+
+       
+        public string? FirstName { get; set; }
+
+        public string? LastName { get; set; }
+
+        public string? City { get; set; }
+
+        public string? Country { get; set; }
+
+        
+        public string? Address { get; set; }
+
+        public string? PhoneNumber {  get; set; }
+       
+        public DateTime? Birthday { get; set; }
     }
 }

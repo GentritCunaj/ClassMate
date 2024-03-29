@@ -125,7 +125,15 @@ namespace ClassMate.Controllers
               
                 Email = register.Email,
                 UserName = register.UserName,
-               
+                PhoneNumber = register.PhoneNumber,
+                FirstName = register.FirstName,
+                LastName = register.LastName,
+                City = register.City,
+                Country = register.Country,
+                Birthday = register.Birthday,
+                Address = register.Address,
+
+
             };
 
             var result = await _userManager.CreateAsync(user, register.Password);

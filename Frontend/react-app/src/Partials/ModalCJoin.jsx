@@ -23,6 +23,7 @@ const ModalCJoin= ({ onClose }) => {
     onClose={onClose}
     aria-labelledby="modal-modal-title"
     aria-describedby="modal-modal-description"
+    style={{ backdropFilter: "blur(5px)" }}
   >
     <Box sx={style}>
     <h2 className="text-2xl font-semibold mb-4 text-center">Join Study Room</h2>
@@ -34,7 +35,7 @@ const ModalCJoin= ({ onClose }) => {
                
               />
               
-              <button style={{background:"black"}} className="btn btn-primary mt-4">Join</button>
+              <button style={{background:"black",border:"2px solid black"}} className="btn btn-primary mt-4">Join</button>
             </form>
     </Box>
   </Modal>
