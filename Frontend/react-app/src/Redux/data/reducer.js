@@ -3,7 +3,8 @@
 const initialState = {
     teachers:[],
     students:[],
-    admins:[],
+    admins: [],
+    publicGroups:[],
     loading:false,
     modalCreated:false
     
@@ -12,6 +13,7 @@ const initialState = {
 export default function dataReducer(state = initialState, { type, payload }) {
     switch (type) {
         case types.GET_USERS_REQUEST:
+        case types.GET_STUDY_GROUPS_REQUEST:
         case types.POST_STUDY_GROUP_REQUEST: 
             return {...state,loading:true}
 
@@ -19,7 +21,11 @@ export default function dataReducer(state = initialState, { type, payload }) {
           return {
             ...state,
             modalCreated: payload
-          };     
+            };
+
+        case types.GET_STUDY_GROUPS_SUCCESS:
+            return { ...state, publicGroups: payload.data, loading: false };
+
        case types.POST_STUDY_GROUP_SUCCESS:
         return {...state,loading:false,modalCreated:true}
 

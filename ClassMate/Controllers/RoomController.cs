@@ -31,6 +31,23 @@ namespace ClassMate.Controllers
       
         }
 
+
+     [HttpGet("publicRooms")]
+        public async Task<ActionResult<ServiceResponse<IEnumerable<StudyGroup>>>> GetPublicStudyGroups()
+        {
+            var response = new ServiceResponse<IEnumerable<StudyGroup>>();
+
+            
+            var publicStudyGroups = await _db.StudyGroups
+                .Where(sg => sg.Visibility == StudyGroup.VisibilityEnum.Public)
+                .ToListAsync();
+
+            response.Data = publicStudyGroups;
+            response.Success = true;
+            response.Message = "Public study groups retrieved successfully.";
+            return Ok(response);
+        }
+
         [HttpPost]
 
         public async Task<ActionResult<ServiceResponse<List<StudyGroup>>>> PostStudyGroup(StudyGroupDto studyGroupDto)
@@ -44,7 +61,7 @@ namespace ClassMate.Controllers
                 CreatorId = user.Id,
                 GroupName = studyGroupDto.GroupName,
                 Description = studyGroupDto.Description,
-               
+                Visibility = studyGroupDto.Visibility,
                 Type = studyGroupDto.Type,
                 Creator = user // Set the Creator property with the fetched user
             };
