@@ -2,6 +2,7 @@ import React from 'react';
 import Sidebar from '../Partials/Sidebar';
 import Cards from '../Partials/Cards';
 import Tables from '../Partials/Table';
+import PublicGroups from '../Partials/PublicStudyGroups';
 import {useNavigate } from "react-router-dom";
 const Dashboard = () => {
 
@@ -15,7 +16,8 @@ const Dashboard = () => {
 
   
    <Cards/> 
-   <Tables/> 
+   <Tables/>
+   <PublicGroups/>
    </div>
    <div className="avatar-container">
       <div onClick={()=>navigate("/profile")} className="avatar">
