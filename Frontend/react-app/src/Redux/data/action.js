@@ -35,6 +35,40 @@ export const getAllUsers = (data) => async (dispatch) => {
 }
 
 
+export const reportRoom = (data) => async (dispatch) => {
+    try {
+        dispatch({ type: types.REPORT_STUDY_ROOM_REQUEST });
+    
+
+        const res = await axios.post(
+            `https://localhost:7168/Room/report?studyGroupId=${data}`,
+            
+            
+        );
+
+        dispatch({
+            type: types.REPORT_STUDY_ROOM_SUCCESS,
+            payload: {
+                message: res.data.message,
+                success: res.data.success,
+                data: res.data.data
+            }
+        });
+
+        return res.data;
+    } catch (error) {
+        dispatch({
+            type: types.REPORT_STUDY_ROOM_ERROR,
+            payload: {
+                message: error.response.data.message
+            }
+        });
+
+        throw error.response.data;
+    }
+}
+
+
 export const getAllPublicRooms = () => async (dispatch) => {
     try {
 
