@@ -5,13 +5,18 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Dashboard from './Pages/Dashboard';
 import UserProfile from './Pages/UserProfile';
+import Register from './Pages/Register';
+import Login from './Pages/Login';
 
 function App() {
   return (
    <Router>
     <Routes>
-      <Route path="/" element={<Dashboard/>}/>
+      <Route path="/" element={<Login/>}/>
       <Route path="/profile" element={<UserProfile/>}/>
+      <Route path="/dashboard" element={<Dashboard/>}/>
+      <Route path="/register" element={<Register/>}/>
+
     </Routes>
    </Router>
   );
