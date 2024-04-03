@@ -38,12 +38,13 @@ const ModalC= ({ onClose }) => {
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
+   
     setStudyGroupData({ ...studyGroupData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    
     if (!studyGroupData.groupName || !studyGroupData.description || studyGroupData.visibility === '' || studyGroupData.type === '') {
       // Display error message or handle the error as needed
      setError(true)
@@ -58,7 +59,7 @@ const ModalC= ({ onClose }) => {
       type: studyGroupData.type,
       reports: studyGroupData.reports
     };
-  
+
     dispatch(createStudyGroup(studyGroupDto));
     onClose();
   };
@@ -98,8 +99,8 @@ const ModalC= ({ onClose }) => {
                 
               >
                 <option value="">Select visibility</option>
-                <option value='0'>Private</option>
-                <option value='1'>Public</option>
+                <option value= {0} >Private</option>
+                <option value={0}>Public</option>
               </select>
 
               <select
@@ -110,8 +111,8 @@ const ModalC= ({ onClose }) => {
                 
               >
                 <option value="">Select type</option>
-                <option value='0'>Video</option>
-                <option value='1'>Message</option>
+                <option value={0}>Video</option>
+                <option value={0}>Message</option>
               </select>
               {error && (
                 <p className="text-red-500">Please fill in all required fields</p>
