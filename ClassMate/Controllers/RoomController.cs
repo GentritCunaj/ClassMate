@@ -91,6 +91,37 @@ namespace ClassMate.Controllers
 
         }
 
+        [HttpPost("report")]
+        public async Task<ActionResult<ServiceResponse<StudyGroup>>> ReportStudyGroup(string studyGroupId)
+        {
+            var response = new ServiceResponse<StudyGroup>();
+
+            try
+            {
+                var studyGroup = await _db.StudyGroups.FindAsync(studyGroupId);
+                if (studyGroup == null)
+                {
+                    response.Success = false;
+                    response.Message = "Study group not found.";
+                    return NotFound(response);
+                }
+
+                studyGroup.Reports++; // Increment report count
+                await _db.SaveChangesAsync();
+
+                response.Data = studyGroup;
+                response.Success = true;
+                response.Message = "Study group reported successfully.";
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = $"Error reporting study group: {ex.Message}";
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+        }
+
 
 
     }

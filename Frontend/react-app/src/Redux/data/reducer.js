@@ -4,6 +4,7 @@ const initialState = {
     teachers:[],
     students:[],
     admins: [],
+    reportStudyRoom: [],
     publicGroups:[],
     loading:false,
     modalCreated:false
@@ -14,6 +15,7 @@ export default function dataReducer(state = initialState, { type, payload }) {
     switch (type) {
         case types.GET_USERS_REQUEST:
         case types.GET_STUDY_GROUPS_REQUEST:
+        
         case types.POST_STUDY_GROUP_REQUEST: 
             return {...state,loading:true}
 
@@ -23,6 +25,19 @@ export default function dataReducer(state = initialState, { type, payload }) {
             modalCreated: payload
             };
 
+            case types.REPORT_STUDY_ROOM_REQUEST:
+              return {
+                  ...state,
+                  loading: true,
+                  error: null
+              };
+          case types.REPORT_STUDY_ROOM_SUCCESS:
+              return {
+                  ...state,
+                  loading: false,
+                  reportStudyRoom: payload.data,
+                  error: null
+              };
         case types.GET_STUDY_GROUPS_SUCCESS:
             return { ...state, publicGroups: payload.data, loading: false };
 
