@@ -6,6 +6,7 @@ const initialState = {
     admins: [],
     reportStudyRoom: [],
     publicGroups:[],
+    studyGroupReports:[],
     loading:false,
     modalCreated:false
     
@@ -40,6 +41,9 @@ export default function dataReducer(state = initialState, { type, payload }) {
               };
         case types.GET_STUDY_GROUPS_SUCCESS:
             return { ...state, publicGroups: payload.data, loading: false };
+
+            case types.GET_STUDY_GROUP_REPORTS_SUCCESS:
+              return { ...state, studyGroupReports: payload.data, loading: false };
 
        case types.POST_STUDY_GROUP_SUCCESS:
         return {...state,loading:false,modalCreated:true}

@@ -122,6 +122,30 @@ namespace ClassMate.Controllers
             }
         }
 
+        [HttpGet("studyGroupsWithMultipleReports")]
+        public async Task<ActionResult<ServiceResponse<IEnumerable<StudyGroup>>>> GetStudyGroupsWithMultipleReports()
+        {
+            var response = new ServiceResponse<IEnumerable<StudyGroup>>();
+
+            try
+            {
+                var studyGroupsWithMultipleReports = await _db.StudyGroups
+                    .Where(sg => sg.Reports > 1) // Filter study groups with more than 1 report
+                    .ToListAsync();
+
+                response.Data = studyGroupsWithMultipleReports;
+                response.Success = true;
+                response.Message = "Study groups with more than 1 report retrieved successfully.";
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = $"Error retrieving study groups with multiple reports: {ex.Message}";
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+        }
+
 
 
     }
