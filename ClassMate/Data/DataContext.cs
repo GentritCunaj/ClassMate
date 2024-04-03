@@ -16,6 +16,7 @@ namespace ClassMate.Data
         public DbSet<StudyGroup> StudyGroups { get; set; }
         public DbSet<UserStudyGroup> UserStudyGroups { get; set; }
 
+
     }
 
 

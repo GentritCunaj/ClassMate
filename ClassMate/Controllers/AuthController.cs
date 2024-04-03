@@ -64,7 +64,7 @@ namespace ClassMate.Controllers
 
 
         [HttpPost("loginUser")]
-        public async Task<ActionResult<ServiceResponse<string>>> Login(Login login)
+        public async Task<ActionResult<ServiceResponse<string>>>Login(Login login)
         {
 
             var response = new ServiceResponse<string>();
@@ -105,6 +105,7 @@ namespace ClassMate.Controllers
             return response;
 
         }
+
 
         [HttpPost("registerUser")]
         public async Task<ActionResult<ServiceResponse<string>>> Register(Register register)
