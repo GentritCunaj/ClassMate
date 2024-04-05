@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Button } from "@mui/material";
 import { getAllStudyGroupsReports } from "../Redux/data/action";
+import { deleteStudyGroup } from "../Redux/data/action";
 
-const PublicStudyGroups = () => {
+const StudyGroupsReports = () => {
     const dispatch = useDispatch();
-    const { publicGroups, loading } = useSelector((store) => store.data);
+    const { studyGroupReports, loading } = useSelector((store) => store.data);
 
     const columns = [
         { id: 'studyGroupId', name: "StudyGroupId" },
@@ -15,9 +16,33 @@ const PublicStudyGroups = () => {
         { id: 'reports', name: "Reports" }
     ];
 
+    const handlechangepage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
+
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+
     useEffect(() => {
         dispatch(getAllStudyGroupsReports());
     }, [dispatch]);
+
+    const handleDeleteStudyGroup = async (studyGroupId) => {
+        try {
+            await dispatch(deleteStudyGroup(studyGroupId));
+            console.log("Study group deleted successfully.");
+    
+            // After successful deletion, fetch the updated list of study group reports
+            dispatch(getAllStudyGroupsReports());
+        } catch (error) {
+            console.error("Error deleting study group:", error);
+        }
+    };
 
     return (
         <div id="dashboardContainer" className="container pt-4">
@@ -28,23 +53,41 @@ const PublicStudyGroups = () => {
                             {columns.map((column) => (
                                 <TableCell style={{ backgroundColor: 'black', color: 'white' }} key={column.id}>{column.name}</TableCell>
                             ))}
+                            <TableCell style={{ backgroundColor: 'black', color: 'white' }}>Actions</TableCell> {/* Add this for the actions column */}
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {publicGroups && publicGroups.map((row, index) => (
-                            <TableRow key={index}>
-                                {columns.map((column, colIndex) => (
-                                    <TableCell key={colIndex}>
-                                        {row[column.id]}
+                        {studyGroupReports && studyGroupReports
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((row, index) => (
+                                <TableRow key={index}>
+                                    {columns.map((column, colIndex) => {
+                                        let value = row[column.id];
+                                        return (
+                                            <TableCell key={colIndex}>
+                                                {value}
+                                            </TableCell>
+                                        );
+                                    })}
+                                    <TableCell>
+                                        <Button variant="contained" color="secondary" onClick={() => handleDeleteStudyGroup(row.studyGroupId)}>Delete</Button>
                                     </TableCell>
-                                ))}
-                            </TableRow>
-                        ))}
+                                </TableRow>
+                            ))}
                     </TableBody>
                 </Table>
             </TableContainer>
+            <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                component="div"
+                count={studyGroupReports ? studyGroupReports.length : 0}
+                onPageChange={handlechangepage}
+                onRowsPerPageChange={handleRowsPerPage}
+            />
         </div>
     );
 };
 
-export default PublicStudyGroups;
+export default StudyGroupsReports;
