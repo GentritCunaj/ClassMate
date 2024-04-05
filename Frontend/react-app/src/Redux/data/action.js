@@ -68,6 +68,34 @@ export const reportRoom = (data) => async (dispatch) => {
     }
 }
 
+export const deleteStudyGroup = (studyGroupId) => async (dispatch) => {
+    try {
+        dispatch({ type: types.DELETE_STUDY_GROUP_REQUEST });
+        
+        const res = await axios.delete(
+            `https://localhost:7168/Room/${studyGroupId}`
+        );
+
+        dispatch({
+            type: types.DELETE_STUDY_GROUP_SUCCESS,
+            payload: {
+                message: res.data.message,
+                success: res.data.success
+            }
+        });
+
+        return res.data;
+    } catch (error) {
+        dispatch({
+            type: types.DELETE_STUDY_GROUP_ERROR,
+            payload: {
+                message: error.response.data.message
+            }
+        });
+
+        throw error.response.data;
+    }
+};
 
 export const getAllPublicRooms = () => async (dispatch) => {
     try {

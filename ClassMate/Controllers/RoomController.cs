@@ -146,7 +146,35 @@ namespace ClassMate.Controllers
             }
         }
 
+        [HttpDelete("{studyGroupId}")]
+        public async Task<ActionResult<ServiceResponse<string>>> DeleteStudyGroup(string studyGroupId)
+        {
+            var response = new ServiceResponse<string>();
 
+            try
+            {
+                var studyGroup = await _db.StudyGroups.FindAsync(studyGroupId);
+                if (studyGroup == null)
+                {
+                    response.Success = false;
+                    response.Message = "Study group not found.";
+                    return NotFound(response);
+                }
+
+                _db.StudyGroups.Remove(studyGroup);
+                await _db.SaveChangesAsync();
+
+                response.Success = true;
+                response.Message = "Study group deleted successfully.";
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = $"Error deleting study group: {ex.Message}";
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            }
+        }
 
     }
 }
