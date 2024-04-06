@@ -17,6 +17,16 @@ const style = {
   
 };
 const ModalSuccess= ({onClose}) => {
+  const [studyGroupData, setStudyGroupData] = useState({
+    studyGroupId: uuidv4(),
+    groupName: '',
+    description: '',
+    creatorId: 'f1ff8554-e8f5-4415-932c-dbf0ad5a6034',
+    visibility: 0, // Default value
+    type: 0,
+    reports:0,
+  
+  });
    
 
   return (

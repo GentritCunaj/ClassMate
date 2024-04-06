@@ -8,6 +8,7 @@ const Register = () => {
   const notify = (text) => toast(text);
   const dispatch = useDispatch();
 
+
   const [loading, setLoading] = useState(false);
 
   const initData = {
@@ -38,14 +39,16 @@ const Register = () => {
     e.preventDefault();
     setLoading(true);
     dispatch(Registers(RegisterValue)).then((res) => {
-      if (res.message === "User already exists") {
-        setLoading(false);
-        return notify("User Already Exist");
+      setLoading(false);
+      if (res.message === "You're already registered") {
+        return notify("You're already registered");
       }
       setRegisterValue(initData);
-      return notify("User added");
-    });
+      notify("You're registered");
 
+      // Redirect to login page after successful registration
+      window.location.href = '/';
+    });
   };
 
 
@@ -177,7 +180,7 @@ const Register = () => {
               <label className='form-label'>BirthDate</label>
               <input className='form-control form-control-lg'
                 type="date"
-                placeholder="Enter your birthdate"
+                placeholder="Enter your birthdate"s
                 name="birthday"
                 value={RegisterValue.birthday}
                 onChange={HandleRegisterChange}

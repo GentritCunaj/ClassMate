@@ -8,14 +8,7 @@ const initialState = {
 
   data: {
     token: token,
-    teachers: [],
-    students: [],
-    admins: [],
-    publicGroups: [],
-    cities: [],
     loading: false,
-    modalCreated: false
-
   },
   message: ""
 }
@@ -23,11 +16,11 @@ export default function authReducer(state = initialState, { type, payload }) {
     switch (type) {
         
         case types.GET_REGISTER_REQUEST:
-      return { ...state, loading: true, error: null };
+      return { ...state, loading:true, error: null };
     case types.GET_REGISTER_SUCCESS:
-      return { ...state, loading: false, message: payload.message };
+      return { ...state, loading:false, message: payload.message };
     case types.GET_REGISTER_ERROR:
-      return { ...state, loading: false, error: payload.message };
+      return { ...state, loading:false, error: payload.message };
 
       case types.LOGIN_USER_REQUEST :
 
