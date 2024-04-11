@@ -1,10 +1,142 @@
+/* assignment.css */
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    height: 100%;
+    background: #11101d;
+    z-index: 100;
+    transition: all 0.5s ease;
+
+}
+
+.sidebar.close {
+    width: 78px;
+}
+
+.sidebar .logo-details {
+    height: 60px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.sidebar .logo-details i {
+    font-size: 30px;
+    color: #807a7a;
+    height: 50px;
+    min-width: 78px;
+    text-align: center;
+    line-height: 50px;
+}
+
+.sidebar .logo-details .logo_name {
+    font-size: 22px;
+    color: #fff;
+    font-weight: 600;
+    transition: 0.3s ease;
+    transition-delay: 0.1s;
+}
+
+.sidebar.close .logo-details .logo_name {
+    transition-delay: 0s;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.sidebar .nav-links {
+    padding: 20px 0;
+    
+}
+
+.sidebar .nav-links li {
+    list-style: none;
+    padding: 10px 20px;
+    transition: all 0.4s ease;
+}
+
+.sidebar .nav-links li:hover {
+    background: #1d1b31;
+}
+
+.sidebar .nav-links li i {
+    color: #fff;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.sidebar .nav-links li a {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.sidebar .profile-details {
+    position: fixed;
+    bottom: 0;
+    width: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #1d1b31;
+    padding: 12px 20px;
+    transition: all 0.5s ease;
+}
+
+.sidebar.close .profile-details {
+    width: 78px;
+}
+
+.sidebar .profile-details img {
+    height: 40px;
+    width: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.home-section {
+    margin-left: 260px; /* Adjust this value to match the sidebar width */
+    padding: 20px;
+    transition: margin-left 0.5s ease;
+    height: 100vh;
+    overflow-y: auto; /* Enable vertical scrolling if needed */
+}
+
+.sidebar.close ~ .home-section {
+    margin-left: 78px; /* Adjust this value for the closed sidebar width */
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px; /* Adjust sidebar width for smaller screens */
+    }
+    
+    .sidebar.close {
+        width: 60px; /* Adjust closed sidebar width for smaller screens */
+    }
+    
+    .home-section {
+        margin-left: 200px; /* Adjust margin for smaller screens */
+    }
+    
+    .sidebar.close ~ .home-section {
+        margin-left: 60px; /* Adjust closed sidebar margin for smaller screens */
+    }
+}
+
+
 /* Google Fonts Import Link */
 
 .sidebar{
   position: relative;
   top: 0;
   left: 0;
- 
   width: 260px;
   background: #11101d;
   z-index: 100;
