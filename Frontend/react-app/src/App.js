@@ -8,6 +8,7 @@ import UserProfile from './Pages/UserProfile';
 import Register from './Pages/Register';
 import Login from './Pages/Login';
 import Quiz from './Partials/Quiz';
+import Assignment from './Partials/Assignment';
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
       <Route path="/dashboard" element={<Dashboard/>}/>
       <Route path="/register" element={<Register/>}/>
       <Route path="/quiz" element={<Quiz/>}/>
+      <Route path="/assignment" element={<Assignment/>}/>
+      
 
     </Routes>
    </Router>

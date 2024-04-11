@@ -13,7 +13,7 @@ const Dashboard = () => {
     <div class="dashboardContainer">
    
    <Sidebar/>
-   <div style={{display:"flex",flexDirection:"column",margin:"0 auto",height:"100vh", overflow: "auto", gap: "30px"}}>
+   <div style={{display:"flex",flexDirection:"column",margin:"0 auto",height:"100vh", gap: "30px"}}>
 
    <Cards/> 
    <Tables/>

@@ -36,6 +36,8 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IAuthController, AuthController>();
 builder.Services.AddScoped<IAuthentication, Authentication>();
 builder.Services.AddScoped<IRoomController, RoomController>();
+
+builder.Services.AddScoped<IAssignmentController, AssignmentController>();
 builder.Services.AddControllers();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
