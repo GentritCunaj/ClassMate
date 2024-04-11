@@ -5,7 +5,7 @@ const initialState = {
     loading: false, error: false, message: ""
   },
   userLogout: { message: "" },
-
+  user:null,
   data: {
     token: token,
     loading: false,
@@ -37,6 +37,14 @@ export default function authReducer(state = initialState, { type, payload }) {
 
         },
       };
+
+    case types.GET_INFO_SUCCESS:
+      case types.UPDATE_INFO_SUCCESS:
+      return {
+          ...state,user:payload.data
+      }
+                 
+   
     case types.LOGIN_USER_ERROR:
 
       return {

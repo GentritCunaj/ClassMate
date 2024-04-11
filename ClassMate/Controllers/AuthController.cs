@@ -106,6 +106,107 @@ namespace ClassMate.Controllers
 
         }
 
+        [HttpPost("changepassword")]
+       
+        public async Task<ActionResult<ServiceResponse<string>>> ChangePassword(ChangePasswordDto model)
+        {
+            var response = new ServiceResponse<string>();
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                response.Data = null;
+                response.Message = "Doesnt exist";
+                response.Success = false;
+                return response;
+            }
+
+            var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+            if (!changePasswordResult.Succeeded)
+            {
+                response.Data = null;
+                response.Message = "Something went wrong";
+                response.Success = false;
+                return response;
+            }
+            else
+            {
+                response.Data = null;
+                response.Message = "Password updated";
+                response.Success = true;
+                return response;
+            }
+
+           
+        }
+
+        [HttpPut("info")]
+        public async Task<ActionResult<ServiceResponse<ApplicationUser>>> UpdateInfo(Register userdto)
+        {
+            var response = new ServiceResponse<ApplicationUser>();
+            var nameIdentifier = _context.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            var user = await _userManager.FindByIdAsync(nameIdentifier);
+            if (user != null)
+            {
+                user.FirstName = userdto.FirstName;
+                user.LastName = userdto.LastName;
+                user.PhoneNumber = userdto.PhoneNumber;
+                user.UserName = userdto.UserName;
+                user.Address = userdto.Address;
+                user.Email = userdto.Email;
+                user.UserName = userdto.UserName;
+                user.Birthday = userdto.Birthday;
+                user.City = userdto.City;
+                user.Country = userdto.Country;
+                var result = await _userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                 
+                    response.Data = await _userManager.FindByIdAsync(nameIdentifier);
+                    response.Success = true;
+                    response.Message = "User updated";
+                }
+                else
+                {
+                    response.Data = user;
+                    response.Success = false;
+                    response.Message = "Something went wrong";
+                }
+
+
+            }
+            else
+            {
+                response.Data = null;
+                response.Success = false;
+                response.Message = "No user found";
+
+            }
+            return response;
+
+        }
+
+        [HttpGet("info")]
+        public async Task<ActionResult<ServiceResponse<ApplicationUser>>> GetInfo()
+        {
+            var response = new ServiceResponse<ApplicationUser>();
+            var nameIdentifier = _context.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            var user = await _db.Users.Where(u => u.Id == nameIdentifier).FirstOrDefaultAsync();
+            if (user == null)
+            {
+                response.Data = null;
+                response.Message = "No user found";
+                response.Success = false;
+            }
+            else
+            {
+                response.Data = user;
+                response.Message = "User found";
+                response.Success = true;
+            }
+            return response;
+
+        }
+
 
         [HttpPost("registerUser")]
         public async Task<ActionResult<ServiceResponse<string>>> Register(Register register)
@@ -136,6 +237,8 @@ namespace ClassMate.Controllers
 
 
             };
+
+
 
             var result = await _userManager.CreateAsync(user, register.Password);
             if (!result.Succeeded)
