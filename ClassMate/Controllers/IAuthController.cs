@@ -12,6 +12,12 @@ namespace ClassMate.Controllers
 
         Task<ActionResult<ServiceResponse<IEnumerable<ApplicationUser>>>> GetUsersWithRoles(string roleName);
 
+        Task<ActionResult<ServiceResponse<ApplicationUser>>> GetInfo();
+
+        Task<ActionResult<ServiceResponse<ApplicationUser>>> UpdateInfo(Register userdto);
+
+        Task<ActionResult<ServiceResponse<string>>> ChangePassword(ChangePasswordDto model);
+
 
     }
 }
