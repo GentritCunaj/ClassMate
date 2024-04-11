@@ -34,9 +34,9 @@ const Sidebar = () => {
       </li>
       <li>
         <div class="iocn-link">
-          <a href="#">
+          <a href="../quiz">
             <i class='bx bx-collection' ></i>
-            <span class="link_name">Category</span>
+            <span class="link_name">Quiz</span>
           </a>
           <i class='bx bxs-chevron-down arrow' ></i>
         </div>

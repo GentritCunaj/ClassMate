@@ -197,6 +197,39 @@ export const createStudyGroup = (data) => async (dispatch) => {
     }
 }
 
+export const createQuiz = (data) => async (dispatch) => {
+    try {
+
+        dispatch({ type: types.POST_QUIZ_REQUEST });
+        const res = await axios.post(
+            `https://localhost:7168/Quiz`, data
+
+        );
+
+        dispatch({
+            type: types.POST_QUIZ_SUCCESS,
+            payload: {
+                message: res.data.message,
+                success: res.data.success,
+                data: res.data.data
+            }
+        });
+        console.log(res.data);
+        return res.data;
+    }
+
+    catch (error) {
+
+        dispatch({
+            type: types.POST_QUIZ_ERROR,
+            payload: {
+                message: error.data.message
+            }
+        })
+        return error.respsonse.data;
+    }
+}
+
 export const setCreatedModal = (value) => {
     return {
         type: types.SET_CREATED_MODAL,

@@ -9,5 +9,6 @@ namespace ClassMate.Controllers
         Task<ActionResult<ServiceResponse<StudyGroup>>> ReportStudyGroup(string studyGroupId);
         Task<ActionResult<ServiceResponse<IEnumerable<StudyGroup>>>> GetPublicStudyGroups();
         Task<ActionResult<ServiceResponse<IEnumerable<StudyGroup>>>> GetStudyGroupsWithMultipleReports();
+        Task<ActionResult<ServiceResponse<string>>> DeleteStudyGroup(string studyGroupId);
     }
 }
