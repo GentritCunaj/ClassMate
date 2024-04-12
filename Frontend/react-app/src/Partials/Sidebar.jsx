@@ -46,9 +46,9 @@ const Sidebar = () => {
       </li>
       <li>
         <div class="iocn-link">
-          <a href="#">
+          <a href="/resource">
             <i class='bx bx-book-alt' ></i>
-            <span class="link_name">Posts</span>
+            <span class="link_name">Resource</span>
           </a>
           <i class='bx bxs-chevron-down arrow' ></i>
         </div>
