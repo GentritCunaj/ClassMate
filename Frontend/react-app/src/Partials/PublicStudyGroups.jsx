@@ -87,6 +87,7 @@ const PublicStudyGroups = () => {
                 rowsPerPage={rowperpage}
                 page={page}
                 component="div"
+                count={publicGroups ? publicGroups.length : 0}
                 onPageChange={handlechangepage}
                 onRowsPerPageChange={handleRowsPerPage}
             />

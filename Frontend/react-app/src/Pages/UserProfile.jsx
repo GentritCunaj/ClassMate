@@ -7,7 +7,9 @@ import { GetInfo, UpdateInfo, changePassword } from '../Redux/auth/action';
 
 const UserProfile = () => {
     const notify = (text) => toast(text);
+    debugger;
     const [passwordSection,setPasswordSection ] = useState(false);
+    
     const {user} = useSelector((store) => store.auth);
     const dispatch = useDispatch();
     useEffect(()=> {dispatch(GetInfo()).then((res)=>console.log(user))},[]);
