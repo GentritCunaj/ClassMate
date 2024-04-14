@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { createAssignment } from "../Redux/data/action";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import "../assets/css/assignmet.css";
 import Sidebar from "./Sidebar";
 
@@ -10,13 +9,18 @@ const notify = (text) => toast(text);
 
 const Assignment = () => {
     const dispatch = useDispatch();
+
     const [loading, setLoading] = useState(false);
+    const { error, message } = useSelector((store) => store.data); // Assuming Redux state structure
+    const {user} = useSelector((store) => store.auth);
+    var teacherId = user.id;
 
     const initData = {
         title: "",
         description: "",
+        teacherId: teacherId,
         dueDate: "",
-        teacherId: ""
+
     };
 
     const [assignmentValue, setAssignmentValue] = useState(initData);
