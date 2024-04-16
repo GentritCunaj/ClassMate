@@ -26,6 +26,7 @@ namespace ClassMate.Controllers
             _db = db;
         }
 
+        [Authorize(Roles = "Teacher")]
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<QuizDto>>> PostQuiz(QuizDto quizDto)
         {
@@ -67,6 +68,65 @@ namespace ClassMate.Controllers
                 response.Data = quizDto;
                 response.Success = true;
                 response.Message = "Quiz created successfully";
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message; // Handle exceptions appropriately
+            }
+
+            return Ok(response);
+        }
+        // GET: Quiz
+
+        [Authorize(Roles = "Student,Teacher")]
+        [HttpGet]
+        public async Task<ActionResult<ServiceResponse<IEnumerable<Quiz>>>> GetQuizzes()
+        {
+            var response = new ServiceResponse<IEnumerable<Quiz>>();
+
+            try
+            {
+                var quizzes = await _db.Quizzes
+                    .Include(q => q.Questions) // Include questions related to each quiz
+                    .ToListAsync();
+
+                response.Data = quizzes;
+                response.Success = true;
+                response.Message = "Quizzes retrieved successfully";
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message; // Handle exceptions appropriately
+            }
+
+            return Ok(response);
+        }
+
+        // GET: Quiz/5
+        // GET: Quiz/5
+
+        [Authorize(Roles = "Student,Teacher")]
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ServiceResponse<Quiz>>> GetQuiz(int id)
+        {
+            var response = new ServiceResponse<Quiz>();
+
+            try
+            {
+                var quiz = await _db.Quizzes
+                    .Include(q => q.Questions) // Include questions related to the quiz
+                    .FirstOrDefaultAsync(q => q.QuizID == id);
+
+                if (quiz == null)
+                {
+                    return NotFound();
+                }
+
+                response.Data = quiz;
+                response.Success = true;
+                response.Message = "Quiz retrieved successfully";
             }
             catch (Exception ex)
             {
