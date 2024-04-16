@@ -26,6 +26,10 @@ namespace ClassMate.Controllers
             _db = db;
         }
 
+
+
+        [Authorize(Roles = "Teacher")]
+
         [HttpGet]
         public async Task<ActionResult<ServiceResponse<List<Assignment>>>> GetAllAssignments()
         {
@@ -92,6 +96,7 @@ namespace ClassMate.Controllers
         public async Task<ActionResult<ServiceResponse<List<Assignment>>>> PostAssignment(AssignmentDto assignmentDto)
         {
             var response = new ServiceResponse<List<Assignment>>();
+
             
             var user = _db.Users.FirstOrDefault(u => u.Id == assignmentDto.TeacherId);
             var assignment = new Assignment { 
@@ -110,6 +115,7 @@ namespace ClassMate.Controllers
                 _db.Assignments.Add(assignment);
                 await _db.SaveChangesAsync();
                
+
                 response.Data = await _db.Assignments.ToListAsync(); 
                 response.Success = true;
                 response.Message = "Assignment Created";
@@ -128,6 +134,7 @@ namespace ClassMate.Controllers
 
 
         }
+
         [HttpPut("{id}")]
         public async Task<ActionResult<ServiceResponse<Assignment>>> UpdateAssignment(int id, AssignmentDto updatedAssignmentDto)
         {
@@ -205,6 +212,7 @@ namespace ClassMate.Controllers
             // Return an HTTP response with the service response object (serialized to JSON)
             return Ok(response);
         }
+
 
 
 

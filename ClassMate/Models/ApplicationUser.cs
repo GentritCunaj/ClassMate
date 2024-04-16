@@ -27,5 +27,8 @@ namespace ClassMate.Models
 
         [PersonalData]
         public DateTime? Birthday { get; set; }
+
+        [NotMapped]
+        public string? FRole { get; set; }
     }
 }

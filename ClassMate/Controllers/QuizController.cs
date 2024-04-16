@@ -26,6 +26,7 @@ namespace ClassMate.Controllers
             _db = db;
         }
 
+        [Authorize(Roles = "Teacher")]
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<List<Quiz>>>> PostQuiz(QuizDto quizDto)
         {
@@ -77,6 +78,9 @@ namespace ClassMate.Controllers
             return Ok(response);
         }
         // GET: Quiz
+
+        [Authorize(Roles = "Student,Teacher")]
+
         [HttpGet]
         public async Task<ActionResult<ServiceResponse<IEnumerable<Quiz>>>> GetQuizzes()
         {
@@ -101,8 +105,9 @@ namespace ClassMate.Controllers
             return Ok(response);
         }
 
-        // GET: Quiz/5
-        // GET: Quiz/5
+
+        [Authorize(Roles = "Student,Teacher")]
+
         [HttpGet("{id}")]
         public async Task<ActionResult<ServiceResponse<Quiz>>> GetQuiz(int id)
         {

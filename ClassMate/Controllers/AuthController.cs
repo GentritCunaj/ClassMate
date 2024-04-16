@@ -185,12 +185,17 @@ namespace ClassMate.Controllers
 
         }
 
+        [Authorize(Roles = "Admin,Teacher,Student")]
+
         [HttpGet("info")]
         public async Task<ActionResult<ServiceResponse<ApplicationUser>>> GetInfo()
         {
             var response = new ServiceResponse<ApplicationUser>();
             var nameIdentifier = _context.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             var user = await _db.Users.Where(u => u.Id == nameIdentifier).FirstOrDefaultAsync();
+
+            user.FRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+
             if (user == null)
             {
                 response.Data = null;

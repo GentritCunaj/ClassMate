@@ -1,12 +1,17 @@
 ﻿import * as types from './types';
 import axios from "axios";
-
+const token = localStorage.getItem("token");
 export const getAllUsers = (data) => async (dispatch) => {
     try {
 
         dispatch({ type: types.GET_USERS_REQUEST });
         const res = await axios.get(
             `https://localhost:7168/Auth/allUsers?roleName=${data}`,
+            {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            }
 
         );
 
@@ -42,6 +47,11 @@ export const reportRoom = (data) => async (dispatch) => {
 
         const res = await axios.post(
             `https://localhost:7168/Room/report?studyGroupId=${data}`,
+            {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            }
             
             
         );
@@ -73,7 +83,12 @@ export const deleteStudyGroup = (studyGroupId) => async (dispatch) => {
         dispatch({ type: types.DELETE_STUDY_GROUP_REQUEST });
         
         const res = await axios.delete(
-            `https://localhost:7168/Room/${studyGroupId}`
+            `https://localhost:7168/Room/${studyGroupId}`,
+            {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            }
         );
 
         dispatch({
@@ -103,6 +118,11 @@ export const getAllPublicRooms = () => async (dispatch) => {
         dispatch({ type: types.GET_STUDY_GROUPS_REQUEST });
         const res = await axios.get(
             `https://localhost:7168/Room/publicRooms`,
+            {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            }
 
         );
 
@@ -136,6 +156,11 @@ export const getAllStudyGroupsReports = () => async (dispatch) => {
         dispatch({ type: types.GET_STUDY_GROUP_REPORTS_REQUEST  });
         const res = await axios.get(
             `https://localhost:7168/Room/studyGroupsWithMultipleReports`,
+            {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            }
 
         );
 
@@ -169,7 +194,12 @@ export const createStudyGroup = (data) => async (dispatch) => {
 
         dispatch({ type: types.POST_STUDY_GROUP_REQUEST });
         const res = await axios.post(
-            `https://localhost:7168/Room`, data
+            `https://localhost:7168/Room`, data,
+            {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            }
 
         );
 
@@ -202,7 +232,12 @@ export const createQuiz = (data) => async (dispatch) => {
 
         dispatch({ type: types.POST_QUIZ_REQUEST });
         const res = await axios.post(
-            `https://localhost:7168/Quiz`, data
+            `https://localhost:7168/Quiz`, data,
+            {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            }
 
         );
 
@@ -235,7 +270,13 @@ export const createAssignment = (data) => async (dispatch) => {
 
         dispatch({ type: types.POST_ASSIGNMENT_REQUEST });
         const res = await axios.post(
-            `https://localhost:7168/Assignment`, data
+
+            `https://localhost:7168/Assignment`, data,{
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            }
+
 
         );
 
@@ -267,7 +308,7 @@ export const createAssignment = (data) => async (dispatch) => {
 
 
 export const createResource = (data) => async (dispatch) => {
-    debugger;
+
     try {
         dispatch({ type: types.POST_RESOURCE_REQUEST });
         
@@ -283,8 +324,12 @@ export const createResource = (data) => async (dispatch) => {
             formData, // Pass the FormData object here
             {
                 headers: {
-                    'Content-Type': 'multipart/form-data' // Set the content type to multipart/form-data for file uploads
+
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: "Bearer " + token
                 }
+                
+
             }
         );
 
@@ -318,6 +363,13 @@ export const getAllQuizzes = () => async (dispatch) => {
         const res = await axios.get(
             `https://localhost:7168/Quiz`,
 
+            {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            }
+
+
         );
 
         dispatch({
@@ -343,12 +395,15 @@ export const getAllQuizzes = () => async (dispatch) => {
         return error.respsonse.data;
     }
 }
+
 export const getAllAssignment = () => async (dispatch) => {
     try {
 
         dispatch({ type: types.GET_ASSIGNMENT_REQUEST});
         const res = await axios.get(
-            `https://localhost:7168/Assignment`,
+            `https://localhost:7168/Assignment`,  headers: {
+                    Authorization: "Bearer " + token
+                }
 
         );
 
@@ -375,6 +430,7 @@ export const getAllAssignment = () => async (dispatch) => {
         return error.respsonse.data;
     }
 }
+
 
 export const setCreatedModal = (value) => {
     return {

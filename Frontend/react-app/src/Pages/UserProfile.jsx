@@ -7,7 +7,7 @@ import { GetInfo, UpdateInfo, changePassword } from '../Redux/auth/action';
 
 const UserProfile = () => {
     const notify = (text) => toast(text);
-    debugger;
+
     const [passwordSection,setPasswordSection ] = useState(false);
     
     const {user} = useSelector((store) => store.auth);
@@ -63,7 +63,6 @@ const UserProfile = () => {
           ...formData,
           [name]: value,
         });
-      };
 
       const handlePasswordChange = (e) => {
         const { name, value } = e.target;
@@ -72,6 +71,7 @@ const UserProfile = () => {
           [name]: value,
         });
       };
+
 
 
       useEffect(() => {

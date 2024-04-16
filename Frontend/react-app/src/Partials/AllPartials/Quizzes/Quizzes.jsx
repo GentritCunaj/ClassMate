@@ -37,9 +37,9 @@ const Quizzes = () => {
     };
 
 
-
     // Filter quizzes based on the creatorId
     const userQuizzes = quizs ? quizs && quizs.filter(quiz => quiz.creatorId === user.id) : [];
+
 
     return (
         <div id="dashboardContainer" className="container pt-4">

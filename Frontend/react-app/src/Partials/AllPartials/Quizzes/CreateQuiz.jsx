@@ -6,7 +6,9 @@ import "../../../assets/css/quiz.css";
 
 
 
+
 const CreateQuiz = () => {
+
   const { error, message } = useSelector((store) => store.data); // Assuming Redux state structure
   const {user} = useSelector((store) => store.auth);
   var creatorId = user.id;
@@ -159,4 +161,6 @@ const CreateQuiz = () => {
   );
 };
 
+
 export default CreateQuiz;
+

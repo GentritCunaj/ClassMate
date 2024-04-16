@@ -49,7 +49,7 @@ export const UpdateInfo = (data) => async (dispatch) => {
             }
         );
 
-        ;
+
         dispatch({
             type: types.UPDATE_INFO_SUCCESS,
             payload: {
@@ -117,7 +117,7 @@ export const authLogin = (data) => async (dispatch) => {
                 token: res.data.data,
             },
         });
-        return res.data.data;
+        return res.data;
     } catch (error) {
 
         dispatch({

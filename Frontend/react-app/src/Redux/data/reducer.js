@@ -1,6 +1,7 @@
 ﻿import * as types from './types';
 
 const initialState = {
+
   teachers: [],
   students: [],
   admins: [],
@@ -14,12 +15,14 @@ const initialState = {
   loading: false,
   modalCreated: false
 
+
 }
 
 export default function dataReducer(state = initialState, { type, payload }) {
   switch (type) {
     case types.GET_USERS_REQUEST:
     case types.GET_STUDY_GROUPS_REQUEST:
+
 
     case types.POST_STUDY_GROUP_REQUEST:
       return { ...state, loading: true }
@@ -32,12 +35,14 @@ export default function dataReducer(state = initialState, { type, payload }) {
     case types.POST_ASSIGNMENT_REQUEST:
       return { ...state, loading: true }
 
+
     case types.SET_CREATED_MODAL:
       return {
 
         ...state,
         modalCreated: payload
       };
+
 
     case types.REPORT_STUDY_ROOM_REQUEST:
       return {
