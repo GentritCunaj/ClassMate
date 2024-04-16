@@ -229,18 +229,18 @@ export const createQuiz = (data) => async (dispatch) => {
         return error.respsonse.data;
     }
 }
-export const createAssignment = (data) => async (dispatch) => {
-    
+
+export const getAllQuizzes = () => async (dispatch) => {
     try {
 
-        dispatch({ type: types.POST_ASSIGNMENT_REQUEST });
-        const res = await axios.post(
-            `https://localhost:7168/Assignment`, data
+        dispatch({ type: types.GET_QUIZZES_REQUEST});
+        const res = await axios.get(
+            `https://localhost:7168/Quiz`,
 
         );
 
         dispatch({
-            type: types.POST_ASSIGNMENT_SUCCESS,
+            type: types.GET_QUIZZES_SUCCESS,
             payload: {
                 message: res.data.message,
                 success: res.data.success,
@@ -254,7 +254,7 @@ export const createAssignment = (data) => async (dispatch) => {
     catch (error) {
 
         dispatch({
-            type: types.POST_ASSIGNMENT_ERROR,
+            type: types.GET_QUIZZES_ERROR,
             payload: {
                 message: error.data.message
             }
@@ -262,54 +262,6 @@ export const createAssignment = (data) => async (dispatch) => {
         return error.respsonse.data;
     }
 }
-
-
-
-
-export const createResource = (data) => async (dispatch) => {
-    debugger;
-    try {
-        dispatch({ type: types.POST_RESOURCE_REQUEST });
-        
-        const formData = new FormData();
-        formData.append('studyGroupId', data.studyGroupId);
-        formData.append('title', data.title);
-        formData.append('description', data.description);
-        formData.append('userId', data.userId);
-        formData.append('fileInput', data.fileInput); // Append the file input as part of the FormData
-
-        const res = await axios.post(
-            `https://localhost:7168/Resources/add`, 
-            formData, // Pass the FormData object here
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data' // Set the content type to multipart/form-data for file uploads
-                }
-            }
-        );
-
-        dispatch({
-            type: types.POST_RESOURCE_SUCCESS,
-            payload: {
-                message: res.data.message,
-                success: res.data.success,
-                data: res.data.data
-            }
-        });
-
-        return res.data;
-    } catch (error) {
-        dispatch({
-            type: types.POST_RESOURCE_ERROR,
-            payload: {
-                message: error.response.data.message // Use error.response.data.message to access the error message
-            }
-        });
-        return error.response.data;
-    }
-};
-
-
 
 export const setCreatedModal = (value) => {
     return {

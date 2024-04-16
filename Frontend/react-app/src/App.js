@@ -7,9 +7,7 @@ import Dashboard from './Pages/Dashboard';
 import UserProfile from './Pages/UserProfile';
 import Register from './Pages/Register';
 import Login from './Pages/Login';
-import Quiz from './Partials/Quiz';
-import Assignment from './Partials/Assignment';
-import Resource from './Partials/Resource';
+import Quiz from './Partials/AllPartials/Quizzes/Quiz';
 
 function App() {
   return (
@@ -19,6 +17,7 @@ function App() {
       <Route path="/profile" element={<UserProfile/>}/>
       <Route path="/dashboard" element={<Dashboard/>}/>
       <Route path="/register" element={<Register/>}/>
+   
       <Route path="/quiz" element={<Quiz/>}/>
       <Route path="/assignment" element={<Assignment/>}/>
       <Route path="/resource" element={<Resource/>}/>

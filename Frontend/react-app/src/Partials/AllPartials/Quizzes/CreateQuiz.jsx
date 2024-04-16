@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch,useSelector } from 'react-redux';
-import { createQuiz } from "../Redux/data/action";
+import { createQuiz } from "../../../Redux/data/action";
 import { ToastContainer, toast } from "react-toastify";
-import "../assets/css/quiz.css";
-import Sidebar from './Sidebar';
+import "../../../assets/css/quiz.css";
+
+
+
 const Quiz = () => {
   const { error, message } = useSelector((store) => store.data); // Assuming Redux state structure
   const {user} = useSelector((store) => store.auth);
@@ -87,7 +89,8 @@ const Quiz = () => {
     <>
     <ToastContainer />
     <div className="quiz-scroll-container">
-      <Sidebar style={{ minHeight: 'calc(100vh - 60px)' }} /> {/* Use the Sidebar component */}
+      
+      
       <div className="quiz-container" >
         <div className="thumbnail-container">
           {/* You can replace 'your_thumbnail_url.jpg' with your actual thumbnail URL */}
@@ -152,9 +155,7 @@ const Quiz = () => {
         </div>
       </div>
     </div>
-    </>
   );
 };
 
 export default Quiz;
-

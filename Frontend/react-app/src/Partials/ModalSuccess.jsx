@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import "../assets/css/modal.css";
-
 const style = {
   position: 'absolute',
   top: '50%',
@@ -19,10 +18,10 @@ const style = {
 };
 const ModalSuccess= ({onClose}) => {
   const [studyGroupData, setStudyGroupData] = useState({
-    studyGroupId: '',
+    studyGroupId: uuidv4(),
     groupName: '',
     description: '',
-    creatorId: 'f4a29ab4-e4fb-494a-8c7f-a76c6cf39fba',
+    creatorId: 'f1ff8554-e8f5-4415-932c-dbf0ad5a6034',
     visibility: 0, // Default value
     type: 0,
     reports:0,

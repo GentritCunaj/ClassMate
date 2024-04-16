@@ -5,11 +5,9 @@ const initialState = {
     students:[],
     admins: [],
     quizs:[],
-    assignments:[],
     reportStudyRoom: [],
     publicGroups:[],
     studyGroupReports:[],
-    resources:[],
     deleteStudyRoom:[],
     loading:false,
     modalCreated:false
@@ -25,10 +23,6 @@ export default function dataReducer(state = initialState, { type, payload }) {
             return {...state,loading:true}
 
             case types.POST_QUIZ_REQUEST: 
-            return {...state,loading:true}
-            case types.POST_ASSIGNMENT_REQUEST: 
-            return {...state,loading:true}
-            case types.POST_ASSIGNMENT_REQUEST: 
             return {...state,loading:true}
 
     case types.SET_CREATED_MODAL:
@@ -68,20 +62,6 @@ export default function dataReducer(state = initialState, { type, payload }) {
                   quizs: payload.data,
                   error: null
               };
-              case types.POST_ASSIGNMENT_SUCCESS:
-              return {
-                  ...state,
-                  loading: false,
-                  assignments: payload.data,
-                  error: null
-              };
-              case types.POST_RESOURCE_SUCCESS:
-              return {
-                  ...state,
-                  loading: false,
-                  resources: payload.data,
-                  error: null
-              };
 
               case types.DELETE_STUDY_GROUP_SUCCESS:
               return {
@@ -95,6 +75,9 @@ export default function dataReducer(state = initialState, { type, payload }) {
 
             case types.GET_STUDY_GROUP_REPORTS_SUCCESS:
               return { ...state, studyGroupReports: payload.data, loading: false };
+
+              case types.GET_QUIZZES_SUCCESS:
+                return { ...state, quizs: payload.data, loading: false };
 
        case types.POST_STUDY_GROUP_SUCCESS:
         return {...state,loading:false,modalCreated:true}
