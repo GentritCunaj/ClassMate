@@ -28,7 +28,7 @@ const ModalC= ({ onClose }) => {
     studyGroupId: uuidv4(),
     groupName: '',
     description: '',
-    creatorId: 'f1ff8554-e8f5-4415-932c-dbf0ad5a6034', 
+    creatorId: 'f4a29ab4-e4fb-494a-8c7f-a76c6cf39fba', 
     visibility: 0, // Default value
     type: 0,
     reports:0,
