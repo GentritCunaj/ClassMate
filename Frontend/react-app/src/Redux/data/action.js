@@ -401,6 +401,7 @@ export const getAllAssignment = () => async (dispatch) => {
 
         dispatch({ type: types.GET_ASSIGNMENT_REQUEST});
         const res = await axios.get(
+
             `https://localhost:7168/Assignment`, { headers: {
                     Authorization: "Bearer " + token
                 }
