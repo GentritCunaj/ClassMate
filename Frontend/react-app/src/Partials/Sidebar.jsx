@@ -31,7 +31,7 @@ const Sidebar = () => {
       </li>
       <li>
         <div class="iocn-link">
-          <a href="/quiz">
+          <a href="../../quiz">
             <i class='bx bx-plug' ></i>
             <span class="link_name">Quiz</span>
           </a>

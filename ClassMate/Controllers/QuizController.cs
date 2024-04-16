@@ -1,4 +1,4 @@
-﻿
+﻿    
 using Azure;
 using ClassMate.Data;
 using ClassMate.Models;
@@ -27,9 +27,9 @@ namespace ClassMate.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<QuizDto>>> PostQuiz(QuizDto quizDto)
+        public async Task<ActionResult<ServiceResponse<List<Quiz>>>> PostQuiz(QuizDto quizDto)
         {
-            var response = new ServiceResponse<QuizDto>();
+            var response = new ServiceResponse<List<Quiz>>();
 
             try
             {
@@ -64,7 +64,7 @@ namespace ClassMate.Controllers
                 _db.Quizzes.Add(quiz);
                 await _db.SaveChangesAsync();
 
-                response.Data = quizDto;
+                response.Data = await _db.Quizzes.ToListAsync();
                 response.Success = true;
                 response.Message = "Quiz created successfully";
             }
