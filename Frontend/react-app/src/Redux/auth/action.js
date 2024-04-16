@@ -49,7 +49,7 @@ export const UpdateInfo = (data) => async (dispatch) => {
             }
         );
 
-        
+
         dispatch({
             type: types.UPDATE_INFO_SUCCESS,
             payload: {

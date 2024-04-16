@@ -1,4 +1,4 @@
-﻿
+﻿    
 using Azure;
 using ClassMate.Data;
 using ClassMate.Models;
@@ -28,9 +28,9 @@ namespace ClassMate.Controllers
 
         [Authorize(Roles = "Teacher")]
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<QuizDto>>> PostQuiz(QuizDto quizDto)
+        public async Task<ActionResult<ServiceResponse<List<Quiz>>>> PostQuiz(QuizDto quizDto)
         {
-            var response = new ServiceResponse<QuizDto>();
+            var response = new ServiceResponse<List<Quiz>>();
 
             try
             {
@@ -65,7 +65,7 @@ namespace ClassMate.Controllers
                 _db.Quizzes.Add(quiz);
                 await _db.SaveChangesAsync();
 
-                response.Data = quizDto;
+                response.Data = await _db.Quizzes.ToListAsync();
                 response.Success = true;
                 response.Message = "Quiz created successfully";
             }
@@ -80,6 +80,7 @@ namespace ClassMate.Controllers
         // GET: Quiz
 
         [Authorize(Roles = "Student,Teacher")]
+
         [HttpGet]
         public async Task<ActionResult<ServiceResponse<IEnumerable<Quiz>>>> GetQuizzes()
         {
@@ -104,10 +105,9 @@ namespace ClassMate.Controllers
             return Ok(response);
         }
 
-        // GET: Quiz/5
-        // GET: Quiz/5
 
         [Authorize(Roles = "Student,Teacher")]
+
         [HttpGet("{id}")]
         public async Task<ActionResult<ServiceResponse<Quiz>>> GetQuiz(int id)
         {

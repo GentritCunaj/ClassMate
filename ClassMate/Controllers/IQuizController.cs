@@ -5,7 +5,9 @@ namespace ClassMate.Controllers
 {
     internal interface IQuizController
     {
-        Task<ActionResult<ServiceResponse<QuizDto>>> PostQuiz(QuizDto quizDto);
+
+        Task<ActionResult<ServiceResponse<List<Quiz>>>>PostQuiz(QuizDto quizDto);
+
         Task<ActionResult<ServiceResponse<IEnumerable<Quiz>>>> GetQuizzes();
         Task<ActionResult<ServiceResponse<Quiz>>> GetQuiz(int id);
     }

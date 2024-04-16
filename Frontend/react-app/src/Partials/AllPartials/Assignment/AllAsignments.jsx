@@ -1,30 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination } from "@mui/material";
-import { getAllQuizzes } from "../../../Redux/data/action";
+import { getAllAssignment } from "../../../Redux/data/action";
 
-const Quizzes = () => {
+const AllAsignments = () => {
     const dispatch = useDispatch();
-    const { quizs, loading } = useSelector((store) => store.data); // Assuming the state property is named "quizzes"
+    const { assignments, loading } = useSelector((store) => store.data); // Assuming the state property is named "quizzes"
     const { user } = useSelector((store) => store.auth); // Assuming user information is stored in Redux state
 
     const columns = [
-        { id: 'quizID', name: "Quiz ID" },
+        { id: 'assignmentId', name: "Assignment ID" },
         { id: 'title', name: "Title" },
-        { id: 'subject', name: "Subject" },
-        { id: 'noOfQuestions', name: "Number of Questions" },
-        { id: 'pointPerQuestion', name: "Point Per Question" },
-        { id: 'negativeMarking', name: "Negative Marking" },
-        { id: 'negativeMarkingPerQuestion', name: "Negative Marking Per Question" },
-        { id: 'totalTimeInMinutes', name: "Total Time (Minutes)" },
-        // Add more columns as needed
+        { id: 'description', name: "Description" },
+        { id: 'dueDate', name: "Date" },
+
     ];
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(3);
 
     useEffect(() => {
-        dispatch(getAllQuizzes());
+        dispatch(getAllAssignment());
     }, [dispatch]);
 
     const handlePageChange = (event, newPage) => {
@@ -35,11 +31,10 @@ const Quizzes = () => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-
+    
 
     // Filter quizzes based on the creatorId
-    const userQuizzes = quizs ? quizs && quizs.filter(quiz => quiz.creatorId === user.id) : [];
-
+    const userAssignment =  assignments ? assignments && assignments.filter(assignment => assignment.teacherId === user.id) : [];
 
     return (
         <div id="dashboardContainer" className="container pt-4">
@@ -53,7 +48,7 @@ const Quizzes = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {userQuizzes
+                        {userAssignment
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, index) => (
                                 <TableRow key={index}>
@@ -72,7 +67,7 @@ const Quizzes = () => {
                 rowsPerPage={rowsPerPage}
                 page={page}
                 component="div"
-                count={userQuizzes.length}
+                count={userAssignment.length}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}
             />
@@ -80,4 +75,4 @@ const Quizzes = () => {
     );
 };
 
-export default Quizzes;
+export default AllAsignments;
