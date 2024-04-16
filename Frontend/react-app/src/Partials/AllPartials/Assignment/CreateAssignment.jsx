@@ -1,18 +1,18 @@
 import React, { useState } from "react";
-import { useDispatch,useSelector } from "react-redux";
-import { createAssignment } from "../Redux/data/action";
+import { useDispatch, useSelector } from "react-redux";
+import { createAssignment } from "../../../Redux/data/action";
 import { ToastContainer, toast } from "react-toastify";
-import "../assets/css/assignmet.css";
-import Sidebar from "./Sidebar";
+import Sidebar from "../../Sidebar";
+import AllAsignments from "./AllAsignments";
 
 const notify = (text) => toast(text);
 
-const Assignment = () => {
+const CreateAssignment = () => {
     const dispatch = useDispatch();
 
     const [loading, setLoading] = useState(false);
     const { error, message } = useSelector((store) => store.data); // Assuming Redux state structure
-    const {user} = useSelector((store) => store.auth);
+    const { user } = useSelector((store) => store.auth);
     var teacherId = user.id;
 
     const initData = {
@@ -43,7 +43,7 @@ const Assignment = () => {
         <>
             <ToastContainer />
             <div className="assignment-container">
-                <Sidebar style={{ minHeight: 'calc(100vh - 60px)' }} /> {/* Use the Sidebar component */}
+                
                 <div className="main-content">
                     <h1>Create Assignment</h1>
                     <form onSubmit={handleAssignmentSubmit}>
@@ -81,26 +81,16 @@ const Assignment = () => {
                                 required
                             />
                         </div>
-                        <div className="form-group">
-                            <label>Teacher Id</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Enter teacher ID"
-                                name="teacherId"
-                                value={assignmentValue.teacherId}
-                                onChange={handleAssignmentChange}
-                                required
-                            />
-                        </div>
+                    
                         <button type="submit" className="btn btn-primary">
                             {loading ? "Loading..." : "Submit"}
                         </button>
                     </form>
                 </div>
             </div>
+           
         </>
     );
 };
 
-export default Assignment;
+export default CreateAssignment;
