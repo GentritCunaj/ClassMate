@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { createQuiz } from "../Redux/data/action";
-import "../assets/css/quiz.css";
-import Sidebar from './Sidebar';
-const Quiz = () => {
+import { useDispatch,useSelector } from 'react-redux';
+import { createQuiz } from "../../../Redux/data/action";
+import { ToastContainer, toast } from "react-toastify";
+import "../../../assets/css/quiz.css";
+
+
+
+
+const CreateQuiz = () => {
+
+  const { error, message } = useSelector((store) => store.data); // Assuming Redux state structure
+  const {user} = useSelector((store) => store.auth);
+  var creatorId = user.id;
   const [formData, setFormData] = useState({
     title: '',
     thumbnail: '',
     subject: '',
-    creatorId:'',
+    creatorId:creatorId,
     noOfQuestions: 0,
     pointPerQuestion: 0,
     negativeMarking: 'No',
@@ -24,6 +32,7 @@ const Quiz = () => {
   });
 
   const dispatch = useDispatch();
+  
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -33,7 +42,7 @@ const Quiz = () => {
       title: '',
       thumbnail: '',
       subject: '',
-      creatorId:'',
+      creatorId:creatorId,
       noOfQuestions: 0,
       pointPerQuestion: 0,
       negativeMarking: 'No',
@@ -79,8 +88,11 @@ const Quiz = () => {
   };
 
   return (
+    <>
+    <ToastContainer />
     <div className="quiz-scroll-container">
-      <Sidebar style={{ minHeight: 'calc(100vh - 60px)' }} /> {/* Use the Sidebar component */}
+      
+      
       <div className="quiz-container" >
         <div className="thumbnail-container">
           {/* You can replace 'your_thumbnail_url.jpg' with your actual thumbnail URL */}
@@ -98,10 +110,10 @@ const Quiz = () => {
               <label>Subject:</label>
               <input type="text" name="subject" value={formData.subject} onChange={onChange} placeholder="Subject" />
             </div>
-            <div>
+            {/* <div>
               <label>Creator Id:</label>
               <input type="text" name="creatorId" value={formData.creatorId} onChange={onChange} placeholder="CreatorId" />
-            </div>
+            </div> */}
             <div>
               <label>Number of Questions:</label>
               <input type="number" name="noOfQuestions" value={formData.noOfQuestions} onChange={onChange} placeholder="Number of Questions" />
@@ -145,8 +157,10 @@ const Quiz = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
-export default Quiz;
+
+export default CreateQuiz;
 

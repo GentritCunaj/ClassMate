@@ -31,8 +31,8 @@ namespace ClassMate.Controllers
       
         }
 
-
-     [HttpGet("publicRooms")]
+        [Authorize(Roles = "Student,Teacher,Admin")]
+        [HttpGet("publicRooms")]
         public async Task<ActionResult<ServiceResponse<IEnumerable<StudyGroup>>>> GetPublicStudyGroups()
         {
             var response = new ServiceResponse<IEnumerable<StudyGroup>>();
@@ -48,8 +48,9 @@ namespace ClassMate.Controllers
             return Ok(response);
         }
 
-        [HttpPost]
 
+        [Authorize(Roles = "Student,Teacher")]
+        [HttpPost]
         public async Task<ActionResult<ServiceResponse<List<StudyGroup>>>> PostStudyGroup(StudyGroupDto studyGroupDto)
         {
             var response = new ServiceResponse<List<StudyGroup>>();
@@ -91,6 +92,7 @@ namespace ClassMate.Controllers
 
         }
 
+        [Authorize(Roles = "Student,Teacher")]
         [HttpPost("report")]
         public async Task<ActionResult<ServiceResponse<StudyGroup>>> ReportStudyGroup(string studyGroupId)
         {
@@ -122,6 +124,7 @@ namespace ClassMate.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("studyGroupsWithMultipleReports")]
         public async Task<ActionResult<ServiceResponse<IEnumerable<StudyGroup>>>> GetStudyGroupsWithMultipleReports()
         {
@@ -146,6 +149,7 @@ namespace ClassMate.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{studyGroupId}")]
         public async Task<ActionResult<ServiceResponse<string>>> DeleteStudyGroup(string studyGroupId)
         {
