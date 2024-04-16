@@ -76,6 +76,9 @@ export default function dataReducer(state = initialState, { type, payload }) {
             case types.GET_STUDY_GROUP_REPORTS_SUCCESS:
               return { ...state, studyGroupReports: payload.data, loading: false };
 
+              case types.GET_QUIZZES_SUCCESS:
+                return { ...state, quizs: payload.data, loading: false };
+
        case types.POST_STUDY_GROUP_SUCCESS:
         return {...state,loading:false,modalCreated:true}
     case types.POST_STUDY_GROUP_SUCCESS:

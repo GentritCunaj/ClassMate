@@ -230,6 +230,39 @@ export const createQuiz = (data) => async (dispatch) => {
     }
 }
 
+export const getAllQuizzes = () => async (dispatch) => {
+    try {
+
+        dispatch({ type: types.GET_QUIZZES_REQUEST});
+        const res = await axios.get(
+            `https://localhost:7168/Quiz`,
+
+        );
+
+        dispatch({
+            type: types.GET_QUIZZES_SUCCESS,
+            payload: {
+                message: res.data.message,
+                success: res.data.success,
+                data: res.data.data
+            }
+        });
+        console.log(res.data);
+        return res.data;
+    }
+
+    catch (error) {
+
+        dispatch({
+            type: types.GET_QUIZZES_ERROR,
+            payload: {
+                message: error.data.message
+            }
+        })
+        return error.respsonse.data;
+    }
+}
+
 export const setCreatedModal = (value) => {
     return {
         type: types.SET_CREATED_MODAL,
