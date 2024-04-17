@@ -5,7 +5,7 @@ import Quizzes from './Quizzes';
 
 const Quiz = () => {
   return (
-    <div style={{ display: 'flex', height: '100%' }}>
+    <div style={{ display: 'flex', height: '100%',justifyContent:'center'  }}>
       {/* Sidebar on the left */}
       <Sidebar />
 

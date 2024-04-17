@@ -16,7 +16,7 @@ namespace ClassMate.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class ResourceController : ControllerBase
+    public class ResourceController : ControllerBase, IResourceController
     {
         private readonly DataContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -61,9 +61,9 @@ namespace ClassMate.Controllers
 
         [Authorize(Roles = "Teacher")]
         [HttpPost("add")]
-        public async Task<ActionResult<ServiceResponse<ResourceDto>>> PostResource(ResourceDto resourceDto)
+        public async Task<ActionResult<ServiceResponse<List<Resource>>>> PostResource(ResourceDto resourceDto)
         {
-            var response = new ServiceResponse<ResourceDto>();
+            var response = new ServiceResponse<List<Resource>>();
 
             try
             {
@@ -126,7 +126,7 @@ namespace ClassMate.Controllers
                 await _context.SaveChangesAsync();
 
                 // Set the response data
-                response.Data = resourceDto;
+                response.Data = await _context.Resources.ToListAsync();
                 response.Success = true;
                 response.Message = "Resource Created";
             }
@@ -141,6 +141,68 @@ namespace ClassMate.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "Teacher")]
+        [HttpPut("{id}")]
+        public async Task<ActionResult<ServiceResponse<Resource>>> UpdateResource(int id, ResourceDto updatedResourceDto)
+        {
+            var response = new ServiceResponse<Resource>();
+
+            try
+            {
+
+                string fileUrl = null;
+                if (updatedResourceDto.FileInput != null && updatedResourceDto.FileInput.Length > 0)
+                {
+                    // Generate a unique file name or use other logic to manage file storage
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(updatedResourceDto.FileInput.FileName);
+                    var filePath = Path.Combine("uploads", fileName); // Path to the uploads directory
+
+                    // Save the file to disk
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await updatedResourceDto.FileInput.CopyToAsync(stream);
+                    }
+
+                    // Set the file URL
+                    fileUrl = Path.Combine("/", "uploads", fileName);
+                }
+                // Retrieve the existing assignment from the database based on the provided ID
+                var existingResource = await _context.Resources.FindAsync(id);
+
+                if (existingResource == null)
+                {
+                    // If assignment with the specified ID is not found, return 404 Not Found
+                    return NotFound();
+                }
+
+                // Update properties of the existing assignment with the values from updatedAssignmentDto
+                existingResource.Title = updatedResourceDto.Title;
+                existingResource.Description = updatedResourceDto.Description;
+                existingResource.FileUrl = fileUrl;
+                existingResource.FileInput = updatedResourceDto.FileInput;
+
+
+                // Save the changes to the database asynchronously
+                _context.Resources.Update(existingResource);
+                await _context.SaveChangesAsync();
+
+                // Set the updated assignment to the response data
+                response.Data = existingResource;
+
+                // Set response properties indicating success
+                response.Success = true;
+                response.Message = "Assignment Updated Successfully";
+            }
+            catch (Exception ex)
+            {
+                // If an exception occurs during database interaction, handle it here
+                response.Success = false;
+                response.Message = ex.Message; // Provide the exception message in the response
+            }
+
+            // Return an HTTP response with the service response object (serialized to JSON)
+            return Ok(response);
+        }
 
         // POST: api/Resources
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -149,23 +211,37 @@ namespace ClassMate.Controllers
         // DELETE: api/Resources/5
         [Authorize(Roles = "Teacher")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteResource(int id)
+        public async Task<ActionResult<ServiceResponse<Resource>>> DeleteResource(int id)
         {
-            var resource = await _context.Resources.FindAsync(id);
-            if (resource == null)
+
+            var response = new ServiceResponse<List<Resource>>();
+            try
             {
-                return NotFound();
+                var resource = await _context.Resources.FindAsync(id);
+
+                if (resource == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Resources.Remove(resource);
+                await _context.SaveChangesAsync();
+
+                response.Data = await _context.Resources.ToListAsync();
+                response.Success = true;
+                response.Message = "Resource Deleted";
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as per your application's requirement
+                response.Success = false;
+                response.Message = ex.Message;
+                return StatusCode(500, response); // Return 500 status code with error message
             }
 
-            _context.Resources.Remove(resource);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return Ok(response);
         }
 
-        private bool ResourceExists(int id)
-        {
-            return _context.Resources.Any(e => e.ResourceId == id);
-        }
+
     }
 }

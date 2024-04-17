@@ -112,6 +112,43 @@ export const deleteStudyGroup = (studyGroupId) => async (dispatch) => {
     }
 };
 
+
+export const deleteResource = (resourceId) => async (dispatch) => {
+    try {
+        dispatch({ type: types.DELETE_RESOURCE_REQUEST });
+        
+        const res = await axios.delete(
+            `https://localhost:7168/Resource/${resourceId}`,
+            {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            }
+        );
+
+        dispatch({
+            type: types.DELETE_RESOURCE_SUCCESS,
+            payload: {
+                message: res.data.message,
+                success: res.data.success,
+                data: res.data.data
+            }
+        });
+
+        return res.data;
+    } catch (error) {
+        dispatch({
+            type: types.DELETE_RESOURCE_ERROR,
+            payload: {
+                message: error.response.data.message
+            }
+        });
+
+        throw error.response.data;
+    }
+};
+
+
 export const getAllPublicRooms = () => async (dispatch) => {
     try {
 
@@ -320,7 +357,7 @@ export const createResource = (data) => async (dispatch) => {
         formData.append('fileInput', data.fileInput); // Append the file input as part of the FormData
 
         const res = await axios.post(
-            `https://localhost:7168/Resources/add`, 
+            `https://localhost:7168/Resource/add`, 
             formData, // Pass the FormData object here
             {
                 headers: {
@@ -432,6 +469,44 @@ export const getAllAssignment = () => async (dispatch) => {
         return error.respsonse.data;
     }
 }
+
+export const getAllResources = () => async (dispatch) => {
+    try {
+
+        dispatch({ type: types.GET_RESOURCES_REQUEST});
+        const res = await axios.get(
+
+            `https://localhost:7168/Resource`, { headers: {
+                    Authorization: "Bearer " + token
+                }
+            }
+
+        );
+
+        dispatch({
+            type: types.GET_RESOURCES_SUCCESS,
+            payload: {
+                message: res.data.message,
+                success: res.data.success,
+                data: res.data.data
+            }
+        });
+        console.log(res.data);
+        return res.data;
+    }
+
+    catch (error) {
+
+        dispatch({
+            type: types.GET_RESOURCES_ERROR,
+            payload: {
+                message: error.data.message
+            }
+        })
+        return error.respsonse.data;
+    }
+}
+
 
 
 export const setCreatedModal = (value) => {
