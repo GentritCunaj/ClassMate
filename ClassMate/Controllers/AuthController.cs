@@ -192,6 +192,7 @@ namespace ClassMate.Controllers
         {
             var response = new ServiceResponse<ApplicationUser>();
             var nameIdentifier = _context.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+          
             var user = await _db.Users.Where(u => u.Id == nameIdentifier).FirstOrDefaultAsync();
 
             user.FRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();

@@ -17,11 +17,14 @@ import Resource from './Partials/Resource';
 import CreateAssignment from './Partials/AllPartials/Assignment/CreateAssignment';
 import AllAsignments from './Partials/AllPartials/Assignment/AllAsignments';
 import Assignment from './Partials/AllPartials/Assignment/Assignment';
+import Students from './Partials/Students';
+import Teachers from './Partials/Teachers';
 
 function App() {
   return (
    <Router>
     <Routes>
+      
       <Route path="/" element={<Login/>}/>
       <Route path="/profile" element={<UserProfile/>}/>
 
@@ -60,6 +63,12 @@ function App() {
         
       <Route path="/resource" element={
       <PrivateRoute roles={['Teacher']}><Resource/></PrivateRoute>}/>
+
+      <Route path="/students" element={
+      <PrivateRoute roles={['Teacher','Admin']}><Students/></PrivateRoute>}/>
+
+      <Route path="/teachers" element={
+      <PrivateRoute roles={['Teacher','Admin']}><Teachers/></PrivateRoute>}/>
      
 
     </Routes>

@@ -16,10 +16,16 @@ html, body {
 
 #tableContainer {
   border-radius: 15px;
+  border: 2px solid black;
 }
 
 .avatar-container {
   position: relative;
+}
+
+.cart-link {
+  position: relative;
+  text-decoration: none;
 }
 
 .avatar {

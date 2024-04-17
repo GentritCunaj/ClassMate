@@ -2,6 +2,13 @@ import * as types from './types';
 import axios from "axios";
 const token = localStorage.getItem("token");
 
+export const authLogout = () => async (dispatch) => {
+      dispatch({
+        type: types.AUTH_LOGOUT,
+      });
+
+  };
+
 
 export const GetInfo = () => async (dispatch) => {
     try {

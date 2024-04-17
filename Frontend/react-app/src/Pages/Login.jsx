@@ -11,7 +11,7 @@ function Login() {
   const notify = (text) => toast(text);
   const {user} = useSelector((store)=>store.auth);
   const [form, setForm] = useState({ email: "", password: "" });
-  const decodedToken = decodeToken(localStorage.getItem("token"));
+ 
   
   const dispatch = useDispatch();
   const onChange = (e) => {
@@ -21,7 +21,7 @@ function Login() {
   const handleClick = (e) => {
     try {
       dispatch(authLogin(form)).then((res) => {
-        debugger;
+        const decodedToken = decodeToken(localStorage.getItem("token"));
         if (decodedToken.role == 'Student') {
           notify("Login Successful.");
           return navigate("/profile");
