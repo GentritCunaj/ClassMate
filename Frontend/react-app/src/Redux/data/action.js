@@ -441,3 +441,38 @@ export const setCreatedModal = (value) => {
     };
 };
 
+export const joinRoom = (data) => async (dispatch) => {
+    try {
+        dispatch({ type: types.JOIN_ROOM_REQUEST });
+        
+        const res = await axios.post(
+            `https://localhost:7168/Room/studentFromStudyGroup`,
+            data,
+            {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            }
+        );
+
+        dispatch({
+            type: types.JOIN_ROOM_SUCCESS,
+            payload: {
+                message: res.data.message,
+                success: res.data.success
+            }
+        });
+
+        return res.data;
+    } catch (error) {
+        dispatch({
+            type: types.JOIN_ROOM_ERROR,
+            payload: {
+                message: error.response.data.message
+            }
+        });
+
+        throw error.response.data;
+    }
+};
+
