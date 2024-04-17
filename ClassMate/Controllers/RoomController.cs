@@ -23,10 +23,12 @@ namespace ClassMate.Controllers
         private readonly DataContext _db;
   
         private readonly IHttpContextAccessor _context;
+        private UserManager<ApplicationUser> _userManager;
 
         public RoomController(DataContext db, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager,
             IAuthentication authentication, IHttpContextAccessor context, RoleManager<IdentityRole> roleManager)
         {
+            _userManager = userManager;
             _db = db;
       
         }
@@ -91,6 +93,8 @@ namespace ClassMate.Controllers
 
 
         }
+
+     
 
         [Authorize(Roles = "Student,Teacher")]
         [HttpPost("report")]

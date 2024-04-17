@@ -3,8 +3,12 @@ import '../assets/css/sidebar.css';
 import { useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars} from "@fortawesome/free-solid-svg-icons";
+import { FiLogOut } from "react-icons/fi";
+import { useDispatch } from 'react-redux';
+import { authLogout } from '../Redux/auth/action';
 const Sidebar = () => {
 
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -56,50 +60,46 @@ const Sidebar = () => {
         </div>
       </li>
       <li>
-        <a href="#">
+        <a href="/students">
           <i class='bx bx-pie-chart-alt-2' ></i>
-          <span class="link_name">Analytics</span>
+          <span class="link_name">Students</span>
         </a>
        
       </li>
       <li>
-        <a href="#">
+        <a href="/teachers">
           <i class='bx bx-line-chart' ></i>
-          <span class="link_name">Chart</span>
+          <span class="link_name">Teachers</span>
         </a>
        
       </li>
       <li>
         <div class="iocn-link">
-          <a href="#">
+          <a href="/profile">
             <i class='bx bx-plug' ></i>
-            <span class="link_name">Plugins</span>
+            <span class="link_name">Profile</span>
           </a>
           <i class='bx bxs-chevron-down arrow' ></i>
         </div>
       </li>
+     
       <li>
-        <a href="#">
-          <i class='bx bx-compass' ></i>
-          <span class="link_name">Explore</span>
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <i class='bx bx-history'></i>
-          <span class="link_name">History</span>
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <i class='bx bx-cog' ></i>
-          <span class="link_name">Setting</span>
-        </a>
+      <a
+      style={{flexDirection:"column-reverse"}}
+        className="cart-link"
+        onClick={() => {
+            dispatch(authLogout());
+        }}
+        href="/"
+        >
+        LogOut 
+        <div className="icon">
+            <FiLogOut />
+        </div>
         
+        </a>
+    
       </li>
-      <li>
-   
-  </li>
 </ul>
   </div>
  

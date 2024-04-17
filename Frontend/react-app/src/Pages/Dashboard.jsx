@@ -1,38 +1,67 @@
-import React from 'react';
-import { useState,useEffect } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Sidebar from '../Partials/Sidebar';
 import Cards from '../Partials/Cards';
 import Tables from '../Partials/Table';
 import PublicGroups from '../Partials/PublicStudyGroups';
 import StudyGroupsReports from '../Partials/StudyGroupReports';
-import {useNavigate } from "react-router-dom";
-import {GetInfo} from '../Redux/auth/action';
+import { GetInfo } from '../Redux/auth/action';
+import { getAllUsers } from '../Redux/data/action';
+
 const Dashboard = () => {
   const dispatch = useDispatch();
-  useEffect(()=> {dispatch(GetInfo()).then((res)=>console.log(user))},[]);
-  const {user} = useSelector((store) => store.auth);
   const navigate = useNavigate();
-  return (
-   
-    <div class="dashboardContainer">
-   
-   <Sidebar/>
-   <div style={{display:"flex",flexDirection:"column",margin:"0 auto",height:"100vh", gap: "30px"}}>
 
-   <Cards/> 
-   <Tables/>
-   <PublicGroups/>
-   <StudyGroupsReports />
-   </div>
-   <div className="avatar-container">
-      <div onClick={()=>navigate("/profile")} className="avatar">
-       G
+
+  // Get user and data from Redux store
+  const { user } = useSelector((store) => store.auth);
+  const { teachers, students, admins, loading } = useSelector((store) => store.data);
+
+  // Fetch all users based on role
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      // Ensure that the authentication token is set and ready before fetching user info
+      const userToken = localStorage.getItem('token'); // Example: Retrieve token from localStorage
+      if (userToken) {
+        try {
+          await dispatch(GetInfo()); // Dispatch action to fetch user info
+          dispatch(getAllUsers('Teacher'));
+          dispatch(getAllUsers('Admin'));
+          dispatch(getAllUsers('Student'));
+        } catch (error) {
+          console.error('Error fetching user info:', error);
+          // Handle error (e.g., token expired or invalid)
+          // Redirect to login page or display error message
+        }
+      }
+    };
+
+    fetchUserInfo();
+  }, [dispatch]);
+
+  // Render based on user role
+  return (
+    <div className="dashboardContainer">
+      <Sidebar />
+      <div style={{ display: 'flex', flexDirection: 'column', margin: '0 auto', height: '100vh', gap: '30px' }}>
+        {user && (
+          <>
+            {user.fRole === 'Teacher' && <Cards />}
+            {user.fRole === 'Admin' && <Tables role={admins} name="Admins" />}
+            {user.fRole === 'Teacher' && <Tables role={students} name="Students" />}
+            {user.fRole === 'Teacher' && <PublicGroups />}
+            {user.fRole === 'Admin' && <StudyGroupsReports />}
+          </>
+        )}
+      </div>
+      <div className="avatar-container">
+        <div onClick={() => navigate('/profile')} className="avatar">
+          {user && user.name && user.name.charAt(0)} {/* Display first character of user's name */}
+        </div>
       </div>
     </div>
-   </div>
-   
   );
-}
+};
 
 export default Dashboard;

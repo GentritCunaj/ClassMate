@@ -63,6 +63,7 @@ const UserProfile = () => {
           ...formData,
           [name]: value,
         });
+    }
 
       const handlePasswordChange = (e) => {
         const { name, value } = e.target;
@@ -213,7 +214,8 @@ const UserProfile = () => {
 </div>
       
   );
-    }
+    
+
 }
 
 export default UserProfile

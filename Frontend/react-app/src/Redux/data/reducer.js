@@ -129,7 +129,7 @@ export default function dataReducer(state = initialState, { type, payload }) {
         return { ...state, students: payload.data, loading: false }
       }
 
-
+   
     default:
       return state;
   }

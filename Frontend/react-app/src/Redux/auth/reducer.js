@@ -38,8 +38,25 @@ export default function authReducer(state = initialState, { type, payload }) {
         },
       };
 
+    case types.AUTH_LOGOUT:
+          localStorage.removeItem("token");
+          return {...state,
+          userLogin: { loading: false, error: false, message: "" },
+          userLogout: { message: "Logout Successfully" },
+          user:null,
+          data : {
+            token:null,
+          },
+         
+          
+      }      
+
     case types.GET_INFO_SUCCESS:
-      case types.UPDATE_INFO_SUCCESS:
+      return {
+        ...state,user:payload.data
+    }
+         
+    case types.UPDATE_INFO_SUCCESS:
       return {
           ...state,user:payload.data
       }
