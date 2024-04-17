@@ -128,6 +128,58 @@ namespace ClassMate.Controllers
             }
         }
 
+        [HttpPost("studentFromStudyGroup")]
+        public async Task<ActionResult<ServiceResponse<string>>> AddStudentToStudyGroup(UserStudy userStudy)
+        {
+            var response = new ServiceResponse<string>();
+           
+            try
+            {
+                // Find the user by their ID
+                var user = await _userManager.FindByIdAsync(userStudy.StudentId);
+                if (user == null)
+                {
+                    response.Success = false;
+                    response.Message = "User not found.";
+                    return response;
+                }
+
+                // Find the association entry in the UserStudyGroup table
+                var studyGroup = await _db.StudyGroups
+                    .FirstOrDefaultAsync(s => s.StudyGroupId == userStudy.StudyGroupId);
+
+                if (studyGroup == null)
+                {
+                    response.Success = false;
+
+                    response.Message = "Study Group doesnt exist";
+                    return response;
+                }
+
+                var userStudyGroup = new UserStudyGroup
+                {
+                    UserId =  userStudy.StudentId,
+                    StudyGroupId = userStudy.StudyGroupId
+                };
+
+                _db.UserStudyGroups.Add(userStudyGroup);
+                await _db.SaveChangesAsync();
+
+                response.Success = true;
+
+                response.Message = "You've been added to the study group successfully.";
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = $"{ex.Message}";
+                return response;
+            }
+        }
+
+
         [Authorize(Roles = "Admin")]
         [HttpGet("studyGroupsWithMultipleReports")]
         public async Task<ActionResult<ServiceResponse<IEnumerable<StudyGroup>>>> GetStudyGroupsWithMultipleReports()

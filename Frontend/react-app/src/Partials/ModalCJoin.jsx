@@ -4,6 +4,9 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import "../assets/css/modal.css";
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { joinRoom } from '../Redux/data/action';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -16,7 +19,20 @@ const style = {
   p: 4,
 };
 const ModalCJoin= ({ onClose }) => {
+  
+  const dispatch = useDispatch();
+  const {user} = useSelector((store)=>store.auth);
+  const [formData,setFormData] = useState({
+    studyGroupId:'',
+    studentId:user.id
+  });
+
+
+  const handleChange = (e) => {
    
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   return (
     <Modal
     open='true'
@@ -32,10 +48,11 @@ const ModalCJoin= ({ onClose }) => {
                 type="text"
                 className="modalInput"
                 placeholder="Group id"
-               
+                name="studyGroupId"
+                onChange={handleChange}
               />
               
-              <button style={{background:"black",border:"2px solid black"}} className="btn btn-primary mt-4">Join</button>
+              <button type="button" onClick={()=> dispatch(joinRoom({studentId:formData.studentId,studyGroupId:formData.studyGroupId}))} style={{background:"black",border:"2px solid black"}} className="btn btn-primary mt-4">Join</button>
             </form>
     </Box>
   </Modal>

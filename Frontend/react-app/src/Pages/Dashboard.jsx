@@ -57,7 +57,7 @@ const Dashboard = () => {
       </div>
       <div className="avatar-container">
         <div onClick={() => navigate('/profile')} className="avatar">
-          {user && user.name && user.name.charAt(0)} {/* Display first character of user's name */}
+         <h3> {user && user.firstName && user.firstName.charAt(0)} </h3>
         </div>
       </div>
     </div>
