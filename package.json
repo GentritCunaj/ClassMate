@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "react-toastify": "^10.0.5"
+  },
+  "devDependencies": {
+    "symlink-dir": "^6.0.0"
   }
 }

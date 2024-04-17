@@ -32,12 +32,13 @@ builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
     .AddDefaultTokenProviders()
     .AddEntityFrameworkStores<DataContext>();
 
+
+builder.Services.AddScoped<IResourceController, ResourceController>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IAuthController, AuthController>();
 builder.Services.AddScoped<IAuthentication, Authentication>();
 builder.Services.AddScoped<IRoomController, RoomController>();
 builder.Services.AddScoped<IQuizController, QuizController>();
-
 builder.Services.AddScoped<IAssignmentController, AssignmentController>();
 builder.Services.AddControllers();
 builder.Services.AddDistributedMemoryCache();

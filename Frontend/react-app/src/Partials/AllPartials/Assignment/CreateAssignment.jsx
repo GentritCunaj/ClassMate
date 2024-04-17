@@ -45,7 +45,7 @@ const CreateAssignment = () => {
             <ToastContainer />
             <div className="assignment-container">
                 <Sidebar></Sidebar>
-                <div className="main-content">
+                <div className="main-content" style={{marginLeft:'400px'}}>
                     <h1>Create Assignment</h1>
                     <form onSubmit={handleAssignmentSubmit}>
                         <div className="form-group">

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createResource } from "../Redux/data/action";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import Sidebar from "./Sidebar";
 
 const notify = (text) => toast(text);

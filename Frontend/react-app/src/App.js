@@ -13,8 +13,9 @@ import UnAuthorized from './Pages/UnAuthorized';
 import PrivateRoute from './Pages/PrivateRoute';
 import Quiz from './Partials/AllPartials/Quizzes/Quiz';
 import CreateQuiz from './Partials/AllPartials/Quizzes/CreateQuiz';
-import Resource from './Partials/Resource';
+import Resource from './Partials/AllPartials/Resource/Resource';
 import CreateAssignment from './Partials/AllPartials/Assignment/CreateAssignment';
+import CreateResource from './Partials/AllPartials/Resource/CreateResource';
 import AllAsignments from './Partials/AllPartials/Assignment/AllAsignments';
 import Assignment from './Partials/AllPartials/Assignment/Assignment';
 import Students from './Partials/Students';
@@ -54,6 +55,9 @@ function App() {
         
      <Route path="/createassignment" element={
       <PrivateRoute roles={['Teacher']}><CreateAssignment/></PrivateRoute>}/>
+
+      <Route path="/createResource" element={
+      <PrivateRoute roles={['Teacher']}><CreateResource/></PrivateRoute>}/>
         
        <Route path="/allassignment" element={
       <PrivateRoute roles={['Teacher']}><AllAsignments/></PrivateRoute>}/>

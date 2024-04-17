@@ -5,13 +5,16 @@
   }
   
   .quiz-container {
-    width: 600px; /* Original width */
+    width: 1000px; /* Original width */
+
     margin: 50px auto;
     padding: 20px;
     border: 2px solid #ccc;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-height: 600px; /* Set a maximum height */
+
+    max-height: 750px; /* Set a maximum height */
+
     overflow: auto; /* Enable scrolling */
   }
   

@@ -28,6 +28,8 @@ export default function dataReducer(state = initialState, { type, payload }) {
       return { ...state, loading: true }
     case types.GET_ASSIGNMENT_REQUEST:
       return { ...state, loading: true };
+      case types.GET_RESOURCES_REQUEST:
+      return { ...state, loading: true };
     case types.POST_QUIZ_REQUEST:
       return { ...state, loading: true }
     case types.POST_ASSIGNMENT_REQUEST:
@@ -52,6 +54,12 @@ export default function dataReducer(state = initialState, { type, payload }) {
       };
 
     case types.DELETE_STUDY_GROUP_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+      case types.DELETE_RESOURCE_REQUEST:
       return {
         ...state,
         loading: true,
@@ -96,6 +104,17 @@ export default function dataReducer(state = initialState, { type, payload }) {
         deleteStudyRoom: payload.data,
         error: null
       };
+
+
+
+      case types.DELETE_RESOURCE_SUCCESS:
+        
+      return {
+        ...state,
+        loading: false,
+        resources: payload.data,
+        
+      };
     case types.GET_STUDY_GROUPS_SUCCESS:
       return { ...state, publicGroups: payload.data, loading: false };
 
@@ -108,12 +127,18 @@ export default function dataReducer(state = initialState, { type, payload }) {
     case types.GET_ASSIGNMENT_SUCCESS:
       return { ...state, assignments: payload.data, loading: false };
 
+      case types.GET_RESOURCES_SUCCESS:
+        return { ...state, resources : payload.data, loading: false };
+  
 
     case types.POST_STUDY_GROUP_SUCCESS:
       return { ...state, loading: false, modalCreated: true }
     case types.POST_STUDY_GROUP_SUCCESS:
       return { ...state, loading: false, modalCreated: true }  
       
+      case type.GET_RESOURCES_ERROR:
+        return { ...state, error:payload.data, loading: false };
+
     case type.GET_ASSIGNMENT_ERROR:
       return { ...state, error:payload.data, loading: false };
 
