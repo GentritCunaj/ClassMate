@@ -4,6 +4,7 @@ import { createAssignment } from "../../../Redux/data/action";
 import { ToastContainer, toast } from "react-toastify";
 import Sidebar from "../../Sidebar";
 import AllAsignments from "./AllAsignments";
+import "../../../assets/css/assignmet.css";
 
 const notify = (text) => toast(text);
 
@@ -43,7 +44,7 @@ const CreateAssignment = () => {
         <>
             <ToastContainer />
             <div className="assignment-container">
-                
+                <Sidebar></Sidebar>
                 <div className="main-content">
                     <h1>Create Assignment</h1>
                     <form onSubmit={handleAssignmentSubmit}>

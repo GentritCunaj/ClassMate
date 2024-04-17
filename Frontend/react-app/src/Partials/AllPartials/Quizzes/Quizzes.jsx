@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination } from "@mui/material";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination,Button} from "@mui/material";
 import { getAllQuizzes } from "../../../Redux/data/action";
 
 const Quizzes = () => {
@@ -38,30 +38,39 @@ const Quizzes = () => {
 
 
     // Filter quizzes based on the creatorId
-    const userQuizzes = quizs ? quizs && quizs.filter(quiz => quiz.creatorId === user.id) : [];
+    const userQuizzes = quizs ? quizs || quizs.filter(quiz => quiz.creatorId === user.id) : [];
 
 
     return (
         <div id="dashboardContainer" className="container pt-4">
-            <TableContainer id="tableContainer" sx={{ width: 1000 }}>
+            <TableContainer id="tableContainer" sx={{ width: 1350 }}>
                 <Table stickyHeader>
                     <TableHead>
                         <TableRow>
                             {columns.map((column) => (
                                 <TableCell style={{ backgroundColor: 'black', color: 'white' }} key={column.id}>{column.name}</TableCell>
                             ))}
+                            <TableCell style={{ backgroundColor: 'black', color: 'white' }}>Actions</TableCell> {/* Add this for the actions column */}
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {userQuizzes
+                        {userQuizzes && userQuizzes
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, index) => (
                                 <TableRow key={index}>
-                                    {columns.map((column, colIndex) => (
-                                        <TableCell key={colIndex}>
-                                            {row[column.id]}
-                                        </TableCell>
-                                    ))}
+                                    {columns.map((column, colIndex) => {
+                                        let value = row[column.id];
+                                        return (
+                                            <TableCell key={colIndex}>
+                                                {value}
+                                            </TableCell>
+                                        );
+                                    })}
+                                    <TableCell>
+                                        <Button style={{marginRight:'10px'}}variant="contained" color="primary" >Update</Button>
+                                        <Button variant="contained" color="secondary" >Delete</Button>
+                                    </TableCell>
+                                
                                 </TableRow>
                             ))}
                     </TableBody>

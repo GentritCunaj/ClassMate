@@ -1,26 +1,39 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { createQuiz } from "../../../Redux/data/action";
-import { ToastContainer, toast } from "react-toastify";
-import "../../../assets/css/quiz.css";
+import { Link } from 'react-router-dom';
 import Sidebar from '../../Sidebar';
-import CreateQuiz from './CreateQuiz'; // Assuming the create quiz form is a separate component
 import Quizzes from './Quizzes';
 
 const Quiz = () => {
   return (
-    <>
-    <ToastContainer />
-    <div className="quiz-scroll-container">
+    <div style={{ display: 'flex', height: '100%' }}>
+      {/* Sidebar on the left */}
       <Sidebar />
-      <div className="content-container">
-        <CreateQuiz />
-        <div className="quizzes-container">
+
+      {/* Main content on the right */}
+      <div>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px',marginTop:'100px',marginLeft:'60px'}}>
+          <h1 style={{ fontSize: '28px', color: '#333', marginRight: '42rem', marginBottom: '0' }}>Quizzes</h1>
+          <Link
+            to="/createQuiz"
+            style={{
+              textDecoration: 'none',
+              padding: '10px 70px',
+              backgroundColor: '#007bff',
+              color: '#fff',
+              borderRadius: '5px',
+              fontSize: '16px',
+              fontWeight: 'bold',
+            }}
+          >
+            Add Quiz
+          </Link>
+        </div>
+
+        <div style={{marginLeft:"50px"}}>
           <Quizzes />
         </div>
       </div>
     </div>
-    </>
   );
 };
 

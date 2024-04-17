@@ -3,6 +3,7 @@ import { useDispatch,useSelector } from 'react-redux';
 import { createQuiz } from "../../../Redux/data/action";
 import { ToastContainer, toast } from "react-toastify";
 import "../../../assets/css/quiz.css";
+import Sidebar from '../../Sidebar';
 
 
 
@@ -91,7 +92,7 @@ const CreateQuiz = () => {
     <>
     <ToastContainer />
     <div className="quiz-scroll-container">
-      
+      <Sidebar></Sidebar>
       
       <div className="quiz-container" >
         <div className="thumbnail-container">
