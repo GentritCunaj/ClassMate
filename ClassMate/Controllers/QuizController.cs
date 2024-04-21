@@ -136,5 +136,35 @@ namespace ClassMate.Controllers
 
             return Ok(response);
         }
+
+        [Authorize(Roles = "Teacher")]
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ServiceResponse<string>>> DeleteQuiz(int id)
+        {
+            var response = new ServiceResponse<string>();
+
+            try
+            {
+                var quiz = await _db.Quizzes.FirstOrDefaultAsync(q => q.QuizID == id);
+
+                if (quiz == null)
+                {
+                    return NotFound("Quiz not found");
+                }
+
+                _db.Quizzes.Remove(quiz);
+                await _db.SaveChangesAsync();
+
+                response.Success = true;
+                response.Message = "Quiz deleted successfully";
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message; // Handle exceptions appropriately
+            }
+
+            return Ok(response);
+        }
     }
 }

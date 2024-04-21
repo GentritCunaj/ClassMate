@@ -112,6 +112,40 @@ export const deleteStudyGroup = (studyGroupId) => async (dispatch) => {
     }
 };
 
+export const deleteQuiz = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: types.DELETE_QUIZ_REQUEST });
+        
+        const res = await axios.delete(
+            `https://localhost:7168/Quiz/${id}`,
+            {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            }
+        );
+
+        dispatch({
+            type: types.DELETE_QUIZ_SUCCESS,
+            payload: {
+                message: res.data.message,
+                success: res.data.success
+            }
+        });
+
+        return res.data;
+    } catch (error) {
+        dispatch({
+            type: types.DELETE_QUIZ_ERROR,
+            payload: {
+                message: error.response.data.message
+            }
+        });
+
+        throw error.response.data;
+    }
+};
+
 
 export const deleteResource = (resourceId) => async (dispatch) => {
     try {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination,Button} from "@mui/material";
-import { getAllQuizzes } from "../../../Redux/data/action";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
+import { getAllQuizzes, deleteQuiz } from "../../../Redux/data/action"; // Assuming you have deleteQuiz action creator
 
 const Quizzes = () => {
     const dispatch = useDispatch();
@@ -22,6 +22,8 @@ const Quizzes = () => {
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(3);
+    const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
+    const [quizToDelete, setQuizToDelete] = useState(null);
 
     useEffect(() => {
         dispatch(getAllQuizzes());
@@ -36,14 +38,34 @@ const Quizzes = () => {
         setPage(0);
     };
 
-
     // Filter quizzes based on the creatorId
-    const userQuizzes = quizs ? quizs || quizs.filter(quiz => quiz.creatorId === user.id) : [];
+    const userQuizzes = quizs ? quizs && quizs.filter(quiz => quiz.creatorId === user.id) : [];
 
+    const handleDeleteQuiz = async (quizID) => {
+        try {
+            await dispatch(deleteQuiz(quizID));
+            console.log("Quiz deleted successfully.");
+
+            // After successful deletion, fetch the updated list of quizzes
+            dispatch(getAllQuizzes());
+        } catch (error) {
+            console.error("Error deleting quiz:", error);
+        }
+    };
+
+    const openDeleteConfirmation = (quizID) => {
+        setQuizToDelete(quizID);
+        setDeleteConfirmationOpen(true);
+    };
+
+    const closeDeleteConfirmation = () => {
+        setQuizToDelete(null);
+        setDeleteConfirmationOpen(false);
+    };
 
     return (
         <div id="dashboardContainer" className="container pt-4">
-            <TableContainer id="tableContainer" sx={{ width: 1350 }}>
+            <TableContainer id="tableContainer" sx={{ width: 1000 }}>
                 <Table stickyHeader>
                     <TableHead>
                         <TableRow>
@@ -54,23 +76,18 @@ const Quizzes = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {userQuizzes && userQuizzes
+                        {userQuizzes
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, index) => (
                                 <TableRow key={index}>
-                                    {columns.map((column, colIndex) => {
-                                        let value = row[column.id];
-                                        return (
-                                            <TableCell key={colIndex}>
-                                                {value}
-                                            </TableCell>
-                                        );
-                                    })}
+                                    {columns.map((column, colIndex) => (
+                                        <TableCell key={colIndex}>
+                                            {row[column.id]}
+                                        </TableCell>
+                                    ))}
                                     <TableCell>
-                                        <Button style={{marginRight:'10px'}}variant="contained" color="primary" >Update</Button>
-                                        <Button variant="contained" color="secondary" >Delete</Button>
+                                        <Button variant="contained" color="secondary" onClick={() => openDeleteConfirmation(row.quizID)}>Delete</Button>
                                     </TableCell>
-                                
                                 </TableRow>
                             ))}
                     </TableBody>
@@ -85,6 +102,20 @@ const Quizzes = () => {
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}
             />
+            <Dialog open={deleteConfirmationOpen} onClose={closeDeleteConfirmation}>
+                <DialogTitle>Are you sure you want to delete this quiz?</DialogTitle>
+                <DialogContent>
+                    {/* Add any additional information or warning message here */}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={closeDeleteConfirmation} color="primary">
+                        No
+                    </Button>
+                    <Button onClick={() => { handleDeleteQuiz(quizToDelete); closeDeleteConfirmation(); }} color="secondary">
+                        Yes
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 };

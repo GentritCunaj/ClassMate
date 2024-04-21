@@ -10,5 +10,6 @@ namespace ClassMate.Controllers
 
         Task<ActionResult<ServiceResponse<IEnumerable<Quiz>>>> GetQuizzes();
         Task<ActionResult<ServiceResponse<Quiz>>> GetQuiz(int id);
+        Task<ActionResult<ServiceResponse<string>>> DeleteQuiz(int id);
     }
 }

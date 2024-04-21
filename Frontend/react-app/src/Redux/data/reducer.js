@@ -105,6 +105,14 @@ export default function dataReducer(state = initialState, { type, payload }) {
         error: null
       };
 
+      case types.DELETE_QUIZ_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          quizs: payload.data,
+          error: null
+        };
+
 
 
       case types.DELETE_RESOURCE_SUCCESS:
