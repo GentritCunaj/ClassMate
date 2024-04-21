@@ -135,11 +135,33 @@ export default function dataReducer(state = initialState, { type, payload }) {
       case types.GET_QUIZ_BY_ID_SUCCESS :
       return { ...state, quizs: payload.data, loading: false };
 
+       case types.UPDATE_QUIZ_SUCCESS:
+      return {
+          ...state,quizs:payload.data
+      }
+      case types.GET_QUIZ_BY_ID_SUCCESS:
+        return {
+          ...state,
+          quizs: state.quizs.map(quiz => {
+            if (quiz.id === payload.data.id) {
+              return payload.data; // Update the specific quiz
+            }
+            return quiz;
+          }),
+          loading: false
+        };
+  
       case types.UPDATE_QUIZ_SUCCESS:
         return {
-            ...state,quizs:payload.data
-        }
-
+          ...state,
+          quizs: state.quizs.map(quiz => {
+            if (quiz.id === payload.data.id) {
+              return payload.data; // Update the specific quiz
+            }
+            return quiz;
+          }),
+          loading: false
+        };
     case types.GET_ASSIGNMENT_SUCCESS:
       return { ...state, assignments: payload.data, loading: false };
 

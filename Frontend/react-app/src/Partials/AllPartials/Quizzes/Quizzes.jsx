@@ -1,13 +1,14 @@
+// Quizzes.js
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
-import { getAllQuizzes, deleteQuiz } from "../../../Redux/data/action"; // Assuming you have deleteQuiz action creator
-import { Link } from "react-router-dom"; // Import Link component
+import { getAllQuizzes, deleteQuiz } from "../../../Redux/data/action"; 
+import { Link } from "react-router-dom"; 
 
 const Quizzes = () => {
     const dispatch = useDispatch();
-    const { quizs, loading } = useSelector((store) => store.data); // Assuming the state property is named "quizzes"
-    const { user } = useSelector((store) => store.auth); // Assuming user information is stored in Redux state
+    const { quizs, loading } = useSelector((store) => store.data); 
+    const { user } = useSelector((store) => store.auth); 
 
     const columns = [
         { id: 'quizID', name: "Quiz ID" },
@@ -18,7 +19,6 @@ const Quizzes = () => {
         { id: 'negativeMarking', name: "Negative Marking" },
         { id: 'negativeMarkingPerQuestion', name: "Negative Marking Per Question" },
         { id: 'totalTimeInMinutes', name: "Total Time (Minutes)" },
-        // Add more columns as needed
     ];
 
     const [page, setPage] = useState(0);
@@ -39,15 +39,13 @@ const Quizzes = () => {
         setPage(0);
     };
 
-    // Filter quizzes based on the creatorId
-    const userQuizzes = quizs ? quizs || quizs.filter(quiz => quiz.creatorId === user.id) : [];
+    const userQuizzes = Array.isArray(quizs) ? quizs.filter(quiz => quiz.creatorId === user.id) : [];
 
     const handleDeleteQuiz = async (quizID) => {
         try {
             await dispatch(deleteQuiz(quizID));
             console.log("Quiz deleted successfully.");
 
-            // After successful deletion, fetch the updated list of quizzes
             dispatch(getAllQuizzes());
         } catch (error) {
             console.error("Error deleting quiz:", error);
@@ -73,7 +71,7 @@ const Quizzes = () => {
                             {columns.map((column) => (
                                 <TableCell style={{ backgroundColor: 'black', color: 'white' }} key={column.id}>{column.name}</TableCell>
                             ))}
-                            <TableCell style={{ backgroundColor: 'black', color: 'white' }}>Actions</TableCell> {/* Add this for the actions column */}
+                            <TableCell style={{ backgroundColor: 'black', color: 'white' }}>Actions</TableCell> 
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -107,7 +105,6 @@ const Quizzes = () => {
             <Dialog open={deleteConfirmationOpen} onClose={closeDeleteConfirmation}>
                 <DialogTitle>Are you sure you want to delete this quiz?</DialogTitle>
                 <DialogContent>
-                    {/* Add any additional information or warning message here */}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={closeDeleteConfirmation} color="primary">
