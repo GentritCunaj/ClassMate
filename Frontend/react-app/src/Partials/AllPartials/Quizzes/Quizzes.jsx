@@ -2,13 +2,13 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
-import { getAllQuizzes, deleteQuiz } from "../../../Redux/data/action"; 
-import { Link } from "react-router-dom"; 
+import { getAllQuizzes, deleteQuiz } from "../../../Redux/data/action";
+import { Link } from "react-router-dom";
 
 const Quizzes = () => {
     const dispatch = useDispatch();
-    const { quizs, loading } = useSelector((store) => store.data); 
-    const { user } = useSelector((store) => store.auth); 
+    const { quizs, loading } = useSelector((store) => store.data);
+    const { user } = useSelector((store) => store.auth);
 
     const columns = [
         { id: 'quizID', name: "Quiz ID" },
@@ -64,14 +64,14 @@ const Quizzes = () => {
 
     return (
         <div id="dashboardContainer" className="container pt-4">
-            <TableContainer id="tableContainer" sx={{ width: 1000 }}>
+            <TableContainer id="tableContainer" sx={{ width: 1300 }}>
                 <Table stickyHeader>
                     <TableHead>
                         <TableRow>
                             {columns.map((column) => (
                                 <TableCell style={{ backgroundColor: 'black', color: 'white' }} key={column.id}>{column.name}</TableCell>
                             ))}
-                            <TableCell style={{ backgroundColor: 'black', color: 'white' }}>Actions</TableCell> 
+                            <TableCell style={{ backgroundColor: 'black', color: 'white' }}>Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -85,8 +85,9 @@ const Quizzes = () => {
                                         </TableCell>
                                     ))}
                                     <TableCell>
+                                        <Button  style={{ marginRight: '10px' }}  component={Link} to={`/editquiz/${row.quizID}`} variant="contained" color="primary">Edit</Button>
                                         <Button variant="contained" color="secondary" onClick={() => openDeleteConfirmation(row.quizID)}>Delete</Button>
-                                        <Button component={Link} to={`/editquiz/${row.quizID}`} variant="contained" color="primary">Edit</Button>
+
                                     </TableCell>
                                 </TableRow>
                             ))}

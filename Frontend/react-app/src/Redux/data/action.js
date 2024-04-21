@@ -1,6 +1,8 @@
 ﻿import * as types from './types';
 import axios from "axios";
 const token = localStorage.getItem("token");
+
+
 export const getAllUsers = (data) => async (dispatch) => {
     try {
 
@@ -43,7 +45,7 @@ export const getAllUsers = (data) => async (dispatch) => {
 export const reportRoom = (data) => async (dispatch) => {
     try {
         dispatch({ type: types.REPORT_STUDY_ROOM_REQUEST });
-    
+
 
         const res = await axios.post(
             `https://localhost:7168/Room/report?studyGroupId=${data}`,
@@ -52,8 +54,8 @@ export const reportRoom = (data) => async (dispatch) => {
                     Authorization: "Bearer " + token
                 }
             }
-            
-            
+
+
         );
 
         dispatch({
@@ -81,7 +83,7 @@ export const reportRoom = (data) => async (dispatch) => {
 export const deleteStudyGroup = (studyGroupId) => async (dispatch) => {
     try {
         dispatch({ type: types.DELETE_STUDY_GROUP_REQUEST });
-        
+
         const res = await axios.delete(
             `https://localhost:7168/Room/${studyGroupId}`,
             {
@@ -116,7 +118,7 @@ export const deleteStudyGroup = (studyGroupId) => async (dispatch) => {
 export const deleteResource = (resourceId) => async (dispatch) => {
     try {
         dispatch({ type: types.DELETE_RESOURCE_REQUEST });
-        
+
         const res = await axios.delete(
             `https://localhost:7168/Resource/${resourceId}`,
             {
@@ -190,7 +192,7 @@ export const getAllPublicRooms = () => async (dispatch) => {
 export const getAllStudyGroupsReports = () => async (dispatch) => {
     try {
 
-        dispatch({ type: types.GET_STUDY_GROUP_REPORTS_REQUEST  });
+        dispatch({ type: types.GET_STUDY_GROUP_REPORTS_REQUEST });
         const res = await axios.get(
             `https://localhost:7168/Room/studyGroupsWithMultipleReports`,
             {
@@ -202,7 +204,7 @@ export const getAllStudyGroupsReports = () => async (dispatch) => {
         );
 
         dispatch({
-            type: types.GET_STUDY_GROUP_REPORTS_SUCCESS ,
+            type: types.GET_STUDY_GROUP_REPORTS_SUCCESS,
             payload: {
                 message: res.data.message,
                 success: res.data.success,
@@ -216,7 +218,7 @@ export const getAllStudyGroupsReports = () => async (dispatch) => {
     catch (error) {
 
         dispatch({
-            type: types.GET_STUDY_GROUP_REPORTS_ERROR ,
+            type: types.GET_STUDY_GROUP_REPORTS_ERROR,
             payload: {
                 message: error.data.message
             }
@@ -304,7 +306,7 @@ export const createQuiz = (data) => async (dispatch) => {
 export const deleteQuiz = (id) => async (dispatch) => {
     try {
         dispatch({ type: types.DELETE_QUIZ_REQUEST });
-        
+
         const res = await axios.delete(
             `https://localhost:7168/Quiz/${id}`,
             {
@@ -337,17 +339,17 @@ export const deleteQuiz = (id) => async (dispatch) => {
 
 
 export const createAssignment = (data) => async (dispatch) => {
-    
+
     try {
 
         dispatch({ type: types.POST_ASSIGNMENT_REQUEST });
         const res = await axios.post(
 
-            `https://localhost:7168/Assignment`, data,{
-                headers: {
-                    Authorization: "Bearer " + token
-                }
+            `https://localhost:7168/Assignment`, data, {
+            headers: {
+                Authorization: "Bearer " + token
             }
+        }
 
 
         );
@@ -375,15 +377,118 @@ export const createAssignment = (data) => async (dispatch) => {
         return error.respsonse.data;
     }
 }
+export const deleteAssignment = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: types.DELETE_ASSIGNMENT_REQUEST });
 
+        const res = await axios.delete(
+            `https://localhost:7168/Assignment/${id}`,
+            {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            }
+        );
 
+        dispatch({
+            type: types.DELETE_ASSIGNMENT_SUCCESS,
+            payload: {
+                message: res.data.message,
+                success: res.data.success
+            }
+        });
+
+        return res.data;
+    } catch (error) {
+        dispatch({
+            type: types.DELETE_ASSIGNMENT_ERROR,
+            payload: {
+                message: error.response.data.message
+            }
+        });
+
+        throw error.response.data;
+    }
+};
+export const getAllAssignment = () => async (dispatch) => {
+    try {
+
+        dispatch({ type: types.GET_ASSIGNMENT_REQUEST });
+        const res = await axios.get(
+
+            `https://localhost:7168/Assignment`, {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+        }
+
+        );
+
+        dispatch({
+            type: types.GET_ASSIGNMENT_SUCCESS,
+            payload: {
+                message: res.data.message,
+                success: res.data.success,
+                data: res.data.data
+            }
+        });
+        console.log(res.data);
+        return res.data;
+    }
+
+    catch (error) {
+
+        dispatch({
+            type: types.GET_ASSIGNMENT_ERROR,
+            payload: {
+                message: error.data.message
+            }
+        })
+        return error.respsonse.data;
+    }
+}
+export const EditAssignment = (id, data) => async (dispatch) => {
+    try {
+        dispatch({ type: types.EDIT_ASSIGNMENT_REQUEST });
+
+        const res = await axios.put(
+            `https://localhost:7168/Assignment/${id}`,
+            data,
+            {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            }
+        );
+
+        dispatch({
+            type: types.EDIT_ASSIGNMENT_SUCCESS,
+            payload: {
+                message: res.data.message,
+                success: res.data.success,
+                data: res.data.data
+            }
+        });
+
+        return res.data;
+    } catch (error) {
+        dispatch({
+            type: types.EDIT_ASSIGNMENT_ERROR,
+            payload: {
+                message: error.response.data.message
+            }
+        });
+
+        throw error.response.data;
+    }
+};
 
 
 export const createResource = (data) => async (dispatch) => {
 
     try {
         dispatch({ type: types.POST_RESOURCE_REQUEST });
-        
+
         const formData = new FormData();
         formData.append('studyGroupId', data.studyGroupId);
         formData.append('title', data.title);
@@ -392,7 +497,7 @@ export const createResource = (data) => async (dispatch) => {
         formData.append('fileInput', data.fileInput); // Append the file input as part of the FormData
 
         const res = await axios.post(
-            `https://localhost:7168/Resource/add`, 
+            `https://localhost:7168/Resource/add`,
             formData, // Pass the FormData object here
             {
                 headers: {
@@ -400,7 +505,7 @@ export const createResource = (data) => async (dispatch) => {
                     'Content-Type': 'multipart/form-data',
                     Authorization: "Bearer " + token
                 }
-                
+
 
             }
         );
@@ -431,7 +536,7 @@ export const createResource = (data) => async (dispatch) => {
 export const getAllQuizzes = () => async (dispatch) => {
     try {
 
-        dispatch({ type: types.GET_QUIZZES_REQUEST});
+        dispatch({ type: types.GET_QUIZZES_REQUEST });
         const res = await axios.get(
             `https://localhost:7168/Quiz`,
 
@@ -471,7 +576,7 @@ export const getAllQuizzes = () => async (dispatch) => {
 export const getQuizById = (quizId) => async (dispatch) => {
     try {
         dispatch({ type: types.GET_QUIZ_BY_ID_REQUEST });
-        
+
         const res = await axios.get(
             `https://localhost:7168/Quiz/${quizId}`,
             {
@@ -502,11 +607,44 @@ export const getQuizById = (quizId) => async (dispatch) => {
         throw error.response.data;
     }
 };
+export const getAssignmentById = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: types.GET_ASSIGNMET_BY_ID_REQUEST });
 
+        const res = await axios.get(
+            `https://localhost:7168/Assignment/${id}`,
+            {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            }
+        );
+
+        dispatch({
+            type: types.GET_ASSIGNMET_BY_ID_SUCCESS,
+            payload: {
+                message: res.data.message,
+                success: res.data.success,
+                data: res.data.data
+            }
+        });
+
+        return res.data;
+    } catch (error) {
+        dispatch({
+            type: types.GET_ASSIGNMET_BY_ID_ERROR,
+            payload: {
+                message: error.response.data.message
+            }
+        });
+
+        throw error.response.data;
+    }
+};
 export const updateQuiz = (quizId, data) => async (dispatch) => {
     try {
         dispatch({ type: types.UPDATE_QUIZ_REQUEST });
-        
+
         const res = await axios.put(
             `https://localhost:7168/Quiz/${quizId}`,
             data,
@@ -539,53 +677,19 @@ export const updateQuiz = (quizId, data) => async (dispatch) => {
     }
 };
 
-export const getAllAssignment = () => async (dispatch) => {
-    try {
 
-        dispatch({ type: types.GET_ASSIGNMENT_REQUEST});
-        const res = await axios.get(
-
-            `https://localhost:7168/Assignment`, { headers: {
-                    Authorization: "Bearer " + token
-                }
-            }
-
-        );
-
-        dispatch({
-            type: types.GET_ASSIGNMENT_SUCCESS,
-            payload: {
-                message: res.data.message,
-                success: res.data.success,
-                data: res.data.data
-            }
-        });
-        console.log(res.data);
-        return res.data;
-    }
-
-    catch (error) {
-
-        dispatch({
-            type: types.GET_ASSIGNMENT_ERROR,
-            payload: {
-                message: error.data.message
-            }
-        })
-        return error.respsonse.data;
-    }
-}
 
 export const getAllResources = () => async (dispatch) => {
     try {
 
-        dispatch({ type: types.GET_RESOURCES_REQUEST});
+        dispatch({ type: types.GET_RESOURCES_REQUEST });
         const res = await axios.get(
 
-            `https://localhost:7168/Resource`, { headers: {
+            `https://localhost:7168/Resource`, {
+                headers: {
                     Authorization: "Bearer " + token
                 }
-            }
+        }
 
         );
 
@@ -625,7 +729,7 @@ export const setCreatedModal = (value) => {
 export const joinRoom = (data) => async (dispatch) => {
     try {
         dispatch({ type: types.JOIN_ROOM_REQUEST });
-        
+
         const res = await axios.post(
             `https://localhost:7168/Room/studentFromStudyGroup`,
             data,

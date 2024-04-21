@@ -28,7 +28,7 @@ export default function dataReducer(state = initialState, { type, payload }) {
       return { ...state, loading: true }
     case types.GET_ASSIGNMENT_REQUEST:
       return { ...state, loading: true };
-      case types.GET_RESOURCES_REQUEST:
+    case types.GET_RESOURCES_REQUEST:
       return { ...state, loading: true };
     case types.POST_QUIZ_REQUEST:
       return { ...state, loading: true }
@@ -53,19 +53,26 @@ export default function dataReducer(state = initialState, { type, payload }) {
         error: null
       };
 
+
     case types.DELETE_STUDY_GROUP_REQUEST:
       return {
         ...state,
         loading: true,
         error: null
       };
-      case types.DELETE_RESOURCE_REQUEST:
+    case types.DELETE_RESOURCE_REQUEST:
       return {
         ...state,
         loading: true,
         error: null
       };
 
+    case types.DELETE_ASSIGNMENT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
 
     case types.REPORT_STUDY_ROOM_SUCCESS:
       return {
@@ -105,23 +112,29 @@ export default function dataReducer(state = initialState, { type, payload }) {
         error: null
       };
 
-      case types.DELETE_QUIZ_SUCCESS:
-        return {
-          ...state,
-          loading: false,
-          quizs: payload.data,
-          error: null
-        };
+    case types.DELETE_ASSIGNMENT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        assignments: payload.data,
+        error: null
+      };
 
+    case types.DELETE_QUIZ_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        quizs: payload.data,
+        error: null
+      };
 
+    case types.DELETE_RESOURCE_SUCCESS:
 
-      case types.DELETE_RESOURCE_SUCCESS:
-        
       return {
         ...state,
         loading: false,
         resources: payload.data,
-        
+
       };
     case types.GET_STUDY_GROUPS_SUCCESS:
       return { ...state, publicGroups: payload.data, loading: false };
@@ -132,53 +145,82 @@ export default function dataReducer(state = initialState, { type, payload }) {
     case types.GET_QUIZZES_SUCCESS:
       return { ...state, quizs: payload.data, loading: false };
 
-      case types.GET_QUIZ_BY_ID_SUCCESS :
+    case types.GET_QUIZ_BY_ID_SUCCESS:
       return { ...state, quizs: payload.data, loading: false };
 
-       case types.UPDATE_QUIZ_SUCCESS:
+    case types.UPDATE_QUIZ_SUCCESS:
       return {
-          ...state,quizs:payload.data
+        ...state, quizs: payload.data
       }
-      case types.GET_QUIZ_BY_ID_SUCCESS:
-        return {
-          ...state,
-          quizs: state.quizs.map(quiz => {
-            if (quiz.id === payload.data.id) {
-              return payload.data; // Update the specific quiz
-            }
-            return quiz;
-          }),
-          loading: false
-        };
-  
-      case types.UPDATE_QUIZ_SUCCESS:
-        return {
-          ...state,
-          quizs: state.quizs.map(quiz => {
-            if (quiz.id === payload.data.id) {
-              return payload.data; // Update the specific quiz
-            }
-            return quiz;
-          }),
-          loading: false
-        };
+
+      case types.EDIT_ASSIGNMENT_SUCCESS:
+      return {
+        ...state, assignments: payload.data
+      }
+    case types.GET_QUIZ_BY_ID_SUCCESS:
+      return {
+        ...state,
+        quizs: state.quizs.map(quiz => {
+          if (quiz.id === payload.data.id) {
+            return payload.data; // Update the specific quiz
+          }
+          return quiz;
+        }),
+        loading: false
+      };
+
+      case types.GET_ASSIGNMET_BY_ID_SUCCESS:
+      return {
+        ...state,
+        assignments: state.assignments.map(assigment => {
+          if (assigment.id === payload.data.id) {
+            return payload.data; // Update the specific ASSIGNMENT
+          }
+          return assigment;
+        }),
+        loading: false
+      };
+
+    case types.UPDATE_QUIZ_SUCCESS:
+      return {
+        ...state,
+        quizs: state.quizs.map(quiz => {
+          if (quiz.id === payload.data.id) {
+            return payload.data; // Update the specific quiz
+          }
+          return quiz;
+        }),
+        loading: false
+      };
+
+      case types.EDIT_ASSIGNMENT_SUCCESS:
+      return {
+        ...state,
+        assignments: state.assignments.map(assignment => {
+          if (assignment.id === payload.data.id) {
+            return payload.data; // Update the specific assignmet
+          }
+          return assignment;
+        }),
+        loading: false
+      };
     case types.GET_ASSIGNMENT_SUCCESS:
       return { ...state, assignments: payload.data, loading: false };
 
-      case types.GET_RESOURCES_SUCCESS:
-        return { ...state, resources : payload.data, loading: false };
-  
+    case types.GET_RESOURCES_SUCCESS:
+      return { ...state, resources: payload.data, loading: false };
+
 
     case types.POST_STUDY_GROUP_SUCCESS:
       return { ...state, loading: false, modalCreated: true }
     case types.POST_STUDY_GROUP_SUCCESS:
-      return { ...state, loading: false, modalCreated: true }  
-      
-      case type.GET_RESOURCES_ERROR:
-        return { ...state, error:payload.data, loading: false };
+      return { ...state, loading: false, modalCreated: true }
+
+    case type.GET_RESOURCES_ERROR:
+      return { ...state, error: payload.data, loading: false };
 
     case type.GET_ASSIGNMENT_ERROR:
-      return { ...state, error:payload.data, loading: false };
+      return { ...state, error: payload.data, loading: false };
 
     case types.GET_USERS_SUCCESS:
       console.log(payload, "payload");
@@ -192,7 +234,7 @@ export default function dataReducer(state = initialState, { type, payload }) {
         return { ...state, students: payload.data, loading: false }
       }
 
-   
+
     default:
       return state;
   }

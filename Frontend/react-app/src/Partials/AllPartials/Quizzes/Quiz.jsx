@@ -12,7 +12,7 @@ const Quiz = () => {
       {/* Main content on the right */}
       <div>
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px',marginTop:'100px',marginLeft:'60px'}}>
-          <h1 style={{ fontSize: '28px', color: '#333', marginRight: '42rem', marginBottom: '0' }}>Quizzes</h1>
+          <h1 style={{ fontSize: '28px', color: '#333', marginRight: '42rem', marginBottom: '0',marginLeft:'40px'}}>Quizzes</h1>
           <Link
             to="/createQuiz"
             style={{
@@ -23,6 +23,7 @@ const Quiz = () => {
               borderRadius: '5px',
               fontSize: '16px',
               fontWeight: 'bold',
+              marginLeft:'350px'
             }}
           >
             Add Quiz
