@@ -13,10 +13,12 @@ import UnAuthorized from './Pages/UnAuthorized';
 import PrivateRoute from './Pages/PrivateRoute';
 import Quiz from './Partials/AllPartials/Quizzes/Quiz';
 import CreateQuiz from './Partials/AllPartials/Quizzes/CreateQuiz';
+import EditQuiz from './Partials/AllPartials/Quizzes/EditQuiz';
 import Resource from './Partials/AllPartials/Resource/Resource';
 import CreateAssignment from './Partials/AllPartials/Assignment/CreateAssignment';
 import CreateResource from './Partials/AllPartials/Resource/CreateResource';
 import AllAsignments from './Partials/AllPartials/Assignment/AllAsignments';
+import AllQuizzes from './Partials/AllPartials/Quizzes/Quizzes';
 import Assignment from './Partials/AllPartials/Assignment/Assignment';
 import Students from './Partials/Students';
 import Teachers from './Partials/Teachers';
@@ -52,6 +54,9 @@ function App() {
         
        <Route path="/quiz" element={
       <PrivateRoute roles={['Teacher']}><Quiz/></PrivateRoute>}/>
+
+<Route path="/editquiz/:quizId" element={
+     <PrivateRoute roles={['Teacher']}><EditQuiz/></PrivateRoute>}/>
         
      <Route path="/createassignment" element={
       <PrivateRoute roles={['Teacher']}><CreateAssignment/></PrivateRoute>}/>
@@ -61,6 +66,10 @@ function App() {
         
        <Route path="/allassignment" element={
       <PrivateRoute roles={['Teacher']}><AllAsignments/></PrivateRoute>}/>
+
+<Route path="/allquiz" element={
+      <PrivateRoute roles={['Teacher']}><AllQuizzes/></PrivateRoute>}/>
+        
         
        <Route path="/assignment" element={
       <PrivateRoute roles={['Teacher']}><Assignment/></PrivateRoute>}/>

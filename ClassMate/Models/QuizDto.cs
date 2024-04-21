@@ -4,7 +4,7 @@ namespace ClassMate.Models
 {
     public class QuizDto
     {
-        public int QuizID { get; set; }
+        
         public string Title { get; set; }
         public string Thumbnail { get; set; }
         public string Subject { get; set; }

@@ -1,75 +1,71 @@
 .quiz-scroll-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-  
-  .quiz-container {
-    width: 1000px; /* Original width */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 
-    margin: 50px auto;
-    padding: 20px;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.quiz-container {
+  width: 600px; /* Original width */
+  margin: 50px auto; /* Center horizontally */
+  padding: 20px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-height: 600px; /* Set a maximum height */
+  overflow: auto; /* Enable scrolling */
+}
+.thumbnail-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
 
-    max-height: 750px; /* Set a maximum height */
+.thumbnail {
+  width: 200px; /* Adjust thumbnail width as needed */
+  height: auto;
+  border-radius: 5px;
+  margin-right: 10px; /* Add some space between thumbnail and quiz */
+}
 
-    overflow: auto; /* Enable scrolling */
-  }
-  
-  .thumbnail-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
-  
-  .thumbnail {
-    width: 150px; /* Adjust thumbnail width as needed */
-    height: auto;
-    border-radius: 5px;
-    margin-right: 10px; /* Add some space between thumbnail and quiz */
-  }
-  
-  .quiz-container h2 {
-    text-align: center;
-  }
-  
-  .quiz-container form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .quiz-container form > div {
-    margin-bottom: 10px;
-  }
-  
-  .quiz-container form label {
-    margin-right: 10px;
-  }
-  
-  .quiz-container form input,
-  .quiz-container form select {
-    width: 100%;
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  
-  .quiz-container form button {
-    padding: 10px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-  }
-  
-  .quiz-container form button[type="submit"] {
-    background-color: #28a745;
-  }
-  
-  .quiz-container form button[type="button"] {
-    background-color: #dc3545;
-  }
+.quiz-container h2 {
+  text-align: center;
+}
+
+.quiz-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.quiz-container form > div {
+  margin-bottom: 10px;
+}
+
+.quiz-container form label {
+  margin-right: 10px;
+}
+
+.quiz-container form input,
+.quiz-container form select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.quiz-container form button {
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.quiz-container form button[type="submit"] {
+  background-color: #28a745;
+}
+
+.quiz-container form button[type="button"] {
+  background-color: #dc3545;
+}

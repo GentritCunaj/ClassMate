@@ -132,6 +132,14 @@ export default function dataReducer(state = initialState, { type, payload }) {
     case types.GET_QUIZZES_SUCCESS:
       return { ...state, quizs: payload.data, loading: false };
 
+      case types.GET_QUIZ_BY_ID_SUCCESS :
+      return { ...state, quizs: payload.data, loading: false };
+
+      case types.UPDATE_QUIZ_SUCCESS:
+        return {
+            ...state,quizs:payload.data
+        }
+
     case types.GET_ASSIGNMENT_SUCCESS:
       return { ...state, assignments: payload.data, loading: false };
 

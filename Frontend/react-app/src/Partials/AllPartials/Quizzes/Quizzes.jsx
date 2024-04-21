@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 import { getAllQuizzes, deleteQuiz } from "../../../Redux/data/action"; // Assuming you have deleteQuiz action creator
+import { Link } from "react-router-dom"; // Import Link component
 
 const Quizzes = () => {
     const dispatch = useDispatch();
@@ -39,7 +40,7 @@ const Quizzes = () => {
     };
 
     // Filter quizzes based on the creatorId
-    const userQuizzes = quizs ? quizs && quizs.filter(quiz => quiz.creatorId === user.id) : [];
+    const userQuizzes = quizs ? quizs || quizs.filter(quiz => quiz.creatorId === user.id) : [];
 
     const handleDeleteQuiz = async (quizID) => {
         try {
@@ -87,6 +88,7 @@ const Quizzes = () => {
                                     ))}
                                     <TableCell>
                                         <Button variant="contained" color="secondary" onClick={() => openDeleteConfirmation(row.quizID)}>Delete</Button>
+                                        <Button component={Link} to={`/editquiz/${row.quizID}`} variant="contained" color="primary">Edit</Button>
                                     </TableCell>
                                 </TableRow>
                             ))}

@@ -166,5 +166,69 @@ namespace ClassMate.Controllers
 
             return Ok(response);
         }
+
+        [Authorize(Roles = "Teacher")]
+        [HttpPut("{quizId}")]
+        public async Task<ActionResult<ServiceResponse<Quiz>>> UpdateQuiz(int quizId, QuizDto updatedQuizDto)
+        {
+            var response = new ServiceResponse<Quiz>();
+
+            try
+            {
+                var quiz = await _db.Quizzes.Include(q => q.Questions)
+                                             .FirstOrDefaultAsync(q => q.QuizID == quizId);
+
+                if (quiz == null)
+                {
+                    return NotFound("Quiz not found");
+                }
+
+                // Update quiz properties
+                quiz.Title = updatedQuizDto.Title;
+                quiz.Thumbnail = updatedQuizDto.Thumbnail;
+                quiz.Subject = updatedQuizDto.Subject;
+                quiz.CreatorId = updatedQuizDto.CreatorId;
+                quiz.NoOfQuestions = updatedQuizDto.NoOfQuestions;
+                quiz.PointPerQuestion = updatedQuizDto.PointPerQuestion;
+                quiz.NegativeMarking = updatedQuizDto.NegativeMarking;
+                quiz.NegativeMarkingPerQuestion = updatedQuizDto.NegativeMarkingPerQuestion;
+                quiz.TotalTimeInMinutes = updatedQuizDto.TotalTimeInMinutes;
+
+                // Update quiz questions
+                foreach (var updatedQuestion in updatedQuizDto.Questions)
+                {
+                    var existingQuestion = quiz.Questions.FirstOrDefault(q => q.QuestionID == updatedQuestion.QuestionID);
+                    if (existingQuestion != null)
+                    {
+                        existingQuestion.Text = updatedQuestion.Text;
+                        existingQuestion.Options = updatedQuestion.Options;
+                        existingQuestion.CorrectAnswer = updatedQuestion.CorrectAnswer;
+                    }
+                    else
+                    {
+                        // If the question doesn't exist, add it
+                        quiz.Questions.Add(new Question
+                        {
+                            Text = updatedQuestion.Text,
+                            Options = updatedQuestion.Options,
+                            CorrectAnswer = updatedQuestion.CorrectAnswer
+                        });
+                    }
+                }
+
+                await _db.SaveChangesAsync();
+
+                response.Success = true;
+                response.Message = "Quiz updated successfully";
+                response.Data = quiz;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message; // Handle exceptions appropriately
+            }
+
+            return Ok(response);
+        }
     }
 }
