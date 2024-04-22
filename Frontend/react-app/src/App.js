@@ -7,7 +7,7 @@ import Dashboard from './Pages/Dashboard';
 import UserProfile from './Pages/UserProfile';
 import Register from './Pages/Register';
 import Login from './Pages/Login';
-
+import Contact from './Pages/Contact';
 import UnAuthorized from './Pages/UnAuthorized';
 
 import PrivateRoute from './Pages/PrivateRoute';
@@ -36,6 +36,7 @@ function App() {
           <PrivateRoute roles={['Teacher', 'Admin']}><Dashboard /></PrivateRoute>} />
 
         <Route path="/register" element={<Register />} />
+        <Route path="/contact" element={<Contact />} />
 
 
         <Route path="/quiz" element={
