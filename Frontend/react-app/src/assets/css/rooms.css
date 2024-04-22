@@ -6,13 +6,13 @@
     flex-direction: row;
     position: relative;
     top: 20%;
-    justify-content: center;
+    
     gap: 10%;
 }
 .createRoom {
-    width: 40%;
+    width: 28vw;
     border-radius: 15px;
-    height: 150px;
+    height: 20vh;
     background-color: rgb(132 134 215);
     cursor: pointer;
     padding: 20px 10px 0 10px;
@@ -31,9 +31,9 @@
 }
 
 .joinRoom {
-    width: 40%;
+    width: 28vw;
     border-radius: 15px;
-    height: 150px;
+    height: 20vh;
     background-color: rgb(255 141 30);
     cursor: pointer;
     padding: 20px 10px 0 10px;

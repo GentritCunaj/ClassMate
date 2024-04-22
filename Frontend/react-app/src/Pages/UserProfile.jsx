@@ -101,8 +101,7 @@ const UserProfile = () => {
     setPasswordSection(!passwordSection);
     };
   return (
-    <div style={{display:"flex",height: "100vh",
-    overflowY: "hidden"}}>
+    <div class="profileContainer">
       
     <Sidebar/>
 
@@ -198,10 +197,10 @@ const UserProfile = () => {
 
             </div>
  
-            <div class="mt-5 text-center"><button style={{background:"black",border:"2px solid black"}} onClick={() => {dispatch(UpdateInfo(formData));  }}  class="btn btn-primary profile-button" type="button">Save Profile</button></div>
+            <div class="mt-5 text-center"><button id="saveProfileButton" style={{background:"black",border:"2px solid black"}} onClick={() => {dispatch(UpdateInfo(formData));  }}  class="btn btn-primary profile-button" type="button">Save Profile</button></div>
         </div>
     </div>
-    <div class="col-md-4" style={{position:"relative",top:"100px"}}>
+    <div id="profileCountryDiv" class="col-md-4" style={{position:"relative",top:"100px"}}>
       
     <div class="col-md-12 py-2"><label class="labels">City</label><input type="text" class="form-control" placeholder="City"  name="city" onChange={handleInputChange} value={formData.city}/></div>
                     <div class="col-md-12 py-2"><label class="labels">Country</label><input type="text" class="form-control" placeholder="Country"  name="country" onChange={handleInputChange} value={formData.country}/></div>

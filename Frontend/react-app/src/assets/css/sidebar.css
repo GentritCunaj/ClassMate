@@ -110,23 +110,6 @@
     margin-left: 78px; /* Adjust this value for the closed sidebar width */
 }
 
-@media (max-width: 768px) {
-    .sidebar {
-        width: 200px; /* Adjust sidebar width for smaller screens */
-    }
-    
-    .sidebar.close {
-        width: 60px; /* Adjust closed sidebar width for smaller screens */
-    }
-    
-    .home-section {
-        margin-left: 200px; /* Adjust margin for smaller screens */
-    }
-    
-    .sidebar.close ~ .home-section {
-        margin-left: 60px; /* Adjust closed sidebar margin for smaller screens */
-    }
-}
 
 
 /* Google Fonts Import Link */
@@ -196,6 +179,11 @@
 .sidebar.close .nav-links li .iocn-link{
   display: block
 }
+
+.sidebar.close .logout {
+  display: none !important;
+}
+
 .sidebar .nav-links li i{
   height: 50px;
   min-width: 78px;

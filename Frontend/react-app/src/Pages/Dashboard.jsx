@@ -22,9 +22,10 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       // Ensure that the authentication token is set and ready before fetching user info
-      const userToken = localStorage.getItem('token'); // Example: Retrieve token from localStorage
+      const userToken = localStorage.getItem('token'); 
       if (userToken) {
         try {
+       
           await dispatch(GetInfo()); // Dispatch action to fetch user info
           dispatch(getAllUsers('Teacher'));
           dispatch(getAllUsers('Admin'));
@@ -44,7 +45,7 @@ const Dashboard = () => {
   return (
     <div className="dashboardContainer">
       <Sidebar />
-      <div style={{ display: 'flex', flexDirection: 'column', margin: '0 auto', height: '100vh', gap: '30px' }}>
+      <div className='contentContainer'>
         {user && (
           <>
             {user.fRole === 'Teacher' && <Cards />}

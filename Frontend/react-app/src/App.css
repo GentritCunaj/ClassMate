@@ -9,12 +9,29 @@ html, body {
 
 .dashboardContainer {
   display: flex;
-  flex-direction: row;
-  height: 100%;
-  overflow: hidden;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden; /* Prevents overflow issues */
+
+  /* Optional: Add padding and background color for styling */
+  padding: 20px;
+  background-color: #f0f0f0;
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto; /* Centers the content horizontally */
+  height: 100%; /* Occupies full height of parent */
+  gap: 30px; /* Spacing between child elements */
+
+
+  /* Additional styles for content container */
+  padding: 20px; /* Example padding */
+ 
 }
 
 #tableContainer {
+  width: 60vw;
   border-radius: 15px;
   border: 2px solid black;
 }
@@ -26,6 +43,12 @@ html, body {
 .cart-link {
   position: relative;
   text-decoration: none;
+}
+
+.profileContainer {
+  display: flex;
+  height: 100vh;
+  overflow-y: hidden;
 }
 
 .avatar {
@@ -47,3 +70,56 @@ html, body {
 .avatar:hover {
   opacity: 0.9
 }
+
+@media only screen 
+and (min-device-width : 345px) 
+and (max-device-height : 1000px) 
+ { 
+  .sidebar {
+    width: 32vw !important;
+  }
+  .sidebar.close {
+    width: 0 !important;
+  }
+
+  .paraDiv {
+    top: 0 !important;
+  }
+
+  #sideIcon {
+    display: none;
+  }
+
+  #tableContainer {
+    width: 90vw;
+  }
+  .dashboardContainer {
+    padding: 0;
+  }
+  .contentContainer {
+    padding: 0;
+  }
+
+  .roomsCard {
+    justify-content: center;
+    top: 30% !important;
+  }
+  .sidebar .logo-details i {
+    position: relative;
+    top: 24px;
+  }
+
+  #profileCountryDiv {
+    top: -150px !important;
+    padding-left: 25px;
+    padding-right: 28px;
+  }
+
+  #saveProfileButton {
+    position: relative;
+    top: 150px;
+  }
+  .profileContainer {
+    overflow-y:scroll;
+  }
+ }

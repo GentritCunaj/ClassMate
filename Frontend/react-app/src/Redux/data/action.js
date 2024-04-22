@@ -1,6 +1,6 @@
 ﻿import * as types from './types';
 import axios from "axios";
-const token = localStorage.getItem("token");
+
 
 
 export const getAllUsers = (data) => async (dispatch) => {
@@ -11,7 +11,7 @@ export const getAllUsers = (data) => async (dispatch) => {
             `https://localhost:7168/Auth/allUsers?roleName=${data}`,
             {
                 headers: {
-                    Authorization: "Bearer " + token
+                    Authorization: "Bearer " + localStorage.getItem("token")
                 }
             }
 
@@ -51,7 +51,7 @@ export const reportRoom = (data) => async (dispatch) => {
             `https://localhost:7168/Room/report?studyGroupId=${data}`,
             {
                 headers: {
-                    Authorization: "Bearer " + token
+                    Authorization: "Bearer " + localStorage.getItem("token")
                 }
             }
 
@@ -88,7 +88,7 @@ export const deleteStudyGroup = (studyGroupId) => async (dispatch) => {
             `https://localhost:7168/Room/${studyGroupId}`,
             {
                 headers: {
-                    Authorization: "Bearer " + token
+                    Authorization: "Bearer " + localStorage.getItem("token")
                 }
             }
         );
@@ -123,7 +123,7 @@ export const deleteResource = (resourceId) => async (dispatch) => {
             `https://localhost:7168/Resource/${resourceId}`,
             {
                 headers: {
-                    Authorization: "Bearer " + token
+                    Authorization: "Bearer " + localStorage.getItem("token")
                 }
             }
         );
@@ -159,7 +159,7 @@ export const getAllPublicRooms = () => async (dispatch) => {
             `https://localhost:7168/Room/publicRooms`,
             {
                 headers: {
-                    Authorization: "Bearer " + token
+                    Authorization: "Bearer " + localStorage.getItem("token")
                 }
             }
 
@@ -197,7 +197,7 @@ export const getAllStudyGroupsReports = () => async (dispatch) => {
             `https://localhost:7168/Room/studyGroupsWithMultipleReports`,
             {
                 headers: {
-                    Authorization: "Bearer " + token
+                    Authorization: "Bearer " + localStorage.getItem("token")
                 }
             }
 
@@ -236,7 +236,7 @@ export const createStudyGroup = (data) => async (dispatch) => {
             `https://localhost:7168/Room`, data,
             {
                 headers: {
-                    Authorization: "Bearer " + token
+                    Authorization: "Bearer " + localStorage.getItem("token")
                 }
             }
 
@@ -274,7 +274,7 @@ export const createQuiz = (data) => async (dispatch) => {
             `https://localhost:7168/Quiz`, data,
             {
                 headers: {
-                    Authorization: "Bearer " + token
+                    Authorization: "Bearer " + localStorage.getItem("token")
                 }
             }
 
@@ -311,7 +311,7 @@ export const deleteQuiz = (id) => async (dispatch) => {
             `https://localhost:7168/Quiz/${id}`,
             {
                 headers: {
-                    Authorization: "Bearer " + token
+                    Authorization: "Bearer " + localStorage.getItem("token")
                 }
             }
         );
@@ -347,7 +347,7 @@ export const createAssignment = (data) => async (dispatch) => {
 
             `https://localhost:7168/Assignment`, data, {
             headers: {
-                Authorization: "Bearer " + token
+                Authorization: "Bearer " + localStorage.getItem("token")
             }
         }
 
@@ -385,7 +385,7 @@ export const deleteAssignment = (id) => async (dispatch) => {
             `https://localhost:7168/Assignment/${id}`,
             {
                 headers: {
-                    Authorization: "Bearer " + token
+                    Authorization: "Bearer " + localStorage.getItem("token")
                 }
             }
         );
@@ -418,7 +418,7 @@ export const getAllAssignment = () => async (dispatch) => {
 
             `https://localhost:7168/Assignment`, {
                 headers: {
-                    Authorization: "Bearer " + token
+                    Authorization: "Bearer " + localStorage.getItem("token")
                 }
         }
 
@@ -456,7 +456,7 @@ export const EditAssignment = (id, data) => async (dispatch) => {
             data,
             {
                 headers: {
-                    Authorization: "Bearer " + token
+                    Authorization: "Bearer " + localStorage.getItem("token")
                 }
             }
         );
@@ -503,7 +503,7 @@ export const createResource = (data) => async (dispatch) => {
                 headers: {
 
                     'Content-Type': 'multipart/form-data',
-                    Authorization: "Bearer " + token
+                    Authorization: "Bearer " + localStorage.getItem("token")
                 }
 
 
@@ -542,7 +542,7 @@ export const getAllQuizzes = () => async (dispatch) => {
 
             {
                 headers: {
-                    Authorization: "Bearer " + token
+                    Authorization: "Bearer " + localStorage.getItem("token")
                 }
             }
 
@@ -581,7 +581,7 @@ export const getQuizById = (quizId) => async (dispatch) => {
             `https://localhost:7168/Quiz/${quizId}`,
             {
                 headers: {
-                    Authorization: "Bearer " + token
+                    Authorization: "Bearer " + localStorage.getItem("token")
                 }
             }
         );
@@ -615,7 +615,7 @@ export const getAssignmentById = (id) => async (dispatch) => {
             `https://localhost:7168/Assignment/${id}`,
             {
                 headers: {
-                    Authorization: "Bearer " + token
+                    Authorization: "Bearer " + localStorage.getItem("token")
                 }
             }
         );
@@ -650,7 +650,7 @@ export const updateQuiz = (quizId, data) => async (dispatch) => {
             data,
             {
                 headers: {
-                    Authorization: "Bearer " + token
+                    Authorization: "Bearer " + localStorage.getItem("token")
                 }
             }
         );
@@ -687,7 +687,7 @@ export const getAllResources = () => async (dispatch) => {
 
             `https://localhost:7168/Resource`, {
                 headers: {
-                    Authorization: "Bearer " + token
+                    Authorization: "Bearer " + localStorage.getItem("token")
                 }
         }
 
@@ -735,7 +735,7 @@ export const joinRoom = (data) => async (dispatch) => {
             data,
             {
                 headers: {
-                    Authorization: "Bearer " + token
+                    Authorization: "Bearer " + localStorage.getItem("token")
                 }
             }
         );

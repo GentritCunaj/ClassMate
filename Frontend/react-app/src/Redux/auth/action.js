@@ -1,6 +1,6 @@
 import * as types from './types';
 import axios from "axios";
-const token = localStorage.getItem("token");
+
 
 export const authLogout = () => async (dispatch) => {
       dispatch({
@@ -17,12 +17,12 @@ export const GetInfo = () => async (dispatch) => {
             `https://localhost:7168/Auth/info`, 
             {
                 headers: {
-                    Authorization: "Bearer " + token
+                    Authorization: "Bearer " + localStorage.getItem("token")
                 }
             }
         );
 
-        ;
+        
         dispatch({
             type: types.GET_INFO_SUCCESS,
             payload: {
@@ -40,7 +40,7 @@ export const GetInfo = () => async (dispatch) => {
                 message: error.message
             }
         })
-        return error.respsonse.data;
+        return error.response.data;
     }
 }
 
@@ -51,7 +51,7 @@ export const UpdateInfo = (data) => async (dispatch) => {
             `https://localhost:7168/Auth/info`, data,
             {
                 headers: {
-                    Authorization: "Bearer " + token
+                    Authorization: "Bearer " + localStorage.getItem("token")
                 }
             }
         );
@@ -147,7 +147,7 @@ export const changePassword = (data) => async (dispatch) => {
             data,
             {
                 headers: {
-                    Authorization: "Bearer " + token
+                    Authorization: "Bearer " + localStorage.getItem("token")
                 }
             }
         );
