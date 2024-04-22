@@ -157,6 +157,10 @@ export default function dataReducer(state = initialState, { type, payload }) {
       return {
         ...state, assignments: payload.data
       }
+      case types.EDIT_RESOURCE_SUCCESS:
+      return {
+        ...state, resources: payload.data
+      }
     case types.GET_QUIZ_BY_ID_SUCCESS:
       return {
         ...state,
@@ -165,6 +169,19 @@ export default function dataReducer(state = initialState, { type, payload }) {
             return payload.data; // Update the specific quiz
           }
           return quiz;
+        }),
+        loading: false
+      };
+
+
+      case types.GET_RESOURCE_BY_ID_SUCCESS:
+      return {
+        ...state,
+        resources: state.resources.map(resource => {
+          if (resource.id === payload.data.id) {
+            return payload.data;
+          }
+          return resource;
         }),
         loading: false
       };

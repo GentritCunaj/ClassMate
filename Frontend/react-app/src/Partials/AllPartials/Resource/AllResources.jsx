@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination,Button } from "@mui/material";
 import { getAllResources,deleteResource } from "../../../Redux/data/action";
-
+import { Link } from 'react-router-dom';
 
 
 const AllResources = () => {
@@ -66,7 +66,8 @@ const AllResources = () => {
                                         );
                                     })}
                                     <TableCell>
-                                        <Button style={{marginRight:'10px'}}variant="contained" color="primary" >Update</Button>
+                                    <Button style={{marginRight:'10px'}} component={Link} to={`/UpdateResource/${row.resourceId}`} variant="contained" color="primary">Edit</Button>
+                                        
                                         <Button 
                         variant="contained" 
                         color="secondary" 
