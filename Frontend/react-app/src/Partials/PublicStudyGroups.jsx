@@ -66,7 +66,7 @@ const PublicStudyGroups = () => {
                                             return (
                                                 
                                                 <TableCell key={colIndex}>
-                                                    <Button variant="contained" onClick={() => handleReport(row.studyGroupId) && window.location.reload()}>Report</Button>
+                                                    <Button variant="contained" onClick={() => handleReport(row.studyGroupId) }>Report</Button>
                                                 </TableCell>
                                             );
                                         } else {

@@ -145,7 +145,7 @@ namespace ClassMate.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<ServiceResponse<Resource>>> UpdateResource(int id, ResourceDto updatedResourceDto)
         {
-            var response = new ServiceResponse<Resource>();
+            var response = new ServiceResponse<List<Resource>>();
 
             try
             {
@@ -187,7 +187,7 @@ namespace ClassMate.Controllers
                 await _context.SaveChangesAsync();
 
                 // Set the updated assignment to the response data
-                response.Data = existingResource;
+                response.Data = await _context.Resources.ToListAsync();
 
                 // Set response properties indicating success
                 response.Success = true;
