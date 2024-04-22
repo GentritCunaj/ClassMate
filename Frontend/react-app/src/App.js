@@ -21,6 +21,7 @@ import AllAsignments from './Partials/AllPartials/Assignment/AllAsignments';
 import AllQuizzes from './Partials/AllPartials/Quizzes/Quizzes';
 import Assignment from './Partials/AllPartials/Assignment/Assignment';
 import UpdateAssignments from './Partials/AllPartials/Assignment/UpdateAssignments';
+import UpdateResource from './Partials/AllPartials/Resource/UpdateResource';
 import Students from './Partials/Students';
 import Teachers from './Partials/Teachers';
 
@@ -71,6 +72,10 @@ function App() {
 
         <Route path="/updateassignments/:assignmentId" element={
           <PrivateRoute roles={['Teacher']}><UpdateAssignments /></PrivateRoute>} />
+
+          <Route path="/updateresource/:resourceId" element={
+          <PrivateRoute roles={['Teacher']}><UpdateResource /></PrivateRoute>} />
+          
 
         <Route path="/allquiz" element={
           <PrivateRoute roles={['Teacher']}><AllQuizzes /></PrivateRoute>} />
