@@ -15,8 +15,13 @@ import Quiz from './Partials/AllPartials/Quizzes/Quiz';
 import CreateQuiz from './Partials/AllPartials/Quizzes/CreateQuiz';
 import EditQuiz from './Partials/AllPartials/Quizzes/EditQuiz';
 import Resource from './Partials/AllPartials/Resource/Resource';
+import Report from './Partials/AllPartials/Reports/Report';
 import CreateAssignment from './Partials/AllPartials/Assignment/CreateAssignment';
 import CreateResource from './Partials/AllPartials/Resource/CreateResource';
+import CreateReportResource from './Partials/AllPartials/Resource/CreateReport';
+import CreateReportAssignment from './Partials/AllPartials/Assignment/CreateReport';
+import CreateReportQuiz from './Partials/AllPartials/Quizzes/CreateReport';
+import CreateReportStudyGroup from './Partials/CreateReportStudyGroup';
 import AllAsignments from './Partials/AllPartials/Assignment/AllAsignments';
 import AllQuizzes from './Partials/AllPartials/Quizzes/Quizzes';
 import Assignment from './Partials/AllPartials/Assignment/Assignment';
@@ -50,6 +55,9 @@ function App() {
         <Route path="/resource" element={
           <PrivateRoute roles={['Teacher']}><Resource /></PrivateRoute>} />
 
+          <Route path="/report" element={
+          <PrivateRoute roles={['Teacher']}><Report /></PrivateRoute>} />
+
         <Route path="/unauthorized" element={<UnAuthorized />} />
 
         <Route path="/createquiz" element={
@@ -67,6 +75,9 @@ function App() {
         <Route path="/createResource" element={
           <PrivateRoute roles={['Teacher']}><CreateResource /></PrivateRoute>} />
 
+          {/* <Route path="/createReport" element={
+          <PrivateRoute roles={['Teacher']}><CreateReport /></PrivateRoute>} /> */}
+
         <Route path="/allassignment" element={
           <PrivateRoute roles={['Teacher']}><AllAsignments /></PrivateRoute>} />
 
@@ -75,6 +86,18 @@ function App() {
 
           <Route path="/updateresource/:resourceId" element={
           <PrivateRoute roles={['Teacher']}><UpdateResource /></PrivateRoute>} />
+
+          <Route path="/reportresource/:resourceId" element={
+          <PrivateRoute roles={['Teacher']}><CreateReportResource /></PrivateRoute>} />
+
+          <Route path="/reportassignment/:assignmentId" element={
+          <PrivateRoute roles={['Teacher']}><CreateReportAssignment /></PrivateRoute>} />
+
+          <Route path="/reportquiz/:quizId" element={
+          <PrivateRoute roles={['Teacher']}><CreateReportQuiz /></PrivateRoute>} />
+
+          <Route path="/reportstudygroup/:studyGroupId" element={
+          <PrivateRoute roles={['Teacher']}><CreateReportStudyGroup /></PrivateRoute>} />
           
 
         <Route path="/allquiz" element={

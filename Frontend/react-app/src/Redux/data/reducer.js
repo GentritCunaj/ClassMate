@@ -11,6 +11,7 @@ const initialState = {
   publicGroups: [],
   studyGroupReports: [],
   resources: [],
+  reports:[],
   deleteStudyRoom: [],
   loading: false,
   modalCreated: false
@@ -30,7 +31,11 @@ export default function dataReducer(state = initialState, { type, payload }) {
       return { ...state, loading: true };
     case types.GET_RESOURCES_REQUEST:
       return { ...state, loading: true };
+      case types.GET_REPORT_REQUEST:
+      return { ...state, loading: true };
     case types.POST_QUIZ_REQUEST:
+      return { ...state, loading: true }
+      case types.POST_REPORT_REQUEST:
       return { ...state, loading: true }
     case types.POST_ASSIGNMENT_REQUEST:
       return { ...state, loading: true }
@@ -55,6 +60,12 @@ export default function dataReducer(state = initialState, { type, payload }) {
 
 
     case types.DELETE_STUDY_GROUP_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+      case types.DELETE_REPORT_REQUEST:
       return {
         ...state,
         loading: true,
@@ -96,6 +107,13 @@ export default function dataReducer(state = initialState, { type, payload }) {
         assignments: payload.data,
         error: null
       };
+      case types.POST_REPORT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        reports: payload.data,
+        error: null
+      };
     case types.POST_RESOURCE_SUCCESS:
       return {
         ...state,
@@ -120,6 +138,14 @@ export default function dataReducer(state = initialState, { type, payload }) {
         error: null
       };
 
+      case types.DELETE_REPORT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        reports: payload.data,
+        error: null
+      };
+
     case types.DELETE_QUIZ_SUCCESS:
       return {
         ...state,
@@ -138,6 +164,9 @@ export default function dataReducer(state = initialState, { type, payload }) {
       };
     case types.GET_STUDY_GROUPS_SUCCESS:
       return { ...state, publicGroups: payload.data, loading: false };
+
+      case types.GET_REPORT_SUCCESS:
+      return { ...state, reports: payload.data, loading: false };
 
     case types.GET_STUDY_GROUP_REPORTS_SUCCESS:
       return { ...state, studyGroupReports: payload.data, loading: false };

@@ -87,7 +87,7 @@ const Quizzes = () => {
                                     <TableCell>
                                         <Button  style={{ marginRight: '10px' }}  component={Link} to={`/editquiz/${row.quizID}`} variant="contained" color="primary">Edit</Button>
                                         <Button variant="contained" color="secondary" onClick={() => openDeleteConfirmation(row.quizID)}>Delete</Button>
-
+                                        <Button style={{marginLeft:'10px'}} component={Link} to={`/ReportQuiz/${row.quizID}`} variant="contained" color="primary">Report</Button>
                                     </TableCell>
                                 </TableRow>
                             ))}

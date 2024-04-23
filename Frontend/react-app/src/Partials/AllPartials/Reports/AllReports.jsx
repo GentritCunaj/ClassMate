@@ -1,27 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination,Button } from "@mui/material";
-import { getAllResources,deleteResource } from "../../../Redux/data/action";
+import { getAllReports,deleteReport } from "../../../Redux/data/action";
 import { Link } from 'react-router-dom';
 
 
-const AllResources = () => {
+const AllReports = () => {
     const dispatch = useDispatch();
-    const { resources, loading } = useSelector((store) => store.data); // Assuming the state property is named "quizzes"
+    const { reports, loading } = useSelector((store) => store.data); // Assuming the state property is named "quizzes"
     const { user } = useSelector((store) => store.auth); // Assuming user information is stored in Redux state
 
     const columns = [
-        { id: 'resourceId', name: "Resource ID" },
+        { id: 'reportId', name: "Report ID" },
         { id: 'title', name: "Title" },
         { id: 'description', name: "Description" },
-        { id: 'fileUrl', name: "File",},
+        { id: 'creatorId', name: "Creator"},
+        { id: 'studyGroupId', name: "Study Group "},
+        { id: 'resourceId', name: "Resource"},
+        { id: 'assignmentId', name: "Assignment"},
+        { id: 'quizId', name: "Quiz"},
+        { id: 'userId', name: "User"},
+        { id: 'chatMessageId', name: "Chat Message"},
+
     ];
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(3);
 
     useEffect(() => {
-        dispatch(getAllResources());
+        dispatch(getAllReports());
     }, [dispatch]);
 
     const handlePageChange = (event, newPage) => {
@@ -32,13 +39,13 @@ const AllResources = () => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-    const handleDeleteResource = (resourceId) => {
+    const handleDeleteReport = (reportId) => {
 
-        dispatch(deleteResource(resourceId)); // Dispatch deleteResource action with the resourceId
+        dispatch(deleteReport(reportId)); // Dispatch deleteResource action with the resourceId
     };
 
     // Filter quizzes based on the creatorId
-    const userResources =  resources ? resources || resources.filter(resource => resource.userId === user.id) : [];
+    const userReports =  reports ? reports || reports.filter(resource => resource.creatorId === user.id) : [];
 
     return (
         <div id="dashboardContainer" className="container pt-4">
@@ -53,7 +60,7 @@ const AllResources = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {userResources && userResources
+                        {userReports && userReports
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, index) => (
                                 <TableRow key={index}>
@@ -66,16 +73,14 @@ const AllResources = () => {
                                         );
                                     })}
                                     <TableCell>
-                                    <Button style={{marginRight:'10px'}} component={Link} to={`/UpdateResource/${row.resourceId}`} variant="contained" color="primary">Edit</Button>
-                                        
-                                        <Button 
+                                    <Button style={{marginRight:'10px'}} component={Link} to={`/UpdateReport/${row.reportId}`} variant="contained" color="primary">Edit</Button>
+                                    <Button  
                         variant="contained" 
                         color="secondary" 
-                        onClick={() => handleDeleteResource(row.resourceId)} // Call deleteResource with the resourceId
+                        onClick={() => handleDeleteReport(row.reportId)} // Call deleteResource with the resourceId
                     >
                         Delete
                     </Button>
-                    <Button style={{marginLeft:'10px'}} component={Link} to={`/ReportResource/${row.resourceId}`} variant="contained" color="primary">Report</Button>
                                     </TableCell>
                                 
                                 </TableRow>
@@ -88,7 +93,7 @@ const AllResources = () => {
                 rowsPerPage={rowsPerPage}
                 page={page}
                 component="div"
-                count={userResources.length}
+                count={userReports.length}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}
             />
@@ -96,4 +101,4 @@ const AllResources = () => {
     );
 };
 
-export default AllResources;
+export default AllReports;
