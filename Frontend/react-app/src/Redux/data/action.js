@@ -43,6 +43,7 @@ export const getAllUsers = (data) => async (dispatch) => {
 
 
 export const reportRoom = (data) => async (dispatch) => {
+    debugger;
     try {
         dispatch({ type: types.REPORT_STUDY_ROOM_REQUEST });
 
@@ -50,6 +51,7 @@ export const reportRoom = (data) => async (dispatch) => {
         const res = await axios.post(
             `https://localhost:7168/Room/report?studyGroupId=${data}`,
             {
+                
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem("token")
                 }

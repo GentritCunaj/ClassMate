@@ -12,12 +12,13 @@ const UpdateResources = () => {
   const { user } = useSelector((store) => store.auth);
   const userId = user.id;
   const [formData, setFormData] = useState({
-        studyGroupId: "",
-        title: "",
-        userId:userId,
-        description: "",
-        fileInput: "",
+    studyGroupId: "",
+    title: "",
+    userId: userId,
+    description: "",
+    fileInput: null, // Remove this from the initial state
   });
+
   useEffect(() => {
     dispatch(getResourceById(resourceId))
       .then((data) => {
@@ -27,29 +28,39 @@ const UpdateResources = () => {
           title: resource.title,
           userId: resource.userId,
           description: resource.description,
-          fileInput:resource.fileInput
         });
       })
       .catch((error) => {
         console.error('Error fetching resource :', error);
         toast.error('Error fetching resource. Please try again.');
       });
-  }, [dispatch,resourceId]);
+  }, [dispatch, resourceId]);
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleFileChange = (e) => {
+    console.log(e.target.files[0]);
+    setFormData({ ...formData, fileInput: e.target.files[0] });
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(EditResource(resourceId, formData))
+    const formDataToSend = new FormData();
+    formDataToSend.append('studyGroupId', formData.studyGroupId);
+    formDataToSend.append('title', formData.title);
+    formDataToSend.append('userId', formData.userId);
+    formDataToSend.append('description', formData.description);
+    formDataToSend.append('fileInput', formData.fileInput);
+
+    dispatch(EditResource(resourceId, formDataToSend))
       .then((data) => {
         toast.success(data.message);
       })
       .catch((error) => {
-        // Handle error, e.g., show an error message
         console.error('Failed to update resource:', error.message);
-        toast.error('Error updating quiz. Please try again.')
+        toast.error('Error updating quiz. Please try again.');
       });
   };
 
@@ -57,11 +68,11 @@ const UpdateResources = () => {
     <>
       <ToastContainer />
       <div className="assignment-container">
-        <Sidebar></Sidebar>
+        <Sidebar />
         <div className="main-content" style={{ marginLeft: '400px' }}>
           <h1>Update Resource</h1>
           <form onSubmit={onSubmit}>
-          <div className="form-group">
+            <div className="form-group">
               <label>Study Group</label>
               <input
                 type="text"
@@ -102,17 +113,14 @@ const UpdateResources = () => {
                 type="file"
                 className="form-control"
                 name="fileInput"
-                value={formData.fileInput}
-                onChange={onChange}
+                onChange={handleFileChange}
                 required
               />
             </div>
-
             <button type="submit" className="btn btn-primary">Edit Resource</button>
           </form>
         </div>
       </div>
-
     </>
   );
 };
