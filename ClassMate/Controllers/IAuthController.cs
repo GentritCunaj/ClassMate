@@ -18,6 +18,10 @@ namespace ClassMate.Controllers
 
         Task<ActionResult<ServiceResponse<string>>> ChangePassword(ChangePasswordDto model);
 
+        Task<ActionResult<ServiceResponse<object>>> GetStudentsByStudyGroupId(string studyGroupId);
+
+        Task<ActionResult<ServiceResponse<string>>> RemoveStudentFromStudyGroup(string studyGroupId, string studentId);
+
 
     }
 }

@@ -6,6 +6,7 @@ import Cards from '../Partials/Cards';
 import Tables from '../Partials/Table';
 import PublicGroups from '../Partials/PublicStudyGroups';
 import StudyGroupsReports from '../Partials/StudyGroupReports';
+import StudentTable from '../Partials/KickStudent';
 import { GetInfo } from '../Redux/auth/action';
 import { getAllUsers } from '../Redux/data/action';
 
@@ -53,6 +54,7 @@ const Dashboard = () => {
             {user.fRole === 'Teacher' && <Tables role={students} name="Students" />}
             {user.fRole === 'Teacher' && <PublicGroups />}
             {user.fRole === 'Admin' && <StudyGroupsReports />}
+            {user.fRole === 'Teacher' && <StudentTable studyGroup={students}/>}
           </>
         )}
       </div>
