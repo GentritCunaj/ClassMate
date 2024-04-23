@@ -10,8 +10,7 @@ html, body {
 .dashboardContainer {
   display: flex;
   height: 100vh; /* Full viewport height */
-  overflow: hidden;
-  overflow-y: auto; /* Prevents overflow issues */
+  overflow: auto; /* Prevents overflow issues */
 
   /* Optional: Add padding and background color for styling */
   padding: 20px;
@@ -23,10 +22,7 @@ html, body {
   flex-direction: column;
   margin: 0 auto; /* Centers the content horizontally */
   height: 100%; /* Occupies full height of parent */
-  gap: 30px; /* Spacing between child elements */
-
-
-  /* Additional styles for content container */
+  top: 20%;
   padding: 20px; /* Example padding */
  
 }
@@ -35,6 +31,7 @@ html, body {
   width: 60vw;
   border-radius: 15px;
   border: 2px solid black;
+  
 }
 
 .avatar-container {
@@ -74,7 +71,7 @@ html, body {
 
 @media only screen 
 and (min-device-width : 345px) 
-and (max-device-height : 1000px) 
+and (max-device-height : 899px) 
  { 
   .sidebar {
     width: 32vw !important;
@@ -99,6 +96,7 @@ and (max-device-height : 1000px)
   }
   .contentContainer {
     padding: 0;
+    overflow-y: auto;
   }
 
   .roomsCard {

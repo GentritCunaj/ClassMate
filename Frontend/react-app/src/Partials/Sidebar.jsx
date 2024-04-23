@@ -2,11 +2,13 @@ import React from 'react';
 import '../assets/css/sidebar.css';
 import { useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars} from "@fortawesome/free-solid-svg-icons";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FiLogOut } from "react-icons/fi";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { authLogout } from '../Redux/auth/action';
+
 const Sidebar = () => {
+  const { user } = useSelector((store) => store.auth);
 
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
@@ -105,15 +107,12 @@ const Sidebar = () => {
         LogOut 
         <div className="icon">
             <FiLogOut />
-        </div>
-        
-        </a>
-    
-      </li>
-</ul>
-  </div>
- 
-  </>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </>
   );
 }
 

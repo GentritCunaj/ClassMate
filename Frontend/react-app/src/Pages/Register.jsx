@@ -54,7 +54,7 @@ const Register = () => {
 
 
   return (
-    <div className='container-fluid d-flex align-items-center justify-content-center bg-image' style={{ backgroundColor: '#DCDCDC', height: '100vh' }}>
+    <div className='container-fluid d-flex align-items-center justify-content-center bg-image' style={{ backgroundColor: '#DCDCDC' }}>
       <div className='mask gradient-custom-3'></div>
       <div className='card m-5' style={{ maxWidth: '1000px', borderRadius: '15px', boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.1)', overflow: 'hidden', padding: '30px', margin: '20px' }}>
         <div className='card-body px-5'>

@@ -5,120 +5,130 @@
 }
 
 .page-contain {
-    flex: 1 1 auto;
-    align-self: flex-start;
+  align-self: flex-start;
   display: flex;
   min-height: 50px;
   align-items: center;
   justify-content: center;
-
   font-family: 'Open Sans', sans-serif;
 }
 
 .data-card {
-   
   display: flex;
   flex-direction: column;
-  max-width: 16.75em;
-  min-height: 16.75em;
+  max-width: 100%; /* Adjusted for responsiveness */
+  width: 300px; /* Added fixed width as fallback for small screens */
+  min-height: 20vh;
   overflow: hidden;
   margin: 10px;
   border-radius: .5em;
   text-decoration: none;
-  background: #f9f9f9;
-
-  padding: 1em 1em;
-  box-shadow: 0 1.5em 2.5em -.5em rgba(#000000, .1);
+  background: #E6E6FA;
+  padding: 1em;
+  box-shadow: 0 1.5em 2.5em -.5em rgba(0, 0, 0, .1);
   transition: transform .45s ease, background .45s ease;
-  
-  h3 {
-    color: #2E3C40;
-    font-size: 3.5em;
-    font-weight: 600;
-    line-height: 1;
+}
 
-    margin: 0 0 0.142857143em;
-    border-bottom: 2px solid #753BBD;
-    transition: color .45s ease, border .45s ease;
-  }
+.data-card h3 {
+  color: #2E3C40;
+  font-size: 2em; /* Reduced font size for responsiveness */
+  font-weight: 600;
+  line-height: 1;
+  margin: 0 0 .25em;
+  border-bottom: 2px solid #14002b;
+  transition: color .45s ease, border .45s ease;
+}
 
-  h4 {
-    color: #627084;
-    text-transform: uppercase;
-    font-size: 1.125em;
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: 0.1em;
-    margin: 0 0 1.777777778em;
-    transition: color .45s ease;
-  }
+.data-card h4 {
+  color: black;
+  text-transform: uppercase;
+  font-size: 1em; /* Reduced font size for responsiveness */
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  margin: 0 0 .5em;
+  transition: color .45s ease;
+}
 
-  p {
-    opacity: 0;
-    color: #FFFFFF;
-    font-weight: 600;
-    line-height: 1.8;
-    margin: 0 0 1.25em;
-    transform: translateY(-1em);
-    transition: opacity .45s ease, transform .5s ease;
-  }
+.data-card p {
+  opacity: 0;
+  color: #FFFFFF;
+  font-weight: 600;
+  line-height: 1.8;
+  margin: 0 0 .75em;
+  transform: translateY(-1em);
+  transition: opacity .45s ease, transform .5s ease;
+}
 
-  .link-text {
-    display: block;
-    color: #753BBD;
-    font-size: 1.125em;
-    font-weight: 600;
-    line-height: 1.2;
-    margin: auto 0 0;
-    transition: color .45s ease;
+.data-card .link-text {
+  display: block;
+  color: #753BBD;
+  font-size: 1em; /* Reduced font size for responsiveness */
+  font-weight: 600;
+  line-height: 1.2;
+  margin-top: 0.5em;
+  transition: color .45s ease;
+}
 
-    svg {
-      margin-left: .5em;
-      transition: transform .6s ease;
-      
-      path {
-        transition: fill .45s ease;
-      }
-    }
-  }
-  
-  &:hover {
-    background: #753BBD;
-    transform: scale(1.02);
-    
-    h3 {
-      color: #FFFFFF;
-      border-bottom-color: #A754C4;
-    }
+.data-card .link-text svg {
+  margin-left: .5em;
+  transition: transform .6s ease;
+}
 
-    h4 {
-      color: #FFFFFF;
-    }
+.data-card:hover {
+  background: #753BBD;
+  transform: scale(1.02);
+}
 
-    p {
-      opacity: 1;
-      transform: none;
-    }
+.data-card:hover h3 {
+  color: #FFFFFF;
+  border-bottom-color: #A754C4;
+}
 
-    .link-text {
-      color: #FFFFFF;
+.data-card:hover h4 {
+  color: #FFFFFF;
+}
 
-      svg {
-        animation: point 1.25s infinite alternate;
-        
-        path {
-          fill: #FFFFFF;
-        }
-      }
-    }
-  }
+.data-card:hover p {
+  opacity: 1;
+  transform: none;
+}
+
+.data-card:hover .link-text {
+  color: #FFFFFF;
+}
+
+.data-card:hover .link-text svg {
+  animation: point 1.25s infinite alternate;
 }
 
 @keyframes point {
   0% {
-   transform: translateX(0);
+    transform: translateX(0);
   }
   100% {
     transform: translateX(.125em);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .data-card {
+    width: 100%; /* Full width on smaller screens */
+    max-width: 100%; /* Remove max-width constraint */
+    padding: 0.5em;
+    margin: 10px 0;
+  }
+
+  .data-card h3 {
+    font-size: 1.8em;
+  }
+
+  .data-card h4 {
+    font-size: 0.9em;
+  }
+
+  .data-card p {
+    font-size: 0.9em;
   }
 }

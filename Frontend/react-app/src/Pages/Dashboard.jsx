@@ -9,6 +9,7 @@ import StudyGroupsReports from '../Partials/StudyGroupReports';
 import StudentTable from '../Partials/KickStudent';
 import { GetInfo } from '../Redux/auth/action';
 import { getAllUsers } from '../Redux/data/action';
+import Containers from '../Partials/Containers';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -50,7 +51,7 @@ const Dashboard = () => {
         {user && (
           <>
             {user.fRole === 'Teacher' && <Cards />}
-            {user.fRole === 'Admin' && <Tables role={admins} name="Admins" />}
+            {user.fRole === 'Admin' && <Tables role={admins} name="Admins" /> && <Containers/>}
             {user.fRole === 'Teacher' && <Tables role={students} name="Students" />}
             {user.fRole === 'Teacher' && <PublicGroups />}
             {user.fRole === 'Admin' && <StudyGroupsReports />}
