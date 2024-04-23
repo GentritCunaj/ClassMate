@@ -1,4 +1,4 @@
-import {React,useState} from 'react';
+import { React, useState } from 'react';
 import { useSelector } from 'react-redux';
 import '../assets/css/cards.css'
 import '../assets/css/rooms.css'
@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import { setCreatedModal } from '../Redux/data/action';
 import ModalSuccess from './ModalSuccess';
 const Cards = () => {
-  const {teachers,students,admins,loading,modalCreated} = useSelector((store) => store.data);
+  const { teachers, students, admins, loading, modalCreated } = useSelector((store) => store.data);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalJoinOpen, setIsModalJoinOpen] = useState(false);
 
@@ -39,53 +39,36 @@ const Cards = () => {
   };
 
   return (
-  //   <section class="page-contain">
-  //    <div className="data-card">
-  //       <h3>{teachers.length}</h3>
-  //       <h4>Teachers</h4>
-  //       <p>Etiam porta sem malesuada.</p>
-  //     </div>
-  //     <div className="data-card">
-  //       <h3>{students.length}</h3>
-  //       <h4>Students</h4>
-  //       <p>Etiam porta sem malesuada.</p>
-  //     </div>
-  //     <div className="data-card">
-  //       <h3>{admins.length}</h3>
-  //       <h4>Admins</h4>
-  //       <p>Etiam porta sem malesuada.</p>
-  //     </div>
-  // </section>
 
-  <div className="roomsDiv">
-    {/* left  */}
-    <div className="roomsCard">
-      <div
-        className="createRoom"
-        onClick={openModal}
-      >
-      <FontAwesomeIcon class="fontSvg" icon={faSquarePlus} style={{color:"#ffffff"}} />
-        <div class="paraDiv"> 
-          <p className="roomP">New Room</p>
-          <p style={{   fontSize: "0.9em",color: "white"}}>set up new room</p>
+    <div className="roomsDiv">
+      {/* left  */}
+      <div className="roomsCard">
+        <div
+          className="createRoom"
+          onClick={openModal}
+        >
+          <FontAwesomeIcon class="fontSvg" icon={faSquarePlus} style={{ color: "#ffffff" }} />
+          <div class="paraDiv">
+            <p className="roomP">New Room</p>
+            <p style={{ fontSize: "0.9em", color: "white" }}>set up new room</p>
+          </div>
         </div>
-      </div>
-      {isModalOpen && <ModalC onClose={closeModal} />}
-      <div className="joinRoom" onClick={openModalJoin}>
-      
-      <FontAwesomeIcon class="fontSvg" icon={faArrowRightToBracket} style={{color:"#ffffff"}}/>
-        <div class="paraDiv">
-          <p className="roomP">Join Room</p>
-          <p style={{   fontSize: "0.9em",color: "white"}}>via invitation link</p>
-        </div>
-      </div>
-      {isModalJoinOpen && <ModalCJoin onClose={closeModalJoin} />}
-      {modalCreated && <ModalSuccess onClose={closeCreatedModal} />}
+        {isModalOpen && <ModalC onClose={closeModal} />}
+        <div className="joinRoom" onClick={openModalJoin}>
 
-      
+          <FontAwesomeIcon class="fontSvg" icon={faArrowRightToBracket} style={{ color: "#ffffff" }} />
+          <div class="paraDiv">
+            <p className="roomP">Join Room</p>
+            <p style={{ fontSize: "0.9em", color: "white" }}>via invitation link</p>
+          </div>
+        </div>
+        {isModalJoinOpen && <ModalCJoin onClose={closeModalJoin} />}
+        {modalCreated && <ModalSuccess onClose={closeCreatedModal} />}
+
+
+      </div>
     </div>
-</div>
- 
+
 
   );
 }

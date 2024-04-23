@@ -64,7 +64,7 @@ const Quizzes = () => {
 
     return (
         <div id="dashboardContainer" className="container pt-4">
-            <TableContainer id="tableContainer" sx={{ width: 1300 }}>
+            <TableContainer id="tableContainer" sx={{ width: 900 }}>
                 <Table stickyHeader>
                     <TableHead>
                         <TableRow>

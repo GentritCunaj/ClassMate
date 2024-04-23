@@ -58,7 +58,7 @@ const AllAssignments = () => {
 
     return (
         <div id="dashboardContainer" className="container pt-4">
-            <TableContainer id="tableContainer" sx={{ width: 1000 }}>
+            <TableContainer id="tableContainer">
                 <Table stickyHeader>
                     <TableHead>
                         <TableRow>

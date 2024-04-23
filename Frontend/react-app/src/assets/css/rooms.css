@@ -4,9 +4,6 @@
 .roomsCard {
     display: flex;
     flex-direction: row;
-    position: relative;
-    top: 20%;
-    
     gap: 10%;
 }
 .createRoom {
