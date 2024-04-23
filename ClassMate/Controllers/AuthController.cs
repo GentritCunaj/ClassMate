@@ -298,6 +298,81 @@ namespace ClassMate.Controllers
 
             return response;
         }
+        [HttpGet("students")]
+        public async Task<ActionResult<ServiceResponse<object>>> GetStudentsByStudyGroupId(string studyGroupId)
+        {
+            var response = new ServiceResponse<object>();
+
+            try
+            {
+                // Retrieve students who belong to the specified study group
+                var studentsInGroup = await _db.UserStudyGroups
+                    .Where(usg => usg.StudyGroupId == studyGroupId)
+                    .Select(usg => new
+                    {
+                        StudyGroupId = usg.StudyGroup.StudyGroupId,
+                        StudentId = usg.UserId, // Assuming UserId is the primary key of ApplicationUser
+                        UserName = usg.User.UserName,
+                        Email = usg.User.Email
+                    })
+                    .ToListAsync();
+                response.Data = studentsInGroup;
+                response.Success = true;
+                response.Message = "Students for the specified study group retrieved successfully.";
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = $"Error retrieving students: {ex.Message}";
+                return StatusCode(500, response);
+            }
+        }
+
+
+        [HttpDelete("students/{studentId}")]
+        public async Task<ActionResult<ServiceResponse<string>>> RemoveStudentFromStudyGroup(string studyGroupId, string studentId)
+        {
+            var response = new ServiceResponse<string>();
+
+            try
+            {
+                // Find the user by their ID
+                var user = await _userManager.FindByIdAsync(studentId);
+                if (user == null)
+                {
+                    response.Success = false;
+                    response.Message = "User not found.";
+                    return NotFound(response);
+                }
+
+                // Find the association entry in the UserStudyGroup table
+                var userStudyGroup = await _db.UserStudyGroups
+                    .FirstOrDefaultAsync(usg => usg.UserId == studentId && usg.StudyGroupId == studyGroupId.ToString());
+
+                if (userStudyGroup == null)
+                {
+                    response.Success = false;
+                    response.Message = "User is not part of the specified study group.";
+                    return NotFound(response);
+                }
+
+                // Remove the association entry from the UserStudyGroup table
+                _db.UserStudyGroups.Remove(userStudyGroup);
+                await _db.SaveChangesAsync();
+
+                response.Success = true;
+                response.Message = "Student removed from the study group successfully.";
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = $"Error removing student from the study group: {ex.Message}";
+                return StatusCode(500, response);
+            }
+        }
+
 
     }
 }

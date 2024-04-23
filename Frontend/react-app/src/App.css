@@ -10,7 +10,8 @@ html, body {
 .dashboardContainer {
   display: flex;
   height: 100vh; /* Full viewport height */
-  overflow: hidden; /* Prevents overflow issues */
+  overflow: hidden;
+  overflow-y: auto; /* Prevents overflow issues */
 
   /* Optional: Add padding and background color for styling */
   padding: 20px;
