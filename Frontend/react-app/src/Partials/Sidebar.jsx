@@ -60,6 +60,15 @@ const Sidebar = () => {
         </div>
       </li>
       <li>
+        <div class="iocn-link">
+          <a href="/report">
+            <i id="sideIcon" class='bx bx-book-alt' ></i>
+            <span class="link_name">Reports</span>
+          </a>
+          <i id="sideIcon" class='bx bxs-chevron-down arrow' ></i>
+        </div>
+      </li>
+      <li>
         <a href="/students">
           <i id="sideIcon" class='bx bx-pie-chart-alt-2' ></i>
           <span class="link_name">Students</span>

@@ -12,14 +12,16 @@ const CreateResource = () => {
     const { loading, error, message } = useSelector((store) => store.data); // Assuming Redux state structure
     const {user} = useSelector((store) => store.auth);
     var userId = user.id;
-    const [resourceValue, setResourceValue] = useState({
+    
+    const initData = {
         studyGroupId: "",
         title: "",
         userId:userId,
         description: "",
         fileInput: null
-    });
 
+    };
+const [resourceValue, setResourceValue] = useState(initData);
     const handleResourceChange = (e) => {
         setResourceValue({ ...resourceValue, [e.target.name]: e.target.value });
     };
@@ -31,8 +33,10 @@ const CreateResource = () => {
 
     const handleResourceSubmit = (e) => {
         e.preventDefault();
-        dispatch(createResource(resourceValue));
-        window.location.reload();
+        dispatch(createResource(resourceValue)).then((res) => {
+            setResourceValue(initData);
+            notify("Resource Created");
+        });
     };
 
     return (

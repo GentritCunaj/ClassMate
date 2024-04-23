@@ -191,7 +191,7 @@ namespace ClassMate.Controllers
 
                 // Set response properties indicating success
                 response.Success = true;
-                response.Message = "Assignment Updated Successfully";
+                response.Message = "Resource Updated Successfully";
             }
             catch (Exception ex)
             {

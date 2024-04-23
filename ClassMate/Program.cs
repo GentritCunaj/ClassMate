@@ -34,6 +34,7 @@ builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
 
 
 builder.Services.AddScoped<IResourceController, ResourceController>();
+builder.Services.AddScoped<IReportController, ReportController>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IAuthController, AuthController>();
 builder.Services.AddScoped<IAuthentication, Authentication>();

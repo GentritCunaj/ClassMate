@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Sidebar from '../../Sidebar';
 import AllResources from './AllResources'
 
-const Assignment = () => {
+const Resource = () => {
   return (
     <div style={{ display: 'flex', height: '100%',justifyContent:'center'  }}>
       {/* Sidebar on the left */}
@@ -39,4 +39,4 @@ const Assignment = () => {
   );
 };
 
-export default Assignment;
+export default Resource;

@@ -150,6 +150,40 @@ export const deleteResource = (resourceId) => async (dispatch) => {
     }
 };
 
+export const deleteReport = (reportId) => async (dispatch) => {
+    try {
+        dispatch({ type: types.DELETE_REPORT_REQUEST });
+
+        const res = await axios.delete(
+            `https://localhost:7168/Report/${reportId}`,
+            {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token")
+                }
+            }
+        );
+
+        dispatch({
+            type: types.DELETE_REPORT_SUCCESS,
+            payload: {
+                message: res.data.message,
+                success: res.data.success,
+                data: res.data.data
+            }
+        });
+
+        return res.data;
+    } catch (error) {
+        dispatch({
+            type: types.DELETE_REPORT_ERROR,
+            payload: {
+                message: error.response.data.message
+            }
+        });
+
+        throw error.response.data;
+    }
+};
 
 export const getAllPublicRooms = () => async (dispatch) => {
     try {
@@ -533,6 +567,9 @@ export const createResource = (data) => async (dispatch) => {
 
 
 
+
+
+
 export const getAllQuizzes = () => async (dispatch) => {
     try {
 
@@ -650,7 +687,7 @@ export const getResourceById = (id) => async (dispatch) => {
             `https://localhost:7168/Resource/${id}`,
             {
                 headers: {
-                    Authorization: "Bearer " + token
+                    Authorization: "Bearer " + localStorage.getItem("token")
                 }
             }
         );
@@ -686,7 +723,7 @@ export const EditResource = (id, data) => async (dispatch) => {
             data,
             {
                 headers: {
-                    Authorization: "Bearer " + token
+                    Authorization: "Bearer " + localStorage.getItem("token")
                 }
             }
         );
@@ -790,6 +827,45 @@ export const getAllResources = () => async (dispatch) => {
 }
 
 
+export const getAllReports = () => async (dispatch) => {
+    try {
+
+        dispatch({ type: types.GET_REPORT_REQUEST });
+        const res = await axios.get(
+
+            `https://localhost:7168/Report`, {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token")
+                }
+        }
+
+        );
+
+        dispatch({
+            type: types.GET_REPORT_SUCCESS,
+            payload: {
+                message: res.data.message,
+                success: res.data.success,
+                data: res.data.data
+            }
+        });
+        console.log(res.data);
+        return res.data;
+    }
+
+    catch (error) {
+
+        dispatch({
+            type: types.GET_REPORT_ERROR,
+            payload: {
+                message: error.data.message
+            }
+        })
+        return error.respsonse.data;
+    }
+}
+
+
 
 export const setCreatedModal = (value) => {
     return {
@@ -832,4 +908,44 @@ export const joinRoom = (data) => async (dispatch) => {
         throw error.response.data;
     }
 };
+
+export const createReport = (data) => async (dispatch) => {
+debugger;
+    try {
+
+        dispatch({ type: types.POST_REPORT_REQUEST });
+        const res = await axios.post(
+
+            `https://localhost:7168/Report/add`, data, {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("token")
+            }
+        }
+
+
+        );
+
+        dispatch({
+            type: types.POST_REPORT_SUCCESS,
+            payload: {
+                message: res.data.message,
+                success: res.data.success,
+                data: res.data.data
+            }
+        });
+        console.log(res.data);
+        return res.data;
+    }
+
+    catch (error) {
+
+        dispatch({
+            type: types.POST_REPORT_ERROR,
+            payload: {
+                message: error.data.message
+            }
+        })
+        return error.respsonse.data;
+    }
+}
 

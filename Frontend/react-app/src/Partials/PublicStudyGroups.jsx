@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Box, Button } from "@mui/material";
 import { getAllPublicRooms } from "../Redux/data/action";
 import { reportRoom } from "../Redux/data/action";
-
+import { Link } from 'react-router-dom';
 const PublicStudyGroups = () => {
     const dispatch = useDispatch();
     const { publicGroups, loading, reportStudyRoom } = useSelector((store) => store.data);
@@ -66,7 +66,7 @@ const PublicStudyGroups = () => {
                                             return (
                                                 
                                                 <TableCell key={colIndex}>
-                                                    <Button variant="contained" onClick={() => handleReport(row.studyGroupId) && window.location.reload()}>Report</Button>
+                                                    <Button component={Link} to={`/ReportStudyGroup/${row.studyGroupId}`} variant="contained" color="primary">Report</Button>
                                                 </TableCell>
                                             );
                                         } else {

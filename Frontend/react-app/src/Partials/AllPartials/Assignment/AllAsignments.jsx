@@ -81,6 +81,7 @@ const AllAssignments = () => {
                                     <TableCell>
                                         <Button style={{marginRight:'10px'}} component={Link} to={`/UpdateAssignments/${assignment.assignmentId}`} variant="contained" color="primary">Edit</Button>
                                         <Button variant="contained" color="secondary" onClick={() => openDeleteConfirmation(assignment.assignmentId)}>Delete</Button>
+                                        <Button style={{marginLeft:'10px'}} component={Link} to={`/ReportAssignment/${assignment.assignmentId}`} variant="contained" color="primary">Report</Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
