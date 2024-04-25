@@ -6,7 +6,6 @@ import Cards from '../Partials/Cards';
 import Tables from '../Partials/Table';
 import PublicGroups from '../Partials/PublicStudyGroups';
 import StudyGroupsReports from '../Partials/StudyGroupReports';
-import StudentTable from '../Partials/KickStudent';
 import { GetInfo } from '../Redux/auth/action';
 import { getAllUsers } from '../Redux/data/action';
 import Containers from '../Partials/Containers';
@@ -14,7 +13,7 @@ import Containers from '../Partials/Containers';
 const Dashboard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  
 
   // Get user and data from Redux store
   const { user } = useSelector((store) => store.auth);
@@ -55,7 +54,6 @@ const Dashboard = () => {
             {user.fRole === 'Teacher' && <Tables role={students} name="Students" />}
             {user.fRole === 'Teacher' && <PublicGroups />}
             {user.fRole === 'Admin' && <StudyGroupsReports />}
-            {user.fRole === 'Teacher' && <StudentTable studyGroup={students}/>}
           </>
         )}
       </div>

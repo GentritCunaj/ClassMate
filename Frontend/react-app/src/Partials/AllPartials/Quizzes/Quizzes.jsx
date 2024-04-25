@@ -5,6 +5,7 @@ import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 import { getAllQuizzes, deleteQuiz } from "../../../Redux/data/action";
 import { Link } from "react-router-dom";
 
+
 const Quizzes = () => {
     const dispatch = useDispatch();
     const { quizs, loading } = useSelector((store) => store.data);
@@ -64,7 +65,7 @@ const Quizzes = () => {
 
     return (
         <div id="dashboardContainer" className="container pt-4">
-            <TableContainer id="tableContainer" sx={{ width: 900 }}>
+            <TableContainer id="tableContainer">
                 <Table stickyHeader>
                     <TableHead>
                         <TableRow>

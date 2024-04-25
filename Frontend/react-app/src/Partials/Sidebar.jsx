@@ -35,32 +35,37 @@ const Sidebar = () => {
           <span class="link_name">Dashboard</span>
         </a>
       </li>
-      <li>
-        <div class="iocn-link">
-
-          <a href="../../quiz">
-
-            <i id="sideIcon" class='bx bx-plug' ></i>
-            <span class="link_name">Quiz</span>
-          </a>
-          <i class='bx bxs-chevron-down arrow' ></i>
-        </div>
-      </li>
-      <li>
-        <a href="/assignment">
-          <i id="sideIcon" class='bx bx-compass' ></i>
-          <span class="link_name">Assignment</span>
-        </a>
-      </li>
-      <li>
-        <div class="iocn-link">
-          <a href="/resource">
-            <i id="sideIcon" class='bx bx-book-alt' ></i>
-            <span class="link_name">Resource</span>
-          </a>
-          <i id="sideIcon" class='bx bxs-chevron-down arrow' ></i>
-        </div>
-      </li>
+      {user && user.fRole === 'Teacher' && (
+            <li>
+              <div className="iocn-link">
+                <a href="../../quiz">
+                  <i id="sideIcon" className='bx bx-plug'></i>
+                  <span className="link_name">Quiz</span>
+                </a>
+                <i className='bx bxs-chevron-down arrow'></i>
+              </div>
+            </li>
+          )}
+          {user && user.fRole === 'Teacher' && (
+            <li>
+              <a href="/assignment">
+                <i id="sideIcon"  className='bx bx-compass'></i>
+                <span className="link_name">Assignment</span>
+              </a>
+            </li>
+          )}
+          {user && user.fRole === 'Teacher' && (
+            <li>
+              <div className="iocn-link">
+                <a href="/resource">
+                  <i id="sideIcon" className='bx bx-book-alt'></i>
+                  <span className="link_name">Resource</span>
+                </a>
+                <i className='bx bxs-chevron-down arrow'></i>
+              </div>
+            </li>
+          )}
+           {user && user.fRole === 'Teacher' && (
       <li>
         <div class="iocn-link">
           <a href="/report">
@@ -70,6 +75,7 @@ const Sidebar = () => {
           <i id="sideIcon" class='bx bxs-chevron-down arrow' ></i>
         </div>
       </li>
+      )}
       <li>
         <a href="/students">
           <i id="sideIcon" class='bx bx-pie-chart-alt-2' ></i>
