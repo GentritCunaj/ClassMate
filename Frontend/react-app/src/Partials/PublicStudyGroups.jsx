@@ -21,19 +21,11 @@ const PublicStudyGroups = () => {
         pagechange(newpage);
     };
 
+    
+
     const handleRowsPerPage = (event) => {
         rowperpagechange(+event.target.value);
         pagechange(0);
-    };
-
-    const handleReport = async (studyGroupId) => {
-        try {
-            
-            await dispatch(reportRoom(studyGroupId)); 
-            console.log("Study group reported successfully.");
-        } catch (error) {
-            console.error("Error reporting study group:", error);
-        }
     };
 
     const [page, pagechange] = useState(0);
@@ -46,6 +38,7 @@ const PublicStudyGroups = () => {
     return (
         <div id="dashboardContainer" className="container pt-4">
             <TableContainer id="tableContainer" sx={{ width: 1000 }}>
+                <h1>Public Study Groups</h1>
                 <Table stickyHeader>
                     <TableHead>
                         <TableRow>

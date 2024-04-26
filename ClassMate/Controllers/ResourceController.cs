@@ -29,7 +29,7 @@ namespace ClassMate.Controllers
 
         // GET: api/Resources
 
-        [Authorize(Roles = "Student,Teacher")]
+        [Authorize(Roles = "Teacher,Admin,Student")]
         [HttpGet]
         public async Task<ActionResult<ServiceResponse<IEnumerable<Resource>>>> GetResources()
         {
@@ -42,7 +42,7 @@ namespace ClassMate.Controllers
         }
 
         // GET: api/Resources/5
-        [Authorize(Roles = "Student,Teacher")]
+        [Authorize(Roles = "Teacher,Admin,Student")]
         [HttpGet("{id}")]
         public async Task<ActionResult<ServiceResponse<Resource>>> GetResource(int id)
         {
@@ -59,7 +59,7 @@ namespace ClassMate.Controllers
             return Ok(response);
         }
 
-        [Authorize(Roles = "Teacher")]
+        [Authorize(Roles = "Teacher,Admin")]
         [HttpPost("add")]
         public async Task<ActionResult<ServiceResponse<List<Resource>>>> PostResource(ResourceDto resourceDto)
         {
@@ -141,7 +141,7 @@ namespace ClassMate.Controllers
             return Ok(response);
         }
 
-        [Authorize(Roles = "Teacher")]
+        [Authorize(Roles = "Teacher,Admin")]
         [HttpPut("{id}")]
         public async Task<ActionResult<ServiceResponse<Resource>>> UpdateResource(int id, ResourceDto updatedResourceDto)
         {
@@ -209,7 +209,7 @@ namespace ClassMate.Controllers
 
 
         // DELETE: api/Resources/5
-        [Authorize(Roles = "Teacher")]
+        [Authorize(Roles = "Teacher,Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<ServiceResponse<Resource>>> DeleteResource(int id)
         {

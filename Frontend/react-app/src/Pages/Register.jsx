@@ -12,7 +12,7 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
 
   const initData = {
-    role: "",
+    role: "Admin",
     userName: "",
     firstName: "",
     lastName: "",

@@ -7,7 +7,7 @@ import Sidebar from '../../Sidebar';
 
 
 
-
+const notify = (text) => toast(text);
 const CreateQuiz = () => {
 
   const { error, message } = useSelector((store) => store.data); // Assuming Redux state structure
@@ -57,6 +57,7 @@ const CreateQuiz = () => {
         }
       ]
     });
+    notify("Quiz Created");
   };
 
   const onChange = (e) => {

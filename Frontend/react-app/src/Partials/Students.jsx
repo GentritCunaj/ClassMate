@@ -9,9 +9,9 @@ import StudyGroupsReports from '../Partials/StudyGroupReports';
 import {useNavigate } from "react-router-dom";
 import {GetInfo} from '../Redux/auth/action';
 import { getAllUsers } from '../Redux/data/action';
-const Students = () => {
+const Teachers = () => {
   const dispatch = useDispatch();
-
+ 
   const {user} = useSelector((store) => store.auth);
 
 
@@ -27,7 +27,7 @@ const Students = () => {
    <div style={{display:"flex",flexDirection:"column",margin:"0 auto",height:"100vh", gap: "30px"}}>
 
 
-{user && user.fRole == 'Teacher' || user.fRole == 'Admin' && (
+{user && (user.fRole == 'Admin' || user.fRole == 'Teacher') && (
     <>
        
        <div style={{paddingTop:"100px"}}>
@@ -49,4 +49,4 @@ const Students = () => {
   );
 }
 
-export default Students;
+export default Teachers;

@@ -13,7 +13,7 @@ const CreateReport = () => {
     const { loading, error, message } = useSelector((store) => store.data);
     const {user} = useSelector((store) => store.auth);
     var userId = user.id;
-    const [reportValue, setReportValue] = useState({
+    const initData = {
         studyGroupId: null,
         title: null,
         creatorId:userId,
@@ -23,7 +23,8 @@ const CreateReport = () => {
         quizId:null,
         userId:null,
         chatMessageId:null,
-    });
+    }
+    const [reportValue, setReportValue] = useState(initData);
 
     const handleReportChange = (e) => {
         setReportValue({ ...reportValue, [e.target.name]: e.target.value });
@@ -48,7 +49,9 @@ const CreateReport = () => {
         };
     
         dispatch(createReport(reportDto));
-        window.location.reload();
+        setReportValue(initData);
+        notify("Reported");
+        
     };
 
     return (

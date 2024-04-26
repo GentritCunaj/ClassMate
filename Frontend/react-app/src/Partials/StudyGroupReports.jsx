@@ -34,7 +34,7 @@ const StudyGroupsReports = () => {
 
     const handleDeleteStudyGroup = async (studyGroupId) => {
         try {
-            await dispatch(deleteStudyGroup(studyGroupId));
+         dispatch(deleteStudyGroup(studyGroupId));
             console.log("Study group deleted successfully.");
     
             // After successful deletion, fetch the updated list of study group reports
@@ -47,6 +47,7 @@ const StudyGroupsReports = () => {
     return (
         <div id="dashboardContainer" className="container pt-4">
             <TableContainer id="tableContainer" sx={{ width: 1000 }}>
+                <h1>Study Groups with Reports</h1>
                 <Table stickyHeader>
                     <TableHead>
                         <TableRow>

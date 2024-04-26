@@ -4,9 +4,11 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import "../assets/css/modal.css";
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { createStudyGroup } from '../Redux/data/action';
+import { ToastContainer, toast } from "react-toastify";
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -19,8 +21,12 @@ const style = {
   p: 4,
 
 };
+
+
+const notify = (text) => toast(text);
 const ModalC= ({ onClose }) => {
-   
+  const {user} = useSelector((store) => store.auth);
+  var userId = user.id;
   const [error,setError] = useState(false);
 
 
@@ -28,9 +34,9 @@ const ModalC= ({ onClose }) => {
     studyGroupId: uuidv4(),
     groupName: '',
     description: '',
-    creatorId: 'f4a29ab4-e4fb-494a-8c7f-a76c6cf39fba', 
-    visibility: 0, // Default value
-    type: 0,
+    creatorId: userId, 
+    visibility: "", // Default value
+    type: "",
     reports:0,
     
   });
@@ -59,12 +65,15 @@ const ModalC= ({ onClose }) => {
       type: studyGroupData.type,
       reports: studyGroupData.reports
     };
-
+    console.log(studyGroupDto);
     dispatch(createStudyGroup(studyGroupDto));
+    notify("Study Group Created");
     onClose();
   };
 
   return (
+    <>
+    <ToastContainer/>
     <Modal
     open='true'
     onClose={onClose}
@@ -98,9 +107,9 @@ const ModalC= ({ onClose }) => {
                 className="modalInput"
                 
               >
-                <option value="">Select visibility</option>
-                <option value= {0} >Private</option>
-                <option value={0}>Public</option>
+                <option value={null}>Select visibility</option>
+                <option value={"0"} >Private</option>
+                <option value={"1"}>Public</option>
               </select>
 
               <select
@@ -110,9 +119,9 @@ const ModalC= ({ onClose }) => {
                 onChange={handleChange}
                 
               >
-                <option value="">Select type</option>
-                <option value={0}>Video</option>
-                <option value={0}>Message</option>
+                <option value={null}>Select type</option>
+                <option value={"0"}>Video</option>
+                <option value={"1"}>Message</option>
               </select>
               {error && (
                 <p className="text-red-500">Please fill in all required fields</p>
@@ -121,6 +130,8 @@ const ModalC= ({ onClose }) => {
             </form>
     </Box>
   </Modal>
+    </>
+    
   );
 }
 

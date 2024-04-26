@@ -43,6 +43,7 @@ export const getAllUsers = (data) => async (dispatch) => {
 
 
 export const reportRoom = (data) => async (dispatch) => {
+    
     try {
         dispatch({ type: types.REPORT_STUDY_ROOM_REQUEST });
 
@@ -81,6 +82,7 @@ export const reportRoom = (data) => async (dispatch) => {
 }
 
 export const deleteStudyGroup = (studyGroupId) => async (dispatch) => {
+    debugger;
     try {
         dispatch({ type: types.DELETE_STUDY_GROUP_REQUEST });
 
@@ -263,6 +265,7 @@ export const getAllStudyGroupsReports = () => async (dispatch) => {
 
 
 export const createStudyGroup = (data) => async (dispatch) => {
+    
     try {
 
         dispatch({ type: types.POST_STUDY_GROUP_REQUEST });
@@ -910,7 +913,7 @@ export const joinRoom = (data) => async (dispatch) => {
 };
 
 export const createReport = (data) => async (dispatch) => {
-debugger;
+
     try {
 
         dispatch({ type: types.POST_REPORT_REQUEST });

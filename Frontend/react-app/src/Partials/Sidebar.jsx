@@ -65,7 +65,7 @@ const Sidebar = () => {
               </div>
             </li>
           )}
-           {user && user.fRole === 'Teacher' && (
+           {user && (user.fRole === 'Teacher' || user.fRole === 'Admin') && (
       <li>
         <div class="iocn-link">
           <a href="/report">

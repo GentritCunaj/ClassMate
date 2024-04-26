@@ -15,11 +15,11 @@ const Dashboard = () => {
   const navigate = useNavigate();
   
 
-  // Get user and data from Redux store
+  
   const { user } = useSelector((store) => store.auth);
   const { teachers, students, admins, loading } = useSelector((store) => store.data);
 
-  // Fetch all users based on role
+  
   useEffect(() => {
     const fetchUserInfo = async () => {
       // Ensure that the authentication token is set and ready before fetching user info
@@ -49,10 +49,13 @@ const Dashboard = () => {
       <div className='contentContainer'>
         {user && (
           <>
+
+            {user.fRole==='Admin' && <Containers/> }
             {user.fRole === 'Teacher' && <Cards />}
-            {user.fRole === 'Admin' && <Tables role={admins} name="Admins" /> && <Containers/>}
+            {user.fRole === 'Admin' && <Tables role={admins} name="Admins" /> }
             {user.fRole === 'Teacher' && <Tables role={students} name="Students" />}
             {user.fRole === 'Teacher' && <PublicGroups />}
+            {user.fRole === 'Admin' && <PublicGroups />}
             {user.fRole === 'Admin' && <StudyGroupsReports />}
           </>
         )}

@@ -1,6 +1,6 @@
 import React, { useState, } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createReport } from "../Redux/data/action";
+import { createReport,reportRoom } from "../Redux/data/action";
 import { ToastContainer, toast } from "react-toastify";
 import { useParams } from 'react-router-dom';
 import Sidebar from './Sidebar';
@@ -50,6 +50,8 @@ const CreateReport = () => {
     
         dispatch(createReport(reportDto)).then((res)=>{
             setReportValue(initData);
+            debugger;
+            reportRoom(studyGroupId);
             notify("Reported")
         });
 

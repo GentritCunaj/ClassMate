@@ -46,69 +46,69 @@ function App() {
 
 
         <Route path="/quiz" element={
-          <PrivateRoute roles={['Teacher']}><Quiz /></PrivateRoute>} />
+          <PrivateRoute roles={['Teacher', 'Admin']}><Quiz /></PrivateRoute>} />
 
         <Route path="/assignment" element={
-          <PrivateRoute roles={['Teacher']}><Assignment /></PrivateRoute>} />
+          <PrivateRoute roles={['Teacher', 'Admin']}><Assignment /></PrivateRoute>} />
 
 
         <Route path="/resource" element={
-          <PrivateRoute roles={['Teacher']}><Resource /></PrivateRoute>} />
+          <PrivateRoute roles={['Teacher', 'Admin']}><Resource /></PrivateRoute>} />
 
           <Route path="/report" element={
-          <PrivateRoute roles={['Teacher']}><Report /></PrivateRoute>} />
+          <PrivateRoute roles={['Teacher', 'Admin']}><Report /></PrivateRoute>} />
 
         <Route path="/unauthorized" element={<UnAuthorized />} />
 
         <Route path="/createquiz" element={
-          <PrivateRoute roles={['Teacher']}><CreateQuiz /></PrivateRoute>} />
+          <PrivateRoute roles={['Teacher', 'Admin']}><CreateQuiz /></PrivateRoute>} />
 
         <Route path="/quiz" element={
-          <PrivateRoute roles={['Teacher']}><Quiz /></PrivateRoute>} />
+          <PrivateRoute roles={['Teacher', 'Admin']}><Quiz /></PrivateRoute>} />
 
         <Route path="/editquiz/:quizId" element={
-          <PrivateRoute roles={['Teacher']}><EditQuiz /></PrivateRoute>} />
+          <PrivateRoute roles={['Teacher', 'Admin']}><EditQuiz /></PrivateRoute>} />
 
         <Route path="/createassignment" element={
-          <PrivateRoute roles={['Teacher']}><CreateAssignment /></PrivateRoute>} />
+          <PrivateRoute roles={['Teacher', 'Admin']}><CreateAssignment /></PrivateRoute>} />
 
         <Route path="/createResource" element={
-          <PrivateRoute roles={['Teacher']}><CreateResource /></PrivateRoute>} />
+          <PrivateRoute roles={['Teacher', 'Admin']}><CreateResource /></PrivateRoute>} />
 
           {/* <Route path="/createReport" element={
           <PrivateRoute roles={['Teacher']}><CreateReport /></PrivateRoute>} /> */}
 
         <Route path="/allassignment" element={
-          <PrivateRoute roles={['Teacher']}><AllAsignments /></PrivateRoute>} />
+          <PrivateRoute roles={['Teacher', 'Admin']}><AllAsignments /></PrivateRoute>} />
 
         <Route path="/updateassignments/:assignmentId" element={
-          <PrivateRoute roles={['Teacher']}><UpdateAssignments /></PrivateRoute>} />
+          <PrivateRoute roles={['Teacher', 'Admin']}><UpdateAssignments /></PrivateRoute>} />
 
           <Route path="/updateresource/:resourceId" element={
-          <PrivateRoute roles={['Teacher']}><UpdateResource /></PrivateRoute>} />
+          <PrivateRoute roles={['Teacher', 'Admin']}><UpdateResource /></PrivateRoute>} />
 
           <Route path="/reportresource/:resourceId" element={
-          <PrivateRoute roles={['Teacher']}><CreateReportResource /></PrivateRoute>} />
+          <PrivateRoute roles={['Teacher', 'Admin']}><CreateReportResource /></PrivateRoute>} />
 
           <Route path="/reportassignment/:assignmentId" element={
-          <PrivateRoute roles={['Teacher']}><CreateReportAssignment /></PrivateRoute>} />
+          <PrivateRoute roles={['Teacher', 'Admin']}><CreateReportAssignment /></PrivateRoute>} />
 
           <Route path="/reportquiz/:quizId" element={
-          <PrivateRoute roles={['Teacher']}><CreateReportQuiz /></PrivateRoute>} />
+          <PrivateRoute roles={['Teacher', 'Admin']}><CreateReportQuiz /></PrivateRoute>} />
 
           <Route path="/reportstudygroup/:studyGroupId" element={
-          <PrivateRoute roles={['Teacher']}><CreateReportStudyGroup /></PrivateRoute>} />
+          <PrivateRoute roles={['Teacher', 'Admin']}><CreateReportStudyGroup /></PrivateRoute>} />
           
 
         <Route path="/allquiz" element={
-          <PrivateRoute roles={['Teacher']}><AllQuizzes /></PrivateRoute>} />
+          <PrivateRoute roles={['Teacher', 'Admin']}><AllQuizzes /></PrivateRoute>} />
 
 
         <Route path="/assignment" element={
-          <PrivateRoute roles={['Teacher']}><Assignment /></PrivateRoute>} />
+          <PrivateRoute roles={['Teacher', 'Admin']}><Assignment /></PrivateRoute>} />
 
         <Route path="/resource" element={
-          <PrivateRoute roles={['Teacher']}><Resource /></PrivateRoute>} />
+          <PrivateRoute roles={['Teacher', 'Admin']}><Resource /></PrivateRoute>} />
 
         <Route path="/students" element={
           <PrivateRoute roles={['Teacher', 'Admin']}><Students /></PrivateRoute>} />

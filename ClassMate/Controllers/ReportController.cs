@@ -29,7 +29,7 @@ namespace ClassMate.Controllers
 
         // GET: api/Reports
 
-        [Authorize(Roles = "Student,Teacher")]
+        [Authorize(Roles = "Teacher,Admin")]
         [HttpGet]
         public async Task<ActionResult<ServiceResponse<IEnumerable<Report>>>> GetReports()
         {
@@ -42,7 +42,7 @@ namespace ClassMate.Controllers
         }
 
         // GET: api/Reports/5
-        [Authorize(Roles = "Student,Teacher")]
+        [Authorize(Roles = "Teacher,Admin")]
         [HttpGet("{id}")]
         public async Task<ActionResult<ServiceResponse<Report>>> GetReport(int id)
         {
@@ -59,7 +59,7 @@ namespace ClassMate.Controllers
             return Ok(response);
         }
 
-        [Authorize(Roles = "Teacher")]
+        [Authorize(Roles = "Teacher,Admin,Student")]
         [HttpPost("add")]
         public async Task<ActionResult<ServiceResponse<List<Report>>>> PostReport(ReportDto reportDto)
         {
@@ -121,7 +121,7 @@ namespace ClassMate.Controllers
             return Ok(response);
         }
 
-        [Authorize(Roles = "Teacher")]
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<ActionResult<ServiceResponse<Report>>> UpdateReport(int id, ReportDto updatedReportDto)
         {
@@ -173,7 +173,7 @@ namespace ClassMate.Controllers
 
 
         // DELETE: api/Reports/5
-        [Authorize(Roles = "Teacher")]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<ServiceResponse<Report>>> DeleteReport(int id)
         {
