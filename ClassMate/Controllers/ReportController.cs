@@ -206,6 +206,87 @@ namespace ClassMate.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("del/{type}/{id}")]
+        public async Task<ActionResult<ServiceResponse<List<Report>>>> DeleteReports(string type,string id)
+        {
+
+            var response = new ServiceResponse<List<Report>>();
+            try
+            {
+                if (type == null)
+                {
+                    return NotFound("type not found");
+                }
+                var reportsToRemove = new List<Report>();
+                switch (type)
+                {
+                    case "StudyGroup":
+                        {
+                            reportsToRemove = await _context.Reports.Where(r => r.StudyGroupId == id).ToListAsync();
+                            break;
+                        }
+
+                    case "Assignment":
+                        {
+                            int number = int.Parse(id);
+                            reportsToRemove = await _context.Reports.Where(r => r.AssignmentId == number).ToListAsync();
+                            break;
+                        }
+
+                    case "User":
+                        {
+                            reportsToRemove = await _context.Reports.Where(r => r.UserId == id).ToListAsync();
+                            break;
+                        }
+
+                    case "Resource":
+                        {
+                            int number = int.Parse(id);
+                            reportsToRemove = await _context.Reports.Where(r => r.ResourceId == number).ToListAsync();
+                            break;
+                        }
+
+                    case "Quiz":
+                        {
+                            int number = int.Parse(id);
+                            reportsToRemove = await _context.Reports.Where(r => r.QuizId == number).ToListAsync();
+                            break;
+                        }
+
+                    case "ChatMessage":
+                        {
+                            int number = int.Parse(id);
+                            reportsToRemove = await _context.Reports.Where(r => r.ChatMessageId == number).ToListAsync();
+                            break;
+                        }
+                }
+
+
+                if (reportsToRemove == null)
+                {
+                    return NotFound();
+                }
+                _context.Reports.RemoveRange(reportsToRemove);
+                await _context.SaveChangesAsync();
+
+                
+
+                response.Data = await _context.Reports.ToListAsync();
+                response.Success = true;
+                response.Message = "Report Deleted";
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as per your application's requirement
+                response.Success = false;
+                response.Message = ex.Message;
+                return StatusCode(500, response); // Return 500 status code with error message
+            }
+
+            return Ok(response);
+        }
+
 
     }
 }

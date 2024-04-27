@@ -225,6 +225,7 @@ namespace ClassMate.Controllers
         public async Task<ActionResult<ServiceResponse<StudyGroup>>> DeleteStudyGroup(string studyGroupId)
         {
             var response = new ServiceResponse<List<StudyGroup>>();
+            
 
             try
             {
@@ -235,7 +236,8 @@ namespace ClassMate.Controllers
                     response.Message = "Study group not found.";
                     return NotFound(response);
                 }
-
+                
+                
                 _db.StudyGroups.Remove(studyGroup);
                 await _db.SaveChangesAsync();
 

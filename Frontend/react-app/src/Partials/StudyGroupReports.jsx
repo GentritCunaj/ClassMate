@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Button } from "@mui/material";
 import { getAllStudyGroupsReports } from "../Redux/data/action";
-import { deleteStudyGroup } from "../Redux/data/action";
+import { deleteStudyGroup,deleteReports,deleteResources } from "../Redux/data/action";
 
 const StudyGroupsReports = () => {
     const dispatch = useDispatch();
@@ -33,16 +33,29 @@ const StudyGroupsReports = () => {
     }, [dispatch]);
 
     const handleDeleteStudyGroup = async (studyGroupId) => {
+        debugger;
         try {
-         dispatch(deleteStudyGroup(studyGroupId));
-            console.log("Study group deleted successfully.");
+            // Dispatch deleteReports action first
+            const deleteReportsResponse = await dispatch(deleteReports("StudyGroup", studyGroupId));
+            console.log("Reports deleted successfully.", deleteReportsResponse);
+
+            const deleteResourcesResponse = await dispatch(deleteResources(studyGroupId));
+            console.log("Resources deleted successfully.", deleteResourcesResponse);
+            // If the deletion of reports was successful, proceed with deleting the study group
+            if (deleteReportsResponse.success && deleteResourcesResponse.success) {
+                const deleteStudyGroupResponse = await dispatch(deleteStudyGroup(studyGroupId));
+                console.log("Study group deleted successfully.", deleteStudyGroupResponse);
     
-            // After successful deletion, fetch the updated list of study group reports
-            dispatch(getAllStudyGroupsReports());
+                // After successful deletion, fetch the updated list of study group reports
+                dispatch(getAllStudyGroupsReports());
+            } else {
+                console.error("Error deleting reports:", deleteReportsResponse.message);
+            }
         } catch (error) {
             console.error("Error deleting study group:", error);
         }
     };
+    
 
     return (
         <div id="dashboardContainer" className="container pt-4">

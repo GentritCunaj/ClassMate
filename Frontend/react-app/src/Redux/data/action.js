@@ -114,7 +114,41 @@ export const deleteStudyGroup = (studyGroupId) => async (dispatch) => {
 
         throw error.response.data;
     }
+};export const deleteResources = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: types.DELETE_RESOURCE_REQUEST });
+
+        const res = await axios.delete(
+            `https://localhost:7168/Resource/del/${id}`, // Correct URL format
+            {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token")
+                }
+            }
+        );
+
+        dispatch({
+            type: types.DELETE_RESOURCE_SUCCESS,
+            payload: {
+                message: res.data.message,
+                success: res.data.success,
+                data: res.data.data
+            }
+        });
+
+        return res.data;
+    } catch (error) {
+        dispatch({
+            type: types.DELETE_RESOURCE_ERROR,
+            payload: {
+                message: error.response.data.message
+            }
+        });
+
+        throw error.response.data;
+    }
 };
+
 
 
 export const deleteResource = (resourceId) => async (dispatch) => {
@@ -186,6 +220,43 @@ export const deleteReport = (reportId) => async (dispatch) => {
         throw error.response.data;
     }
 };
+
+export const deleteReports = (type, id) => async (dispatch) => {
+    try {
+        dispatch({ type: types.DELETE_REPORT_REQUEST });
+
+        const res = await axios.delete(
+            `https://localhost:7168/Report/del/${type}/${id}`, // Correct URL format
+            {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token")
+                }
+            }
+        );
+
+        dispatch({
+            type: types.DELETE_REPORT_SUCCESS,
+            payload: {
+                message: res.data.message,
+                success: res.data.success,
+                data: res.data.data
+            }
+        });
+
+        return res.data;
+    } catch (error) {
+        dispatch({
+            type: types.DELETE_REPORT_ERROR,
+            payload: {
+                message: error.response.data.message
+            }
+        });
+
+        throw error.response.data;
+    }
+};
+
+
 
 export const getAllPublicRooms = () => async (dispatch) => {
     try {

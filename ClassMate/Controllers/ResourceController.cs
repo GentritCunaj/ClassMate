@@ -242,6 +242,43 @@ namespace ClassMate.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("del/{id}")]
+        public async Task<ActionResult<ServiceResponse<List<Report>>>> DeleteResources(string id)
+        {
+
+            var response = new ServiceResponse<List<Report>>();
+            try
+            {
+               
+                var resourcesToRemove = await _context.Resources.Where(r => r.StudyGroupId == id).ToListAsync();
+                
+
+
+                if (resourcesToRemove == null)
+                {
+                    return NotFound();
+                }
+                _context.Resources.RemoveRange(resourcesToRemove);
+                await _context.SaveChangesAsync();
+
+
+
+                response.Data = await _context.Reports.ToListAsync();
+                response.Success = true;
+                response.Message = "Report Deleted";
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as per your application's requirement
+                response.Success = false;
+                response.Message = ex.Message;
+                return StatusCode(500, response); // Return 500 status code with error message
+            }
+
+            return Ok(response);
+        }
+
 
     }
 }
