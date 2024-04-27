@@ -56,7 +56,21 @@ namespace ClassMate.Controllers
         public async Task<ActionResult<ServiceResponse<List<StudyGroup>>>> PostStudyGroup(StudyGroupDto studyGroupDto)
         {
             var response = new ServiceResponse<List<StudyGroup>>();
-            
+
+
+            if (!Enum.TryParse(typeof(StudyGroup.VisibilityEnum), studyGroupDto.Visibility, out var visibility))
+            {
+                return BadRequest("Invalid visibility type.");
+            }
+
+            // Convert string representation of type to enum value
+            if (!Enum.TryParse(typeof(StudyGroup.TypeEnum), studyGroupDto.Type, out var type))
+            {
+                return BadRequest("Invalid group type.");
+            }
+
+
+
             var user = _db.Users.FirstOrDefault(u => u.Id == studyGroupDto.CreatorId);
             var studyGroup = new StudyGroup
             {
@@ -64,9 +78,10 @@ namespace ClassMate.Controllers
                 CreatorId = user.Id,
                 GroupName = studyGroupDto.GroupName,
                 Description = studyGroupDto.Description,
-                Visibility = studyGroupDto.Visibility,
-                Type = studyGroupDto.Type,
-                Creator = user // Set the Creator property with the fetched user
+                Visibility = (StudyGroup.VisibilityEnum)visibility,
+                Reports = studyGroupDto.Reports,
+                Type = (StudyGroup.TypeEnum)type,
+                Creator = user 
             };
 
             try
@@ -96,7 +111,7 @@ namespace ClassMate.Controllers
 
      
 
-        [Authorize(Roles = "Student,Teacher")]
+        [Authorize(Roles = "Student,Teacher,Admin")]
         [HttpPost("report")]
         public async Task<ActionResult<ServiceResponse<StudyGroup>>> ReportStudyGroup(string studyGroupId)
         {
@@ -207,9 +222,10 @@ namespace ClassMate.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{studyGroupId}")]
-        public async Task<ActionResult<ServiceResponse<string>>> DeleteStudyGroup(string studyGroupId)
+        public async Task<ActionResult<ServiceResponse<StudyGroup>>> DeleteStudyGroup(string studyGroupId)
         {
-            var response = new ServiceResponse<string>();
+            var response = new ServiceResponse<List<StudyGroup>>();
+            
 
             try
             {
@@ -220,10 +236,12 @@ namespace ClassMate.Controllers
                     response.Message = "Study group not found.";
                     return NotFound(response);
                 }
-
+                
+                
                 _db.StudyGroups.Remove(studyGroup);
                 await _db.SaveChangesAsync();
 
+                response.Data = await _db.StudyGroups.ToListAsync();
                 response.Success = true;
                 response.Message = "Study group deleted successfully.";
                 return Ok(response);
@@ -232,7 +250,7 @@ namespace ClassMate.Controllers
             {
                 response.Success = false;
                 response.Message = $"Error deleting study group: {ex.Message}";
-                return StatusCode(StatusCodes.Status500InternalServerError, response);
+                return StatusCode(500, response);
             }
         }
 

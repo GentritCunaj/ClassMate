@@ -27,7 +27,7 @@ const Teachers = () => {
    <div style={{display:"flex",flexDirection:"column",margin:"0 auto",height:"100vh", gap: "30px"}}>
 
 
-{user && user.fRole == 'Admin' && (
+{user && (user.fRole == 'Admin' || user.fRole == 'Teacher') && (
     <>
        
        <div style={{paddingTop:"100px"}}>

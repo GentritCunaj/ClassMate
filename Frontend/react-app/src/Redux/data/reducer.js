@@ -126,7 +126,7 @@ export default function dataReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         loading: false,
-        deleteStudyRoom: payload.data,
+        studyGroupReports: payload.data,
         error: null
       };
 
@@ -259,8 +259,7 @@ export default function dataReducer(state = initialState, { type, payload }) {
 
     case types.POST_STUDY_GROUP_SUCCESS:
       return { ...state, loading: false, modalCreated: true }
-    case types.POST_STUDY_GROUP_SUCCESS:
-      return { ...state, loading: false, modalCreated: true }
+    
 
     case type.GET_RESOURCES_ERROR:
       return { ...state, error: payload.data, loading: false };

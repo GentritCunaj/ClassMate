@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination,Button } from "@mui/material";
 import { getAllReports,deleteReport } from "../../../Redux/data/action";
 import { Link } from 'react-router-dom';
+import { ToastContainer, toast } from "react-toastify";
 
+
+const notify = (text) => toast(text);
 
 const AllReports = () => {
     const dispatch = useDispatch();
@@ -41,13 +44,19 @@ const AllReports = () => {
     };
     const handleDeleteReport = (reportId) => {
 
-        dispatch(deleteReport(reportId)); // Dispatch deleteResource action with the resourceId
+        dispatch(deleteReport(reportId));
+        notify( "Report with ID : \"" + reportId + "\" has been deleted") // Dispatch deleteResource action with the resourceId
     };
 
     // Filter quizzes based on the creatorId
     const userReports =  reports ? reports || reports.filter(resource => resource.creatorId === user.id) : [];
 
     return (
+
+        <>
+        <ToastContainer />
+        
+        
         <div id="dashboardContainer" className="container pt-4">
             <TableContainer id="tableContainer" sx={{ width: 1000 }}>
                 <Table stickyHeader>
@@ -73,11 +82,11 @@ const AllReports = () => {
                                         );
                                     })}
                                     <TableCell>
-                                    <Button style={{marginRight:'10px'}} component={Link} to={`/UpdateReport/${row.reportId}`} variant="contained" color="primary">Edit</Button>
+                                    {/* <Button style={{marginRight:'10px'}} component={Link} to={`/UpdateReport/${row.reportId}`} variant="contained" color="primary">Edit</Button> */}
                                     <Button  
                         variant="contained" 
                         color="secondary" 
-                        onClick={() => handleDeleteReport(row.reportId)} // Call deleteResource with the resourceId
+                        onClick={() => handleDeleteReport(row.reportId)  } // Call deleteResource with the resourceId
                     >
                         Delete
                     </Button>
@@ -98,6 +107,7 @@ const AllReports = () => {
                 onRowsPerPageChange={handleRowsPerPageChange}
             />
         </div>
+        </>
     );
 };
 

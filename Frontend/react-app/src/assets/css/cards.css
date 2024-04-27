@@ -8,6 +8,8 @@
   align-self: flex-start;
   display: flex;
   min-height: 50px;
+  margin-top: 5vh;
+  margin-bottom: 6vh;
   align-items: center;
   justify-content: center;
   font-family: 'Open Sans', sans-serif;
