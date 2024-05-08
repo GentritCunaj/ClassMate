@@ -192,7 +192,7 @@ const Register = () => {
               {loading ? "Loading..." : "Submit"}
             </button>
           </form>
-          <p style={{ textAlign: 'center' }}>Have already an account? <a href="/">Login here</a></p>
+          <p style={{ textAlign: 'center' }}>Have already an account? <a href="/login">Login here</a></p>
         </div>
       </div>
     </div>

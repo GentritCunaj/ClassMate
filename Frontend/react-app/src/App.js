@@ -29,13 +29,16 @@ import UpdateAssignments from './Partials/AllPartials/Assignment/UpdateAssignmen
 import UpdateResource from './Partials/AllPartials/Resource/UpdateResource';
 import Students from './Partials/Students';
 import Teachers from './Partials/Teachers';
-
+import Home from "./Pages/home/Home"
+import About from "./Pages/about/About"
 function App() {
   return (
     <Router>
+      
       <Routes>
-
-        <Route path="/" element={<Login />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<UserProfile />} />
 
         <Route path="/dashboard" element={
@@ -118,6 +121,7 @@ function App() {
 
 
       </Routes>
+     
     </Router>
   );
 }
