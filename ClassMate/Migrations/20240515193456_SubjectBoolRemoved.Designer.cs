@@ -4,6 +4,7 @@ using ClassMate.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClassMate.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240515193456_SubjectBoolRemoved")]
+    partial class SubjectBoolRemoved
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,9 +123,6 @@ namespace ClassMate.Migrations
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("int");
-
                     b.Property<string>("TeacherId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -132,8 +132,6 @@ namespace ClassMate.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AssignmentId");
-
-                    b.HasIndex("SubjectId");
 
                     b.HasIndex("TeacherId");
 
@@ -245,8 +243,8 @@ namespace ClassMate.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("int");
+                    b.Property<string>("StudyGroupId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -258,7 +256,7 @@ namespace ClassMate.Migrations
 
                     b.HasKey("ResourceId");
 
-                    b.HasIndex("SubjectId");
+                    b.HasIndex("StudyGroupId");
 
                     b.HasIndex("UserId");
 
@@ -295,26 +293,6 @@ namespace ClassMate.Migrations
                     b.HasIndex("CreatorId");
 
                     b.ToTable("StudyGroups");
-                });
-
-            modelBuilder.Entity("ClassMate.Models.Subject", b =>
-                {
-                    b.Property<int>("SubjectId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SubjectId"));
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("SubjectId");
-
-                    b.ToTable("Subjects");
                 });
 
             modelBuilder.Entity("ClassMate.Models.UserStudyGroup", b =>
@@ -531,8 +509,9 @@ namespace ClassMate.Migrations
                     b.Property<int>("PointPerQuestion")
                         .HasColumnType("int");
 
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("int");
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Thumbnail")
                         .IsRequired()
@@ -549,26 +528,16 @@ namespace ClassMate.Migrations
 
                     b.HasIndex("CreatorId");
 
-                    b.HasIndex("SubjectId");
-
                     b.ToTable("Quizzes");
                 });
 
             modelBuilder.Entity("ClassMate.Models.Assignment", b =>
                 {
-                    b.HasOne("ClassMate.Models.Subject", "Subject")
-                        .WithMany("Assignments")
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ClassMate.Models.ApplicationUser", "Teacher")
                         .WithMany()
                         .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Subject");
 
                     b.Navigation("Teacher");
                 });
@@ -641,11 +610,9 @@ namespace ClassMate.Migrations
 
             modelBuilder.Entity("ClassMate.Models.Resource", b =>
                 {
-                    b.HasOne("ClassMate.Models.Subject", "Subject")
-                        .WithMany("Resources")
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("ClassMate.Models.StudyGroup", "StudyGroup")
+                        .WithMany()
+                        .HasForeignKey("StudyGroupId");
 
                     b.HasOne("ClassMate.Models.ApplicationUser", "User")
                         .WithMany()
@@ -653,7 +620,7 @@ namespace ClassMate.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Subject");
+                    b.Navigation("StudyGroup");
 
                     b.Navigation("User");
                 });
@@ -758,29 +725,12 @@ namespace ClassMate.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ClassMate.Models.Subject", "Subject")
-                        .WithMany("Quizes")
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Creator");
-
-                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("ClassMate.Models.StudyGroup", b =>
                 {
                     b.Navigation("ChatMessages");
-                });
-
-            modelBuilder.Entity("ClassMate.Models.Subject", b =>
-                {
-                    b.Navigation("Assignments");
-
-                    b.Navigation("Quizes");
-
-                    b.Navigation("Resources");
                 });
 
             modelBuilder.Entity("Quiz", b =>

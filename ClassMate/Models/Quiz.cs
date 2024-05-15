@@ -14,9 +14,10 @@ public class Quiz
     public string Thumbnail { get; set; } = "https://akm-img-a-in.tosshub.com/aajtak/2023-02/quiz_01.png";
 
 
-    public string Subject { get; set; }
+    public int SubjectId { get; set; }
 
-    
+    [ForeignKey("SubjectId")]
+    public virtual Subject Subject { get; set; }
     public string CreatorId { get; set; }
 
     

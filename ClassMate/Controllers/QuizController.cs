@@ -45,7 +45,7 @@ namespace ClassMate.Controllers
                 {
                     Title = quizDto.Title,
                     Thumbnail = quizDto.Thumbnail,
-                    Subject = quizDto.Subject,
+                   
                     CreatorId = quizDto.CreatorId,
                     NoOfQuestions = quizDto.NoOfQuestions,
                     PointPerQuestion = quizDto.PointPerQuestion,
@@ -186,7 +186,7 @@ namespace ClassMate.Controllers
                 // Update quiz properties
                 quiz.Title = updatedQuizDto.Title;
                 quiz.Thumbnail = updatedQuizDto.Thumbnail;
-                quiz.Subject = updatedQuizDto.Subject;
+            
                 quiz.CreatorId = updatedQuizDto.CreatorId;
                 quiz.NoOfQuestions = updatedQuizDto.NoOfQuestions;
                 quiz.PointPerQuestion = updatedQuizDto.PointPerQuestion;

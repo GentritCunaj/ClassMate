@@ -4,6 +4,7 @@ using ClassMate.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClassMate.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240515201936_SubjectRemovedFromQuiz")]
+    partial class SubjectRemovedFromQuiz
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -531,9 +534,6 @@ namespace ClassMate.Migrations
                     b.Property<int>("PointPerQuestion")
                         .HasColumnType("int");
 
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Thumbnail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -548,8 +548,6 @@ namespace ClassMate.Migrations
                     b.HasKey("QuizID");
 
                     b.HasIndex("CreatorId");
-
-                    b.HasIndex("SubjectId");
 
                     b.ToTable("Quizzes");
                 });
@@ -758,15 +756,7 @@ namespace ClassMate.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ClassMate.Models.Subject", "Subject")
-                        .WithMany("Quizes")
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Creator");
-
-                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("ClassMate.Models.StudyGroup", b =>
@@ -777,8 +767,6 @@ namespace ClassMate.Migrations
             modelBuilder.Entity("ClassMate.Models.Subject", b =>
                 {
                     b.Navigation("Assignments");
-
-                    b.Navigation("Quizes");
 
                     b.Navigation("Resources");
                 });

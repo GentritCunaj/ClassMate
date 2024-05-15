@@ -111,13 +111,13 @@ namespace ClassMate.Controllers
                 // Create a new Resource object
                 var resource = new Resource
                 {
-                    StudyGroupId = resourceDto.StudyGroupId,
+                   
                     UserId = resourceDto.UserId,
                     Title = resourceDto.Title,
                     Description = resourceDto.Description,
                     FileUrl = fileUrl,
                     User = user,
-                    StudyGroup = studyGroup,
+                
                     FileInput = resourceDto.FileInput
                 };
 
@@ -244,15 +244,15 @@ namespace ClassMate.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("del/{id}")]
-        public async Task<ActionResult<ServiceResponse<List<Report>>>> DeleteResources(string id)
+        public async Task<ActionResult<ServiceResponse<List<Report>>>> DeleteResources(int id)
         {
 
             var response = new ServiceResponse<List<Report>>();
             try
             {
-               
-                var resourcesToRemove = await _context.Resources.Where(r => r.StudyGroupId == id).ToListAsync();
-                
+
+                var resourcesToRemove = await _context.Resources.Where(r => r.SubjectId == id).ToListAsync();
+
 
 
                 if (resourcesToRemove == null)

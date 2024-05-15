@@ -20,6 +20,8 @@ namespace ClassMate.Data
         public DbSet<Question> Questions { get; set; } 
         public DbSet<Report> Reports { get; set; }
 
+        public DbSet<Subject> Subjects { get; set; }
+
     }
 
 

@@ -12,6 +12,9 @@ namespace ClassMate.Models
         public string TeacherId { get; set; }
         public ApplicationUser Teacher { get; set; }
 
+        public int SubjectId { get; set; }
+        public virtual Subject Subject { get; set; }
+
     }
     
     }
