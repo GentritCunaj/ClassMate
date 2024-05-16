@@ -105,7 +105,8 @@ namespace ClassMate.Controllers
                 Title = assignmentDto.Title,
                 Description = assignmentDto.Description,
                 DueDate =assignmentDto.DueDate,
-                Teacher = user // Set the Creator property with the fetched user
+                Teacher = user,// Set the Creator property with the fetched user
+                SubjectId=assignmentDto.SubjectId
             };
 
             try

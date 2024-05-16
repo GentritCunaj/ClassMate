@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createAssignment } from "../../../Redux/data/action";
+import { createAssignment, getAllSubjects } from "../../../Redux/data/action";
 import { ToastContainer, toast } from "react-toastify";
 import Sidebar from "../../Sidebar";
 import AllAsignments from "./AllAsignments";
@@ -21,10 +21,15 @@ const CreateAssignment = () => {
         description: "",
         teacherId: teacherId,
         dueDate: "",
-
+        subjectId: "" // Add subjectId field
     };
 
     const [assignmentValue, setAssignmentValue] = useState(initData);
+    const { subjects } = useSelector((store) => store.data); // Subjects from Redux state
+
+    useEffect(() => {
+        dispatch(getAllSubjects());
+    }, []);
 
     const handleAssignmentChange = (e) => {
         setAssignmentValue({ ...assignmentValue, [e.target.name]: e.target.value });
@@ -82,7 +87,23 @@ const CreateAssignment = () => {
                                 required
                             />
                         </div>
-                    
+                        <div className="form-group">
+                            <label>Select Subject</label>
+                            <select
+                                className="form-control"
+                                name="subjectId"
+                                value={assignmentValue.subjectId}
+                                onChange={handleAssignmentChange}
+                                required
+                            >
+                                <option value="">Select a Subject</option>
+                                {subjects.map(subject => (
+                                    <option key={subject.subjectId} value={subject.subjectId}>
+                                        {subject.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
                         <button type="submit" className="btn btn-primary">
                             {loading ? "Loading..." : "Submit"}
                         </button>
