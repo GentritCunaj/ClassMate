@@ -21,13 +21,16 @@ header .nav {
 }
 header li {
   margin-right: 40px;
+
 }
 header ul {
   padding: 30px 20px;
+ 
 }
 header ul li a {
   color: #fff;
   font-weight: 500;
+  text-decoration: none;
   transition: 0.5s;
 }
 header ul li a:hover {

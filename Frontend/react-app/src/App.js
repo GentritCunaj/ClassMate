@@ -31,6 +31,7 @@ import Students from './Partials/Students';
 import Teachers from './Partials/Teachers';
 import Home from "./Pages/home/Home"
 import About from "./Pages/about/About"
+import Subject from './Pages/Subject';
 function App() {
   return (
     <Router>
@@ -41,6 +42,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<UserProfile />} />
 
+        <Route path="/subject/:subject" element={<Subject/>} />
         <Route path="/dashboard" element={
           <PrivateRoute roles={['Teacher', 'Admin']}><Dashboard /></PrivateRoute>} />
 
