@@ -35,11 +35,9 @@ const Header = ({prop}) => {
               <Link to='/team'>Team</Link>
             </li>
             <li>
-              <Link to='/pricing'>Pricing</Link>
+              <Link to='/studyGroups'>Study Groups</Link>
             </li>
-            <li>
-              <Link to='/journal'>Journal</Link>
-            </li>
+           
             <li>
               <Link to='/contact'>Contact</Link>
             </li>

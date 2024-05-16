@@ -33,7 +33,35 @@ namespace ClassMate.Controllers
       
         }
 
-        [Authorize(Roles = "Student,Teacher,Admin")]
+        [HttpGet("subjects")]
+        public async Task<ActionResult<ServiceResponse<List<Subject>>>> GetAllSubjects()
+        {
+            var response = new ServiceResponse<List<Subject>>();
+
+            try
+            {
+                // Retrieve all assignments from the database asynchronously
+                var subjects = await _db.Subjects.ToListAsync();
+
+                // Set the retrieved assignments to the response data
+                response.Data = subjects;
+
+                // Set response properties indicating success
+                response.Success = true;
+                response.Message = "Subjects Retrieved Successfully";
+            }
+            catch (Exception ex)
+            {
+                // If an exception occurs during database interaction, handle it here
+                response.Success = false;
+                response.Message = ex.Message; // Provide the exception message in the response
+            }
+
+            // Return an HTTP response with the service response object (serialized to JSON)
+            return response;
+        }
+
+   
         [HttpGet("publicRooms")]
         public async Task<ActionResult<ServiceResponse<IEnumerable<StudyGroup>>>> GetPublicStudyGroups()
         {
@@ -41,7 +69,7 @@ namespace ClassMate.Controllers
 
             
             var publicStudyGroups = await _db.StudyGroups
-                .Where(sg => sg.Visibility == StudyGroup.VisibilityEnum.Public)
+                .Where(sg => sg.Visibility == StudyGroup.VisibilityEnum.Public).Include(i => i.Creator)
                 .ToListAsync();
 
             response.Data = publicStudyGroups;

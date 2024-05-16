@@ -7,7 +7,7 @@ import { authLogin } from '../Redux/auth/action';
 import { ToastContainer, toast } from "react-toastify";
 import { decodeToken } from '../AuthUtils';
 import { jwtDecode } from 'jwt-decode';
-import socket from './socket';
+
 function Login() {
   const notify = (text) => toast(text);
   const {user} = useSelector((store)=>store.auth);
@@ -17,31 +17,31 @@ function Login() {
   const [messageInput, setMessageInput] = useState('');
   const room = 'yourRoomName'; // Change 'yourRoomName' to your desired room name
 
-  useEffect(() => {
-      // Connect to the Socket.IO server
+  // useEffect(() => {
+  //     // Connect to the Socket.IO server
      
-      // Join the room
-      socket.emit('joinRoom', room);
+  //     // Join the room
+  //     socket.emit('joinRoom', room);
       
 
-      // Event listener for receiving a message
-      socket.on('receiveMessage', (data) => {
-          setMessages([...messages, data.message]);
-      });
+  //     // Event listener for receiving a message
+  //     socket.on('receiveMessage', (data) => {
+  //         setMessages([...messages, data.message]);
+  //     });
 
       
-  }, []); // Empty dependency array ensures this effect runs only once
+  // }, []); // Empty dependency array ensures this effect runs only once
 
-  const sendMessage = () => {
-      if (socket && messageInput.trim() !== '') {
-          const data = {
-              room,
-              message: messageInput
-          };
-          socket.emit('sendMessage', data);
-          setMessageInput('');
-      }
-  };
+  // const sendMessage = () => {
+  //     if (socket && messageInput.trim() !== '') {
+  //         const data = {
+  //             room,
+  //             message: messageInput
+  //         };
+  //         socket.emit('sendMessage', data);
+  //         setMessageInput('');
+  //     }
+  // };
 
 
   
@@ -78,7 +78,7 @@ function Login() {
     <div className='container-fluid d-flex align-items-center justify-content-center bg-image' style={{ backgroundColor: '#DCDCDC', height: '100vh' }}>
       <ToastContainer/>
       <div className='mask gradient-custom-3'></div>
-      {/* <div className='card m-5' style={{ maxWidth: '1000px', borderRadius: '15px', boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.1)', overflow: 'hidden', padding: '30px', margin: '20px' }}>
+      <div className='card m-5' style={{ maxWidth: '1000px', borderRadius: '15px', boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.1)', overflow: 'hidden', padding: '30px', margin: '20px' }}>
       <div id='login form'>
         <div className='card-body px-5'>
           <h2 className="text-uppercase text-center mb-5">Welcome to ClassMate!</h2>
@@ -113,9 +113,9 @@ function Login() {
           </div>
           <p style={{ textAlign: 'center' }}>New on our platform? <a href="/register">Create an Account</a></p>
         </div>
-      </div> */}
+      </div>
 
-      <h1>Chat Room: {room}</h1>
+      {/* <h1>Chat Room: {room}</h1>
             <div>
                 {messages.map((msg, index) => (
                     <div key={index}>
@@ -126,7 +126,7 @@ function Login() {
             <div>
                 <input type="text" value={messageInput} onChange={(e) => setMessageInput(e.target.value)} />
                 <button onClick={sendMessage}>Send</button>
-            </div>
+            </div> */}
 
     </div>
   );
