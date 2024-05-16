@@ -17,6 +17,7 @@ function StudyGroup() {
 
     const dispatch = useDispatch();
     const { publicGroups } = useSelector((store) => store.data);
+    
     const [isModalJoinOpen, setIsModalJoinOpen] = useState(false);
 
     useEffect(() => {
@@ -55,6 +56,32 @@ function StudyGroup() {
     };
   
 
+    const [searchText, setSearchText] = useState('');
+    const [filterBy, setFilterBy] = useState('description');
+    const studyGroupsByType = {
+      type0: publicGroups.filter(group => group.type === 0),
+      type1: publicGroups.filter(group => group.type === 1)
+  };
+// Default filter by description
+
+    // Filter function based on searchText and filterBy
+    const filterStudyGroups = (groups) => {
+      
+      return groups.filter(group => {
+          const { description, groupName, creator } = group;
+          const searchValue = searchText.toLowerCase();
+          switch (filterBy) {
+              case 'description':
+                  return !searchText ||  description.toLowerCase().includes(searchValue);
+              case 'name':
+                  return !searchText || groupName.toLowerCase().includes(searchValue);
+              case 'creator':
+                  return !searchText || creator.firstName.toLowerCase().includes(searchValue);
+              default:
+                  return true; // Return true by default to include all groups
+          }
+      });
+  };
   
 
 
@@ -64,19 +91,41 @@ function StudyGroup() {
    
    <div style={{marginTop:"10%",marginBottom:"10%"}} class="container">
  
+ <div style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
   <h3>Public Chat Study Groups</h3>
+  <div class="search">
+
+            <div class="input-group">
+  <div class="form-outline" data-mdb-input-init>
+    <input type="search" id="form1" class="form-control" 
+                value={searchText}
+                placeholder='Search'
+                onChange={e => setSearchText(e.target.value)} />
+   
+  </div>
+  <button style={{width:"25%"}} type="button" class="btn btn-primary" data-mdb-ripple-init>
+    <i class="fas fa-search"></i>
+  </button>
+</div>
+            <select value={filterBy} onChange={e => setFilterBy(e.target.value)}>
+                <option value="description">Description</option>
+                <option value="name">Name</option>
+                <option value="creator">Creator</option>
+            </select>
+            </div>     
+            </div>     
  
   <div class="scrolling-wrapper-flexbox">
-  {publicGroups != null && publicGroups.map((pg) => {
+  {filterStudyGroups(studyGroupsByType.type1).map((pg) => {
 
-    if (pg.type == 1){
+   
       return (
-        <div class="card">
+        <div class="card1">
         <div style={{width:'100%',height:"22vh",backgroundColor: getRandomOrange()}} className="joinRoom">
   
           <FontAwesomeIcon class="fontSvg" icon={faArrowRightToBracket} style={{ color: "#ffffff" }} />
           <div class="paraDiv">
-            <p className="roomP">{pg.name}</p>
+            <p className="roomP">{pg.groupName}</p>
             <p style={{ fontSize: "0.8em", color: "white" }}>{pg.description}</p>
             <p style={{ fontSize: "1.2em", color: "white",top:"-10px",position:"relative" }}>{pg.creator.firstName}</p>
           </div>
@@ -88,18 +137,18 @@ function StudyGroup() {
    
 
       
-  })}
+  )}
     </div>
 
      
   <h3>Public Video Chat Study Groups</h3>
  
  <div class="scrolling-wrapper-flexbox">
- {publicGroups != null && publicGroups.map((pg) => {
+ {filterStudyGroups(studyGroupsByType.type0).map((pg) => {
 
    if (pg.type == 0){
      return (
-       <div class="card">
+       <div class="card1">
        <div style={{width:'100%',height:"22vh",backgroundColor: getRandomBlue()}} className="joinRoom">
  
          <FontAwesomeIcon class="fontSvg" icon={faArrowRightToBracket} style={{ color: "#ffffff" }} />
