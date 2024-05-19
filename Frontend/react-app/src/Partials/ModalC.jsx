@@ -24,7 +24,7 @@ const style = {
 
 
 const notify = (text) => toast(text);
-const ModalC= ({ onClose }) => {
+const ModalC= ({ onClose,visible }) => {
   const {user} = useSelector((store) => store.auth);
   var userId = user.id;
   const [error,setError] = useState(false);
@@ -35,7 +35,7 @@ const ModalC= ({ onClose }) => {
     groupName: '',
     description: '',
     creatorId: userId, 
-    visibility: "", // Default value
+    visibility: visible ? '0':'', // Default value
     type: "",
     reports:0,
     
@@ -61,7 +61,7 @@ const ModalC= ({ onClose }) => {
       groupName: studyGroupData.groupName,
       description: studyGroupData.description,
       creatorId: studyGroupData.creatorId,
-      visibility: studyGroupData.visibility,
+      visibility: visible ? studyGroupData.visibility: '0',
       type: studyGroupData.type,
       reports: studyGroupData.reports
     };
@@ -100,7 +100,8 @@ const ModalC= ({ onClose }) => {
                 value={studyGroupData.description} 
                 onChange={handleChange}
               />
-              <select
+              {!visible && (
+                <select
                 name="visibility"
                 onChange={handleChange}
                 value={studyGroupData.visibility}
@@ -112,6 +113,7 @@ const ModalC= ({ onClose }) => {
                 <option value={"1"}>Public</option>
               </select>
 
+              )} 
               <select
                 name="type"
                 value={studyGroupData.type}

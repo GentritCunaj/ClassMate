@@ -15,7 +15,8 @@ const initialState = {
   deleteStudyRoom: [],
   loading: false,
   modalCreated: false,
-  subjects:[]
+  subjects:[],
+  privateGroups:[]
 
 
 }
@@ -168,6 +169,9 @@ export default function dataReducer(state = initialState, { type, payload }) {
 
     case types.GET_STUDY_GROUPS_SUCCESS:
       return { ...state, publicGroups: payload.data, loading: false };
+
+    case types.GET_PRIVATE_STUDY_GROUPS_SUCCESS:
+    return { ...state, privateGroups: payload.data, loading: false };
 
       case types.GET_REPORT_SUCCESS:
       return { ...state, reports: payload.data, loading: false };
