@@ -33,6 +33,7 @@ import Home from "./Pages/home/Home"
 import About from "./Pages/about/About"
 import Subject from './Pages/Subject';
 import StudyGroup from './Pages/StudyGroup';
+import Chat from './Pages/Chat';
 function App() {
   return (
     <Router>
@@ -43,7 +44,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/profile" element={<UserProfile />} />
       <Route path="/studyGroups" element={<StudyGroup/>}/>
-      
+      <Route path="/chat/:groupId" element={<Chat/>}/>
       <Route path="/subject/:subject" element={<Subject/>} />
       <Route path="/dashboard" element={
         <PrivateRoute roles={['Teacher', 'Admin']}><Dashboard /></PrivateRoute>} />

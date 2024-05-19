@@ -11,6 +11,7 @@ import { faArrowRightToBracket } from '@fortawesome/free-solid-svg-icons';
 import Hero from './home/hero/Hero';
 import { getAllPublicRooms } from '../Redux/data/action';
 import ModalCJoin from '../Partials/ModalCJoin';
+import { Link } from 'react-router-dom';
 
 function StudyGroup() {
 
@@ -95,9 +96,10 @@ function StudyGroup() {
   <h3>Public Chat Study Groups</h3>
   <div class="search">
 
-            <div class="input-group">
+            <div class="input-group"  style={{flexWrap:"nowrap"}}>
   <div class="form-outline" data-mdb-input-init>
     <input type="search" id="form1" class="form-control" 
+     
                 value={searchText}
                 placeholder='Search'
                 onChange={e => setSearchText(e.target.value)} />
@@ -123,7 +125,7 @@ function StudyGroup() {
         <div class="card1">
         <div style={{width:'100%',height:"22vh",backgroundColor: getRandomOrange()}} className="joinRoom">
   
-          <FontAwesomeIcon class="fontSvg" icon={faArrowRightToBracket} style={{ color: "#ffffff" }} />
+        <Link to={`/chat/${pg.studyGroupId}`}><FontAwesomeIcon class="fontSvg" icon={faArrowRightToBracket} style={{ color: "#ffffff" }} /></Link>
           <div class="paraDiv">
             <p className="roomP">{pg.groupName}</p>
             <p style={{ fontSize: "0.8em", color: "white" }}>{pg.description}</p>
@@ -151,7 +153,7 @@ function StudyGroup() {
        <div class="card1">
        <div style={{width:'100%',height:"22vh",backgroundColor: getRandomBlue()}} className="joinRoom">
  
-         <FontAwesomeIcon class="fontSvg" icon={faArrowRightToBracket} style={{ color: "#ffffff" }} />
+    <FontAwesomeIcon class="fontSvg" icon={faArrowRightToBracket} style={{ color: "#ffffff" }} />
          <div class="paraDiv">
            <p className="roomP">{pg.name}</p>
            <p style={{ fontSize: "0.8em", color: "white" }}>{pg.description}</p>

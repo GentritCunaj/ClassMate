@@ -32,6 +32,11 @@ builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
     .AddDefaultTokenProviders()
     .AddEntityFrameworkStores<DataContext>();
 
+builder.Services.AddLogging(builder =>
+{
+    builder.AddConsole(); // Ensure console logging is enabled
+                          // Add other logging providers if needed
+});
 
 builder.Services.AddScoped<IResourceController, ResourceController>();
 builder.Services.AddScoped<IReportController, ReportController>();
@@ -58,7 +63,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IAuthentication, Authentication>();
 builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
-
+builder.Services.AddSignalR(e => {
+    e.MaximumReceiveMessageSize = 102400000;
+});
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
 
@@ -101,13 +108,27 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
      };
+
+     options.Events = new JwtBearerEvents
+     {
+         OnMessageReceived = context =>
+         {
+             var accessToken = context.Request.Query["access_token"];
+             var path = context.HttpContext.Request.Path;
+             if (!string.IsNullOrEmpty(accessToken) && (path.StartsWithSegments("/chathub"))) // for me my hub endpoint is ConnectionHub
+             {
+                 context.Token = accessToken;
+             }
+             return Task.CompletedTask;
+         }
+     };
  });
 
 
 
 builder.Services.AddCors(p => p.AddPolicy("corspolicy", build =>
 {
-    build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+    build.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader();
 }));
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -154,6 +175,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<ChatHub>("/chathub");
 
 app.Run();
 

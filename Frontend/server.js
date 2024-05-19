@@ -6,15 +6,7 @@ require('dotenv').config({ path: "./config.env" });
 
 // Create an instance of Express
 const app = express();
-const server = require('http').Server(app);
-const io = require('socket.io')(server, {
-    cors: {
-        origin: '*',
-        methods: ["GET", "POST"]
-    }
-});
 
-// Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
@@ -41,26 +33,4 @@ app.get('/contacts', async (req, res) => {
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
-});
-
-io.on('connection', (socket) => {
-    console.log('A user connected');
-
-    // Join a room
-    socket.on('joinRoom', (room) => {
-        socket.join(room);
-        console.log(`User joined room ${room}`);
-    });
-
-    // Listen for message from client
-    socket.on('sendMessage', (data) => {
-        const { room, message } = data;
-
-        // Broadcast message to everyone in the room
-        io.to(room).emit('receiveMessage', { message });
-    });
-
-    socket.on('disconnect', () => {
-        console.log('User disconnected');
-    });
 });

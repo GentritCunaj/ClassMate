@@ -137,7 +137,7 @@ namespace ClassMate.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Assignments");
+                    b.ToTable("Assignments", (string)null);
                 });
 
             modelBuilder.Entity("ClassMate.Models.ChatMessage", b =>
@@ -169,7 +169,7 @@ namespace ClassMate.Migrations
 
                     b.HasIndex("StudyGroupId");
 
-                    b.ToTable("ChatMessages");
+                    b.ToTable("ChatMessages", (string)null);
                 });
 
             modelBuilder.Entity("ClassMate.Models.Report", b =>
@@ -226,7 +226,7 @@ namespace ClassMate.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reports");
+                    b.ToTable("Reports", (string)null);
                 });
 
             modelBuilder.Entity("ClassMate.Models.Resource", b =>
@@ -262,7 +262,7 @@ namespace ClassMate.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Resources");
+                    b.ToTable("Resources", (string)null);
                 });
 
             modelBuilder.Entity("ClassMate.Models.StudyGroup", b =>
@@ -294,7 +294,7 @@ namespace ClassMate.Migrations
 
                     b.HasIndex("CreatorId");
 
-                    b.ToTable("StudyGroups");
+                    b.ToTable("StudyGroups", (string)null);
                 });
 
             modelBuilder.Entity("ClassMate.Models.Subject", b =>
@@ -314,7 +314,7 @@ namespace ClassMate.Migrations
 
                     b.HasKey("SubjectId");
 
-                    b.ToTable("Subjects");
+                    b.ToTable("Subjects", (string)null);
                 });
 
             modelBuilder.Entity("ClassMate.Models.UserStudyGroup", b =>
@@ -339,7 +339,7 @@ namespace ClassMate.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserStudyGroups");
+                    b.ToTable("UserStudyGroups", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -502,7 +502,7 @@ namespace ClassMate.Migrations
 
                     b.HasIndex("QuizID");
 
-                    b.ToTable("Questions");
+                    b.ToTable("Questions", (string)null);
                 });
 
             modelBuilder.Entity("Quiz", b =>
@@ -551,7 +551,7 @@ namespace ClassMate.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("Quizzes");
+                    b.ToTable("Quizzes", (string)null);
                 });
 
             modelBuilder.Entity("ClassMate.Models.Assignment", b =>

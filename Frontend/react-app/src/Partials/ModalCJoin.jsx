@@ -7,6 +7,7 @@ import "../assets/css/modal.css";
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { joinRoom } from '../Redux/data/action';
+import { Link } from 'react-router-dom';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -52,7 +53,7 @@ const ModalCJoin= ({ onClose }) => {
                 onChange={handleChange}
               />
               
-              <button type="button" onClick={()=> dispatch(joinRoom({studentId:formData.studentId,studyGroupId:formData.studyGroupId}))} style={{background:"black",border:"2px solid black"}} className="btn btn-primary mt-4">Join</button>
+              <Link to={`/chat/${formData.studyGroupId}`}><button type="button" style={{background:"black",border:"2px solid black"}} className="btn btn-primary mt-4">Join</button></Link>
             </form>
     </Box>
   </Modal>
