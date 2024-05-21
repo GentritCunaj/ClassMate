@@ -34,6 +34,8 @@ import Subject from './Pages/Subject';
 import StudyGroup from './Pages/StudyGroup';
 import Chat from './Pages/Chat';
 import Assignments from './Pages/Assignments';
+import VideoChat from './Pages/VideoChat';
+import { RoomProvider } from './Context/RoomContext';
 function App() {
   return (
     <Router>
@@ -46,6 +48,9 @@ function App() {
       <Route path="/studyGroups" element={<StudyGroup/>}/>
       <Route path="/chat/:groupId" element={<Chat/>}/>
       <Route path="/subject/:subjectId" element={<Subject/>} />
+      <Route path="/video/:id" element={
+        <RoomProvider>
+      <VideoChat/></RoomProvider>}/>
 
       <Route path="/assignments" element={<Assignments/>} />
 

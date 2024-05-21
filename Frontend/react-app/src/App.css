@@ -295,3 +295,40 @@ and (max-device-height : 899px)
     overflow-y:scroll;
   }
  }
+
+ #video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 300px);
+  grid-auto-rows: 300px;
+}
+
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.userNameVideo {
+  font-size: 1.1rem;
+    background: cadetblue;
+    padding: 0.3rem;
+    border-radius: 15px;
+    text-align: center;
+    width: 70%;
+    position: relative;
+    margin: 0 auto;
+    color: white;
+}
+
+.flex-70 {
+  flex: 0 0 70%;
+}
+
+.flex-30 {
+  flex: 0 0 30%;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}

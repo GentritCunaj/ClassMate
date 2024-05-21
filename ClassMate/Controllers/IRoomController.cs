@@ -13,6 +13,7 @@ namespace ClassMate.Controllers
 
         Task<ActionResult<ServiceResponse<string>>> AddStudentToStudyGroup(UserStudy userStudy);
 
+        Task<ActionResult<ServiceResponse<IEnumerable<StudyGroup>>>> GetPrivateStudyGroups();
 
 
     }

@@ -78,6 +78,24 @@ namespace ClassMate.Controllers
             return Ok(response);
         }
 
+        [HttpGet("privateRooms")]
+        public async Task<ActionResult<ServiceResponse<IEnumerable<StudyGroup>>>> GetPrivateStudyGroups()
+        {
+            var response = new ServiceResponse<IEnumerable<StudyGroup>>();
+
+            var user = await _userManager.GetUserAsync(User);
+            var userId = user.Id;
+
+            var privateStudyGroups = await _db.StudyGroups
+                .Where(sg => sg.Visibility == StudyGroup.VisibilityEnum.Private && sg.CreatorId == userId).Include(i => i.Creator)
+                .ToListAsync();
+
+            response.Data = privateStudyGroups;
+            response.Success = true;
+            response.Message = "Private study groups retrieved successfully.";
+            return Ok(response);
+        }
+
 
         [Authorize(Roles = "Student,Teacher")]
         [HttpPost]

@@ -22,6 +22,8 @@ namespace ClassMate.Controllers
 
         Task<ActionResult<ServiceResponse<string>>> RemoveStudentFromStudyGroup(string studyGroupId, string studentId);
 
+        
+
 
     }
 }

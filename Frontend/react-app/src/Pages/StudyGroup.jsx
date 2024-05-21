@@ -167,10 +167,6 @@ function StudyGroup() {
   )}
     </div>
 
-
-
-
-     
   <h3>Public Video Chat Study Groups</h3>
  
  <div class="scrolling-wrapper-flexbox">
@@ -181,7 +177,7 @@ function StudyGroup() {
        <div class="card1">
        <div style={{width:'100%',height:"22vh",backgroundColor: getRandomBlue()}} className="joinRoom">
  
-    <FontAwesomeIcon class="fontSvg" icon={faArrowRightToBracket} style={{ color: "#ffffff" }} />
+       <Link to={`/video/${pg.studyGroupId}`}><FontAwesomeIcon class="fontSvg" icon={faArrowRightToBracket} style={{ color: "#ffffff" }} /></Link>
          <div class="paraDiv">
            <p className="roomP">{pg.name}</p>
            <p style={{ fontSize: "0.8em", color: "white" }}>{pg.description}</p>
