@@ -830,6 +830,42 @@ export const getAssignmentById = (id) => async (dispatch) => {
     }
 };
 
+export const getAssignmentBySubjectId = (subjectId) => async (dispatch) => {
+    try {
+        dispatch({ type: types.GET_ASSIGNMET_BY_SUBJECT_ID_REQUEST });
+
+        const res = await axios.get(
+            `https://localhost:7168/Assignment/subjects/${subjectId}`,
+            {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token")
+                }
+            }
+        );
+
+        dispatch({
+            type: types.GET_ASSIGNMET_BY_SUBJECT_ID_SUCCESS,
+            payload: {
+                message: res.data.message,
+                success: res.data.success,
+                data: res.data.data
+            }
+        });
+
+        return res.data;
+    } catch (error) {
+        dispatch({
+            type: types.GET_ASSIGNMET_BY_SUBJECT_ID_ERROR,
+            payload: {
+                message: error.response.data.message
+            }
+        });
+
+        throw error.response.data;
+    }
+};
+
+
 export const getResourceById = (id) => async (dispatch) => {
     try {
         dispatch({ type: types.GET_RESOURCE_BY_ID_REQUEST });

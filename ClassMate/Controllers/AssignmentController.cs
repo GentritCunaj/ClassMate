@@ -14,7 +14,7 @@ using static ClassMate.Models.Assignment;
 
 namespace ClassMate.Controllers
 {
-    
+
     [Route("[controller]")]
     [ApiController]
     public class AssignmentController : ControllerBase, IAssignmentController
@@ -97,40 +97,41 @@ namespace ClassMate.Controllers
         {
             var response = new ServiceResponse<List<Assignment>>();
 
-            
+
             var user = _db.Users.FirstOrDefault(u => u.Id == assignmentDto.TeacherId);
-            var assignment = new Assignment { 
-            
+            var assignment = new Assignment
+            {
+
                 TeacherId = user.Id,
                 Title = assignmentDto.Title,
                 Description = assignmentDto.Description,
-                DueDate =assignmentDto.DueDate,
+                DueDate = assignmentDto.DueDate,
                 Teacher = user,// Set the Creator property with the fetched user
-                SubjectId=assignmentDto.SubjectId
+                SubjectId = assignmentDto.SubjectId
             };
 
             try
             {
-             
-                
+
+
                 _db.Assignments.Add(assignment);
                 await _db.SaveChangesAsync();
-               
 
-                response.Data = await _db.Assignments.ToListAsync(); 
+
+                response.Data = await _db.Assignments.ToListAsync();
                 response.Success = true;
                 response.Message = "Assignment Created";
-               
-            }
-          
 
-                catch (Exception ex)
+            }
+
+
+            catch (Exception ex)
             {
                 response.Success = false;
                 response.Message = ex.Message; // Handle exceptions appropriately
             }
 
-        
+
             return Ok(response);
 
 
@@ -215,8 +216,36 @@ namespace ClassMate.Controllers
         }
 
 
+        [HttpGet("subjects/{subjectId}")]
+        public async Task<ActionResult<ServiceResponse<List<Assignment>>>> GetAssignmentsBySubject(int subjectId)
+        {
+            var response = new ServiceResponse<List<Assignment>>();
 
+            try
+            {
+                // Retrieve assignments for the specified subject from the database asynchronously
+                var assignments = await _db.Assignments
+                    .Where(a => a.SubjectId == subjectId)
+                    .ToListAsync();
+
+                // Set the retrieved assignments to the response data
+                response.Data = assignments;
+
+                // Set response properties indicating success
+                response.Success = true;
+                response.Message = "Assignments Retrieved Successfully";
+            }
+            catch (Exception ex)
+            {
+                // If an exception occurs during database interaction, handle it here
+                response.Success = false;
+                response.Message = ex.Message; // Provide the exception message in the response
+            }
+
+            // Return an HTTP response with the service response object (serialized to JSON)
+            return Ok(response);
+        }
 
     }
+    }
 
-}

@@ -19,7 +19,7 @@ namespace ClassMate.Data
         public DbSet<Quiz> Quizzes { get; set; } 
         public DbSet<Question> Questions { get; set; } 
         public DbSet<Report> Reports { get; set; }
-
+        public DbSet<Submission> Submissions { get; set; }
         public DbSet<Subject> Subjects { get; set; }
 
     }

@@ -56,7 +56,7 @@ function Login() {
         const decodedToken = decodeToken(localStorage.getItem("token"));
         if (decodedToken.role == 'Student') {
           notify("Login Successful.");
-          return navigate("/profile");
+          return navigate("/");
         }
         else if (res.success == true) {
           notify("Login Successful.");

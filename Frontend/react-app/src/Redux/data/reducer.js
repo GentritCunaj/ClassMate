@@ -95,6 +95,14 @@ export default function dataReducer(state = initialState, { type, payload }) {
         error: null
       };
 
+      case types.GET_ASSIGNMET_BY_SUBJECT_ID_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        assignments: payload.data,
+        error: null
+      };
+
     case types.POST_QUIZ_SUCCESS:
       return {
         ...state,
@@ -234,7 +242,7 @@ export default function dataReducer(state = initialState, { type, payload }) {
         }),
         loading: false
       };
-
+    
     case types.UPDATE_QUIZ_SUCCESS:
       return {
         ...state,
