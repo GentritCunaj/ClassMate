@@ -4,6 +4,7 @@ using ClassMate.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClassMate.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240520132100_SubmissionChange")]
+    partial class SubmissionChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -137,7 +140,7 @@ namespace ClassMate.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Assignments", (string)null);
+                    b.ToTable("Assignments");
                 });
 
             modelBuilder.Entity("ClassMate.Models.ChatMessage", b =>
@@ -169,7 +172,7 @@ namespace ClassMate.Migrations
 
                     b.HasIndex("StudyGroupId");
 
-                    b.ToTable("ChatMessages", (string)null);
+                    b.ToTable("ChatMessages");
                 });
 
             modelBuilder.Entity("ClassMate.Models.Report", b =>
@@ -226,7 +229,7 @@ namespace ClassMate.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reports", (string)null);
+                    b.ToTable("Reports");
                 });
 
             modelBuilder.Entity("ClassMate.Models.Resource", b =>
@@ -262,7 +265,7 @@ namespace ClassMate.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Resources", (string)null);
+                    b.ToTable("Resources");
                 });
 
             modelBuilder.Entity("ClassMate.Models.StudyGroup", b =>
@@ -294,7 +297,7 @@ namespace ClassMate.Migrations
 
                     b.HasIndex("CreatorId");
 
-                    b.ToTable("StudyGroups", (string)null);
+                    b.ToTable("StudyGroups");
                 });
 
             modelBuilder.Entity("ClassMate.Models.Subject", b =>
@@ -314,7 +317,7 @@ namespace ClassMate.Migrations
 
                     b.HasKey("SubjectId");
 
-                    b.ToTable("Subjects", (string)null);
+                    b.ToTable("Subjects");
                 });
 
             modelBuilder.Entity("ClassMate.Models.Submission", b =>
@@ -377,7 +380,7 @@ namespace ClassMate.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserStudyGroups", (string)null);
+                    b.ToTable("UserStudyGroups");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -540,7 +543,7 @@ namespace ClassMate.Migrations
 
                     b.HasIndex("QuizID");
 
-                    b.ToTable("Questions", (string)null);
+                    b.ToTable("Questions");
                 });
 
             modelBuilder.Entity("Quiz", b =>
@@ -589,7 +592,7 @@ namespace ClassMate.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("Quizzes", (string)null);
+                    b.ToTable("Quizzes");
                 });
 
             modelBuilder.Entity("ClassMate.Models.Assignment", b =>

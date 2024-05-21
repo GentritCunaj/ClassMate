@@ -1,0 +1,59 @@
+
+.page-title {
+    margin-bottom: 20px;
+}
+
+.overdue {
+    color: red;
+}
+
+.subject-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    align-items: stretch; /* Ensure all cards have the same height */
+}
+
+.subject-card {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.subject-details {
+    flex: 1; /* Make the card take up the remaining space */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f0f0f0;
+}
+
+.subject-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+    text-transform: uppercase; /* Ktheji titullin në uppercase */
+}
+
+.subject-details p {
+    margin-bottom: 5px;
+}
+
+.submit-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: auto; /* Push button to the bottom */
+}
+
+.submit-button:hover {
+    background-color: #0056b3;
+}

@@ -9,7 +9,6 @@ import Register from './Pages/Register';
 import Login from './Pages/Login';
 import Contact from './Pages/Contact';
 import UnAuthorized from './Pages/UnAuthorized';
-
 import PrivateRoute from './Pages/PrivateRoute';
 import Quiz from './Partials/AllPartials/Quizzes/Quiz';
 import CreateQuiz from './Partials/AllPartials/Quizzes/CreateQuiz';
@@ -34,6 +33,7 @@ import About from "./Pages/about/About"
 import Subject from './Pages/Subject';
 import StudyGroup from './Pages/StudyGroup';
 import Chat from './Pages/Chat';
+import Assignments from './Pages/Assignments';
 function App() {
   return (
     <Router>
@@ -45,7 +45,10 @@ function App() {
       <Route path="/profile" element={<UserProfile />} />
       <Route path="/studyGroups" element={<StudyGroup/>}/>
       <Route path="/chat/:groupId" element={<Chat/>}/>
-      <Route path="/subject/:subject" element={<Subject/>} />
+      <Route path="/subject/:subjectId" element={<Subject/>} />
+
+      <Route path="/assignments" element={<Assignments/>} />
+
       <Route path="/dashboard" element={
         <PrivateRoute roles={['Teacher', 'Admin']}><Dashboard /></PrivateRoute>} />
 

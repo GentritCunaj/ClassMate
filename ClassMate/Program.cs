@@ -46,6 +46,7 @@ builder.Services.AddScoped<IAuthentication, Authentication>();
 builder.Services.AddScoped<IRoomController, RoomController>();
 builder.Services.AddScoped<IQuizController, QuizController>();
 builder.Services.AddScoped<IAssignmentController, AssignmentController>();
+builder.Services.AddScoped<ISubmissionController, SubmissionController>();
 builder.Services.AddControllers();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
