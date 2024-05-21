@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from 'react';
+import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { Registers } from '../Redux/auth/action';
 import '../assets/css/register.css';
@@ -8,11 +8,10 @@ const Register = () => {
   const notify = (text) => toast(text);
   const dispatch = useDispatch();
 
-
   const [loading, setLoading] = useState(false);
 
   const initData = {
-    role: "Admin",
+    role: "admin",
     userName: "",
     firstName: "",
     lastName: "",
@@ -23,9 +22,8 @@ const Register = () => {
     address: "",
     phoneNumber: "",
     birthday: ""
-  }
+  };
   const [RegisterValue, setRegisterValue] = useState(initData);
-
 
   const HandleRegisterChange = (e) => {
     setRegisterValue({ ...RegisterValue, [e.target.name]: e.target.value });
@@ -35,8 +33,43 @@ const Register = () => {
     setRegisterValue({ ...RegisterValue, role: event.target.value });
   };
 
+  const validateForm = () => {
+    const { email, phoneNumber, password, userName, firstName, lastName, country, address, city, birthday } = RegisterValue;
+
+    // Check if any field is empty
+    if (!email || !password || !userName || !firstName || !lastName || !country || !address || !city || !phoneNumber || !birthday) {
+      notify("All fields are required.");
+      return false;
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      notify("Please enter a valid email address.");
+      return false;
+    }
+
+    // Validate phone number (basic validation, can be improved)
+    const phoneRegex = /^\d+$/;
+    if (!phoneRegex.test(phoneNumber)) {
+      notify("Please enter a valid phone number.");
+      return false;
+    }
+
+    // Validate password length
+    if (password.length < 6) {
+      notify("Password must be at least 6 characters long.");
+      return false;
+    }
+
+    return true;
+  };
+
   const HandleRegisterSubmit = (e) => {
     e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
     setLoading(true);
     dispatch(Registers(RegisterValue)).then((res) => {
       setLoading(false);
@@ -48,13 +81,15 @@ const Register = () => {
 
       // Redirect to login page after successful registration
       window.location.href = '/';
+    }).catch(() => {
+      setLoading(false);
+      notify("Registration failed. Please try again.");
     });
   };
 
-
-
   return (
     <div className='container-fluid d-flex align-items-center justify-content-center bg-image' style={{ backgroundColor: '#DCDCDC' }}>
+      <ToastContainer />
       <div className='mask gradient-custom-3'></div>
       <div className='card m-5' style={{ maxWidth: '1000px', borderRadius: '15px', boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.1)', overflow: 'hidden', padding: '30px', margin: '20px' }}>
         <div className='card-body px-5'>
@@ -104,10 +139,11 @@ const Register = () => {
                 required
               />
             </div>
+
             <div className='form-group mb-4'>
               <label className='form-label'>Email</label>
               <input className='form-control form-control-lg'
-                type="text"
+                type="email"
                 placeholder="Email"
                 name="email"
                 value={RegisterValue.email}
@@ -129,10 +165,10 @@ const Register = () => {
             </div>
 
             <div className='form-group mb-4'>
-              <label className='form-label'>Adress</label>
+              <label className='form-label'>Address</label>
               <input className='form-control form-control-lg'
                 type="text"
-                placeholder="Adress"
+                placeholder="Address"
                 name="address"
                 value={RegisterValue.address}
                 onChange={HandleRegisterChange}
@@ -167,7 +203,7 @@ const Register = () => {
             <div className='form-group mb-4'>
               <label className='form-label'>Phone Number</label>
               <input className='form-control form-control-lg'
-                type="number"
+                type="text"
                 placeholder="Enter your phone number"
                 name="phoneNumber"
                 value={RegisterValue.phoneNumber}
@@ -180,7 +216,6 @@ const Register = () => {
               <label className='form-label'>BirthDate</label>
               <input className='form-control form-control-lg'
                 type="date"
-                placeholder="Enter your birthdate"s
                 name="birthday"
                 value={RegisterValue.birthday}
                 onChange={HandleRegisterChange}
@@ -188,7 +223,7 @@ const Register = () => {
               />
             </div>
 
-            <button type="submit" className='btn mb-4 w-100 gradient-custom-4 btn-lg' style={{ color: 'white' }} >
+            <button type="submit" className='btn mb-4 w-100 gradient-custom-4 btn-lg' style={{ color: 'white' }}>
               {loading ? "Loading..." : "Submit"}
             </button>
           </form>
@@ -198,6 +233,5 @@ const Register = () => {
     </div>
   );
 };
-
 
 export default Register;
