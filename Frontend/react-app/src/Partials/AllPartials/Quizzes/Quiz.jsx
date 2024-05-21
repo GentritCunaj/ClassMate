@@ -5,32 +5,32 @@ import Quizzes from './Quizzes';
 
 const Quiz = () => {
   return (
-    <div style={{ display: 'flex', height: '100%',justifyContent:'center'  }}>
+    <div style={{ display: 'flex', height: '100%' }}>
       {/* Sidebar on the left */}
       <Sidebar />
 
       {/* Main content on the right */}
-      <div>
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px',marginTop:'100px',marginLeft:'60px'}}>
-          <h1 style={{ fontSize: '28px', color: '#333', marginRight: '42rem', marginBottom: '0',marginLeft:'40px'}}>Quizzes</h1>
+      <div style={{ marginLeft: '250px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', marginTop: '100px', marginLeft: '60px' }}>
+          <h1 style={{ fontSize: '28px', color: '#333', marginRight: '20px', marginBottom: '0' }}>Quizzes</h1>
           <Link
             to="/createQuiz"
             style={{
               textDecoration: 'none',
-              padding: '10px 70px',
+              padding: '10px 20px', /* Adjust padding */
               backgroundColor: '#007bff',
               color: '#fff',
               borderRadius: '5px',
               fontSize: '16px',
               fontWeight: 'bold',
-              marginLeft:'350px'
+              marginLeft: 'auto' /* Move button to the right */
             }}
           >
             Add Quiz
           </Link>
         </div>
 
-        <div style={{marginLeft:"50px"}}>
+        <div style={{ marginLeft: "50px" }}>
           <Quizzes />
         </div>
       </div>
