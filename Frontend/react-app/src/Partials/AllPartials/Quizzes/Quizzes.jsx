@@ -12,7 +12,7 @@ const Quizzes = () => {
     const columns = [
         { id: 'quizID', name: "Quiz ID" },
         { id: 'title', name: "Title" },
-        { id: 'subject', name: "Subject" },
+        { id: 'subjectId', name: "SubjectId" },
         { id: 'noOfQuestions', name: "Number of Questions" },
         { id: 'pointPerQuestion', name: "Point Per Question" },
         { id: 'negativeMarking', name: "Negative Marking" },

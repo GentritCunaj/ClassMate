@@ -7,7 +7,7 @@ namespace ClassMate.Models
         public int QuizID { get; set; }
         public string Title { get; set; }
         public string Thumbnail { get; set; }
-        public string Subject { get; set; }
+        public int SubjectId { get; set; }
         public string CreatorId { get; set; }
         public int NoOfQuestions { get; set; }
         public int PointPerQuestion { get; set; }

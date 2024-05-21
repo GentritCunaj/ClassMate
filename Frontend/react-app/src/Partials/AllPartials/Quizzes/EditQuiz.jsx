@@ -1,27 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getQuizById, updateQuiz } from '../../../Redux/data/action';
+import { getQuizById, updateQuiz, getAllSubjects } from '../../../Redux/data/action';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from '../../Sidebar';
 
+const notify = (text) => toast(text);
+
 const EditQuiz = () => {
   const { quizId } = useParams();
   const dispatch = useDispatch();
-  const { error, message } = useSelector((store) => store.data);
+  const { error, message, subjects } = useSelector((store) => store.data);
   const { user } = useSelector((store) => store.auth);
   const creatorId = user.id;
 
   const [formData, setFormData] = useState({
     title: '',
     thumbnail: '',
-    subject: '',
+    subjectId: '',
     creatorId: creatorId,
     noOfQuestions: 0,
     pointPerQuestion: 0,
     negativeMarking: 'No',
-    negativeMarkingPerQuestion: 'No',
+    negativeMarkingPerQuestion: 0,
     totalTimeInMinutes: 0,
     questions: [
       {
@@ -33,13 +35,14 @@ const EditQuiz = () => {
   });
 
   useEffect(() => {
+    dispatch(getAllSubjects());
     dispatch(getQuizById(quizId))
       .then((data) => {
         const quizData = data.data;
         setFormData({
           title: quizData.title,
           thumbnail: quizData.thumbnail,
-          subject: quizData.subject,
+          subjectId: quizData.subjectId,
           creatorId: quizData.creatorId,
           noOfQuestions: quizData.noOfQuestions,
           pointPerQuestion: quizData.pointPerQuestion,
@@ -59,29 +62,10 @@ const EditQuiz = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    dispatch(updateQuiz(quizId, formData))
-      .then((data) => {
-        toast.success(data.message);
-      })
-      .catch((error) => {
-        console.error('Error updating quiz:', error);
-        toast.error('Error updating quiz. Please try again.');
-      });
-  };
-
   const addQuestion = () => {
     setFormData({
       ...formData,
-      questions: [
-        ...formData.questions,
-        {
-          text: '',
-          options: ['', '', '', ''],
-          correctAnswer: ''
-        }
-      ]
+      questions: [...formData.questions, { text: '', options: ['', '', '', ''], correctAnswer: '' }]
     });
   };
 
@@ -103,16 +87,49 @@ const EditQuiz = () => {
     setFormData({ ...formData, questions: updatedQuestions });
   };
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    if (formData.negativeMarking === "Yes") {
+      if (formData.negativeMarkingPerQuestion >= 0) {
+        return notify("Negative marking per question should be a negative number");
+      }
+    }
+
+    if (formData.noOfQuestions > formData.questions.length) {
+      return notify(`You only added ${formData.questions.length} out of ${formData.noOfQuestions} questions`);
+    }
+
+    if (formData.noOfQuestions < formData.questions.length) {
+      return notify(`You have added more than ${formData.noOfQuestions} questions. Please remove some questions`);
+    }
+
+    for (let i = 0; i < formData.questions.length; i++) {
+      const question = formData.questions[i];
+      const uniqueOptions = new Set(question.options);
+
+      if (uniqueOptions.size !== question.options.length) {
+        return notify(`All options for question ${i + 1} must be unique`);
+      }
+
+      if (!question.options.includes(question.correctAnswer)) {
+        return notify(`The correct answer for question ${i + 1} must match one of the provided options`);
+      }
+    }
+
+    dispatch(updateQuiz(quizId, formData));
+    notify('Quiz Updated');
+  };
+
   return (
     <>
       <ToastContainer />
       <div className="quiz-scroll-container">
-      <Sidebar></Sidebar>
+        <Sidebar />
         <div className="quiz-container">
-        <div className="thumbnail-container">
-          {/* You can replace 'your_thumbnail_url.jpg' with your actual thumbnail URL */}
-          <img className="thumbnail" src="https://akm-img-a-in.tosshub.com/aajtak/2023-02/quiz_01.png" alt="Thumbnail" />
-        </div>
+          <div className="thumbnail-container">
+            <img className="thumbnail" src="https://akm-img-a-in.tosshub.com/aajtak/2023-02/quiz_01.png" alt="Thumbnail" />
+          </div>
           <div>
             <h2>Edit Quiz</h2>
             <form onSubmit={onSubmit}>
@@ -120,10 +137,16 @@ const EditQuiz = () => {
                 <label>Title:</label>
                 <input type="text" name="title" value={formData.title} onChange={onChange} placeholder="Title" />
               </div>
-             
-              <div>
-                <label>Subject:</label>
-                <input type="text" name="subject" value={formData.subject} onChange={onChange} placeholder="Subject" />
+              <div className="form-group">
+                <label>Select Subject</label>
+                <select className="form-control" name="subjectId" value={formData.subjectId} onChange={onChange} required>
+                  <option value="">Select a Subject</option>
+                  {subjects.map(subject => (
+                    <option key={subject.subjectId} value={subject.subjectId}>
+                      {subject.name}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div>
                 <label>Number of Questions:</label>
@@ -140,13 +163,18 @@ const EditQuiz = () => {
                   <option value="No">No</option>
                 </select>
               </div>
-              <div>
-                <label>Negative Marking Per Question:</label>
-                <select name="negativeMarkingPerQuestion" value={formData.negativeMarkingPerQuestion} onChange={onChange}>
-                  <option value="Yes">Yes</option>
-                  <option value="No">No</option>
-                </select>
-              </div>
+              {formData.negativeMarking === "Yes" && (
+                <div>
+                  <label>Negative Marking Per Question:</label>
+                  <input
+                    type="number"
+                    name="negativeMarkingPerQuestion"
+                    value={formData.negativeMarkingPerQuestion}
+                    onChange={onChange}
+                    placeholder="Negative marking per question"
+                  />
+                </div>
+              )}
               <div>
                 <label>Total Time In Minutes:</label>
                 <input type="number" name="totalTimeInMinutes" value={formData.totalTimeInMinutes} onChange={onChange} placeholder="Total Time In Minutes" />
@@ -163,7 +191,7 @@ const EditQuiz = () => {
                 </div>
               ))}
               <button type="button" onClick={addQuestion}>Add Question</button>
-              <button type="submit">Edit Quiz</button>
+              <button type="submit">Submit</button>
             </form>
           </div>
         </div>
