@@ -59,7 +59,17 @@ const EditQuiz = () => {
   }, [dispatch, quizId]);
 
   const onChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    if (name === 'negativeMarking') {
+      if (value === 'No') {
+        setFormData({ ...formData, negativeMarking: value, negativeMarkingPerQuestion: "No" }); // Changed to string "No"
+      } else {
+        setFormData({ ...formData, negativeMarking: value });
+      }
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const addQuestion = () => {
@@ -90,9 +100,9 @@ const EditQuiz = () => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    if (formData.negativeMarking === "Yes") {
+    if (formData.negativeMarking === 'Yes') {
       if (formData.negativeMarkingPerQuestion >= 0) {
-        return notify("Negative marking per question should be a negative number");
+        return notify('Negative marking per question should be a negative number');
       }
     }
 
@@ -163,12 +173,12 @@ const EditQuiz = () => {
                   <option value="No">No</option>
                 </select>
               </div>
-              {formData.negativeMarking === "Yes" && (
+              {formData.negativeMarking === 'Yes' && (
                 <div>
                   <label>Negative Marking Per Question:</label>
                   <input
                     type="number"
-                    name="negativeMarkingPerQuestion"
+                    name="negativeMarkMarkingPerQuestion"
                     value={formData.negativeMarkingPerQuestion}
                     onChange={onChange}
                     placeholder="Negative marking per question"

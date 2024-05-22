@@ -230,5 +230,35 @@ namespace ClassMate.Controllers
 
             return Ok(response);
         }
+
+        [HttpGet("subjects/{subjectId}")]
+        public async Task<ActionResult<ServiceResponse<List<Quiz>>>> GetQuizzesBySubject(int subjectId)
+        {
+            var response = new ServiceResponse<List<Quiz>>();
+
+            try
+            {
+                // Retrieve quizzes for the specified subject from the database asynchronously
+                var quizzes = await _db.Quizzes
+                    .Where(q => q.SubjectId == subjectId)
+                    .ToListAsync();
+
+                // Set the retrieved quizzes to the response data
+                response.Data = quizzes;
+
+                // Set response properties indicating success
+                response.Success = true;
+                response.Message = "Quizzes Retrieved Successfully";
+            }
+            catch (Exception ex)
+            {
+                // If an exception occurs during database interaction, handle it here
+                response.Success = false;
+                response.Message = ex.Message; // Provide the exception message in the response
+            }
+
+            // Return an HTTP response with the service response object (serialized to JSON)
+            return Ok(response);
+        }
     }
 }

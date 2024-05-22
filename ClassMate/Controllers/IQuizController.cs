@@ -13,5 +13,7 @@ namespace ClassMate.Controllers
         Task<ActionResult<ServiceResponse<string>>> DeleteQuiz(int id);
 
         Task<ActionResult<ServiceResponse<Quiz>>> UpdateQuiz(int quizId, QuizDto updatedQuizDto);
+
+        Task<ActionResult<ServiceResponse<List<Quiz>>>> GetQuizzesBySubject(int subjectId);
     }
 }

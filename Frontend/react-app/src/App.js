@@ -34,6 +34,7 @@ import Subject from './Pages/Subject';
 import StudyGroup from './Pages/StudyGroup';
 import Chat from './Pages/Chat';
 import Assignments from './Pages/Assignments';
+import Quizs from './Pages/Quizs';
 import VideoChat from './Pages/VideoChat';
 import { RoomProvider } from './Context/RoomContext';
 function App() {
@@ -53,6 +54,7 @@ function App() {
       <VideoChat/></RoomProvider>}/>
 
       <Route path="/assignments" element={<Assignments/>} />
+      <Route path="/quizs" element={<Quizs/>} />
 
       <Route path="/dashboard" element={
         <PrivateRoute roles={['Teacher', 'Admin']}><Dashboard /></PrivateRoute>} />

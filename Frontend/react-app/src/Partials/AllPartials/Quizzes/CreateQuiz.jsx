@@ -20,7 +20,7 @@ const CreateQuiz = () => {
     noOfQuestions: 0,
     pointPerQuestion: 0,
     negativeMarking: 'No',
-    negativeMarkingPerQuestion: 0,
+    negativeMarkingPerQuestion: 'No',
     totalTimeInMinutes: 0,
     questions: [
       {
@@ -39,7 +39,17 @@ const CreateQuiz = () => {
   }, [dispatch]);
 
   const onChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    if (name === "negativeMarking") {
+      if (value === "No") {
+        setFormData({ ...formData, negativeMarking: value, negativeMarkingPerQuestion: 'No' });
+      } else {
+        setFormData({ ...formData, negativeMarking: value });
+      }
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const addQuestion = () => {
@@ -71,7 +81,8 @@ const CreateQuiz = () => {
     e.preventDefault();
 
     if (formData.negativeMarking === "Yes") {
-      if (formData.negativeMarkingPerQuestion >= 0) {
+      const negativeMarkingPerQuestionNumber = parseFloat(formData.negativeMarkingPerQuestion);
+      if (isNaN(negativeMarkingPerQuestionNumber) || negativeMarkingPerQuestionNumber >= 0) {
         return notify("Negative marking per question should be a negative number");
       }
     }
@@ -108,7 +119,7 @@ const CreateQuiz = () => {
       noOfQuestions: 0,
       pointPerQuestion: 0,
       negativeMarking: 'No',
-      negativeMarkingPerQuestion: 0,
+      negativeMarkingPerQuestion: 'No',
       totalTimeInMinutes: 0,
       questions: [
         {
