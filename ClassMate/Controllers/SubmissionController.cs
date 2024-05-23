@@ -22,16 +22,18 @@ namespace ClassMate.Controllers
             _db = db;
             _userManager = userManager;
         }
-
         [HttpPost]
         [Authorize]
         [Route("Submit")]
-        public async Task<ActionResult<ServiceResponse<Submission>>> SubmitSubmission(IFormFile submittedFile, int assignmentId)
+        public async Task<ActionResult<ServiceResponse<Submission>>> SubmitSubmission([FromForm] IFormFile submittedFile, [FromForm] int assignmentId)
         {
             var response = new ServiceResponse<Submission>();
 
             try
             {
+                Console.WriteLine("Received File: " + (submittedFile != null ? submittedFile.FileName : "No file")); // Debugging statement
+                Console.WriteLine("Assignment ID: " + assignmentId); // Debugging statement
+
                 if (submittedFile == null || submittedFile.Length == 0)
                 {
                     response.Success = false;
@@ -45,6 +47,21 @@ namespace ClassMate.Controllers
                     response.Success = false;
                     response.Message = "User not authorized.";
                     return Unauthorized(response);
+                }
+
+                var assignment = await _db.Assignments.FindAsync(assignmentId);
+                if (assignment == null)
+                {
+                    response.Success = false;
+                    response.Message = "Assignment not found.";
+                    return NotFound(response);
+                }
+
+                if (DateTime.Now > assignment.DueDate)
+                {
+                    response.Success = false;
+                    response.Message = "The due date for this assignment has passed.";
+                    return BadRequest(response);
                 }
 
                 var submission = new Submission
@@ -71,13 +88,12 @@ namespace ClassMate.Controllers
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it as per your application's requirement
                 response.Success = false;
                 response.Message = ex.Message;
-                return StatusCode(500, response); // Return 500 status code with error message
+                return StatusCode(500, response);
             }
 
             return Ok(response);
         }
     }
-}
+    }

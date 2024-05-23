@@ -864,7 +864,46 @@ export const getAssignmentBySubjectId = (subjectId) => async (dispatch) => {
         throw error.response.data;
     }
 };
+export const submitAssignment = (formData) => async (dispatch) => {
+    dispatch({ type: types.SUBMIT_ASSIGNMENT_REQUEST });
+    console.log("Submitting assignment...");
 
+    try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            throw new Error("Authentication token not found.");
+        }
+
+        const res = await axios.post(`https://localhost:7168/Submission/Submit`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        console.log("Assignment submission successful:", res.data);
+
+        dispatch({
+            type: types.SUBMIT_ASSIGNMENT_SUCCESS,
+            payload: {
+                message: res.data.message,
+                success: res.data.success,
+                data: res.data.data
+            }
+        });
+
+        return res.data;
+    } catch (error) {
+        console.log("Assignment submission failed:", error);
+
+        dispatch({
+            type: types.SUBMIT_ASSIGNMENT_FAILURE,
+            payload: error.response ? error.response.data : "An error occurred while submitting the assignment.",
+        });
+
+        throw error.response ? error.response.data : error.message;
+    }
+};
 export const getQuizzesBySubjectId = (subjectId) => async (dispatch) => {
     try {
         dispatch({ type: types.GET_QUIZZES_BY_SUBJECT_ID_REQUEST });
