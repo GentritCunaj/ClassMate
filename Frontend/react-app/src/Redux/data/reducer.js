@@ -6,6 +6,7 @@ const initialState = {
   students: [],
   admins: [],
   quizs: [],
+  submissions:[],
   assignments: [],
   reportStudyRoom: [],
   publicGroups: [],
@@ -13,6 +14,7 @@ const initialState = {
   resources: [],
   reports:[],
   deleteStudyRoom: [],
+  submitLoading: false,
   loading: false,
   modalCreated: false,
   subjects:[],
@@ -139,6 +141,26 @@ export default function dataReducer(state = initialState, { type, payload }) {
         resources: payload.data,
         error: null
       };
+
+      case types.SUBMIT_ASSIGNMENT_REQUEST:
+            return {
+                ...state,
+                submitLoading: true,
+            };
+        case types.SUBMIT_ASSIGNMENT_SUCCESS:
+          console.log("Payload Data:", payload.data);
+            return {
+                ...state,
+                submitLoading: false,
+                submissions: Array.isArray(state.submissions) ? [...state.submissions, payload.data] : [payload.data], // Ensure submissions is always an array
+                error: null,
+            };
+        case types.SUBMIT_ASSIGNMENT_FAILURE:
+            return {
+                ...state,
+                submitLoading: false,
+                error: payload.data,
+            };
 
     case types.DELETE_STUDY_GROUP_SUCCESS:
       return {
