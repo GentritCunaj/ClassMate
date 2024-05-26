@@ -108,6 +108,29 @@ export const Registers = (data) => async (dispatch) => {
     }
 }
 
+export const refreshToken = async () => {
+    const refreshToken = localStorage.getItem('refreshToken');
+  
+    const response = await axios.post('https://localhost:7168/Auth/refresh', 
+     {accessToken:localStorage.getItem("token"),refreshToken });
+   
+    debugger;
+    console.log(response);
+  
+    if (response.status === 200) {
+      
+      localStorage.setItem('token', response.data.accessToken);
+      localStorage.setItem('refreshToken', response.data.refreshToken);
+      return response.data.accessToken;
+    }
+  
+    // If refresh token is invalid or expired, clear the tokens and redirect to login
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    window.location.href = '/login';
+    return null;
+  };
+
 export const authLogin = (data) => async (dispatch) => {
     try {
         dispatch({ type: types.LOGIN_USER_REQUEST });
@@ -121,7 +144,8 @@ export const authLogin = (data) => async (dispatch) => {
             payload: {
                 message: res.data.message,
                 success: res.data.success,
-                token: res.data.data,
+                token: res.data.data[0],
+                refreshToken:res.data.data[1]
             },
         });
         return res.data;

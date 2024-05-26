@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
 using System.Diagnostics.Metrics;
 using System.Security.Claims;
+using static ClassMate.Models.TokenModel;
 
 namespace ClassMate.Controllers
 {
@@ -26,6 +27,7 @@ namespace ClassMate.Controllers
         private readonly IAuthentication _authentication;
         private readonly IHttpContextAccessor _context;
 
+        private static Dictionary<string, RefreshToken> _refreshTokens = new();
         public AuthController(DataContext db, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager,
             IAuthentication authentication, IHttpContextAccessor context, RoleManager<IdentityRole> roleManager)
         {
@@ -64,10 +66,10 @@ namespace ClassMate.Controllers
 
 
         [HttpPost("loginUser")]
-        public async Task<ActionResult<ServiceResponse<string>>>Login(Login login)
+        public async Task<ActionResult<ServiceResponse<List<string>>>> Login(Login login)
         {
 
-            var response = new ServiceResponse<string>();
+            var response = new ServiceResponse<List<string>>();
             var user = await _userManager.FindByEmailAsync(login.Email);
             if (user == null)
             {
@@ -84,12 +86,17 @@ namespace ClassMate.Controllers
                 {
                     var userRoles = await _userManager.GetRolesAsync(user);
                     var jwtSecurityToken = _authentication.GenerateJwtToken(user, userRoles[0]);
-
+                    var refreshToken = _authentication.GenerateRefreshToken();
+                    _refreshTokens[refreshToken] = new RefreshToken { Token = refreshToken, ExpiryDate = DateTime.Now.AddMinutes(5) };
                     _context.HttpContext.Session.SetString("user", user.NormalizedEmail);
 
                     _context.HttpContext.Session.SetString("Token", jwtSecurityToken);
-                    
-                    response.Data = jwtSecurityToken;
+                    List<string> tokenlist = new List<string>
+                    {
+                        jwtSecurityToken,
+                        refreshToken
+                    };
+                    response.Data = tokenlist;
                     response.Message = userRoles[0].ToUpper() + " Logged in";
                     response.Success = true;
                     
@@ -211,6 +218,64 @@ namespace ClassMate.Controllers
             }
             return response;
 
+        }
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> RefreshAsync( TokenModel tokenModel)
+        {
+            var principal = _authentication.GetPrincipalFromExpiredToken(tokenModel.AccessToken);
+            if (principal == null)
+            {
+                return Unauthorized("Invalid access token");
+            }
+
+            // Retrieve the user ID from the claims
+            var nameIdentifier = principal.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // Ensure the user ID is valid
+            if (string.IsNullOrEmpty(nameIdentifier))
+            {
+                return Unauthorized("Invalid user ID in claims");
+            }
+
+            // Retrieve the user based on the user ID
+            var user = await _db.Users.FirstOrDefaultAsync(u => u.Id == nameIdentifier);
+            if (user == null)
+            {
+                return Unauthorized("User not found");
+            }
+
+            // Retrieve the user's roles
+            var roles = await _userManager.GetRolesAsync(user);
+       
+
+            // Check the validity of the refresh token
+            if (!_refreshTokens.ContainsKey(tokenModel.RefreshToken) ||
+                _refreshTokens[tokenModel.RefreshToken].ExpiryDate <= DateTime.Now)
+            {
+                return Unauthorized("Invalid or expired refresh token");
+            }
+
+            // Generate a new access token
+            var newAccessToken = _authentication.GenerateJwtToken(user, roles[0]);
+
+            // Generate a new refresh token
+            var newRefreshToken = _authentication.GenerateRefreshToken();
+
+            // Remove the old refresh token and add the new one
+            _refreshTokens.Remove(tokenModel.RefreshToken);
+            _refreshTokens[newRefreshToken] = new RefreshToken
+            {
+                Token = newRefreshToken,
+                ExpiryDate = DateTime.Now.AddDays(7)
+            };
+
+            // Return the new tokens
+            return Ok(new
+            {
+                AccessToken = newAccessToken,
+                RefreshToken = newRefreshToken
+            });
         }
 
 

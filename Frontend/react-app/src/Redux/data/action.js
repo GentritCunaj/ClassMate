@@ -1,4 +1,5 @@
-﻿import * as types from './types';
+﻿import { refreshToken } from '../auth/action';
+import * as types from './types';
 import axios from "axios";
 
 
@@ -16,6 +17,7 @@ export const getAllUsers = (data) => async (dispatch) => {
             }
 
         );
+         
 
         dispatch({
             type: types.GET_USERS_SUCCESS,
@@ -114,7 +116,8 @@ export const deleteStudyGroup = (studyGroupId) => async (dispatch) => {
 
         throw error.response.data;
     }
-};export const deleteResources = (id) => async (dispatch) => {
+};
+export const deleteResources = (id) => async (dispatch) => {
     try {
         dispatch({ type: types.DELETE_RESOURCE_REQUEST });
 
@@ -334,17 +337,16 @@ export const getAllPublicRooms = () => async (dispatch) => {
 }
 
 export const getAllStudyGroupsReports = () => async (dispatch) => {
-    try {
+    dispatch({ type: types.GET_STUDY_GROUP_REPORTS_REQUEST });
 
-        dispatch({ type: types.GET_STUDY_GROUP_REPORTS_REQUEST });
-        const res = await axios.get(
+    try {
+        let res = await axios.get(
             `https://localhost:7168/Room/studyGroupsWithMultipleReports`,
             {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem("token")
                 }
             }
-
         );
 
         dispatch({
@@ -357,20 +359,62 @@ export const getAllStudyGroupsReports = () => async (dispatch) => {
         });
         console.log(res.data);
         return res.data;
-    }
 
-    catch (error) {
+    } catch (error) {
+        // Check if the error response status is 401
+     
+        if (error.response && error.response.status === 401) {
+            try {
+                // Try to refresh the token
+                const token = await refreshToken();
+                if (token) {
+                    // Retry the original request with the new token
+                    const res = await axios.get(
+                        `https://localhost:7168/Room/studyGroupsWithMultipleReports`,
+                        {
+                            headers: {
+                                Authorization: "Bearer " + localStorage.getItem("token")
+                            }
+                        }
+                    );
 
-        dispatch({
-            type: types.GET_STUDY_GROUP_REPORTS_ERROR,
-            payload: {
-                message: error.data.message
+                    dispatch({
+                        type: types.GET_STUDY_GROUP_REPORTS_SUCCESS,
+                        payload: {
+                            message: res.data.message,
+                            success: res.data.success,
+                            data: res.data.data
+                        }
+                    });
+                    console.log(res.data);
+                    return res.data;
+                } else {
+                    throw new Error('Failed to refresh token');
+                }
+            } catch (refreshError) {
+                // Handle errors that occur during the token refresh process
+                console.error('Token refresh error:', refreshError);
+                dispatch({
+                    type: types.GET_STUDY_GROUP_REPORTS_ERROR,
+                    payload: {
+                        message: refreshError.message
+                    }
+                });
+                return { message: refreshError.message };
             }
-        })
-        return error.respsonse.data;
+        } else {
+            // Handle other errors
+            console.error(error);
+            dispatch({
+                type: types.GET_STUDY_GROUP_REPORTS_ERROR,
+                payload: {
+                    message: error.response ? error.response.data.message : error.message
+                }
+            });
+            return error.response ? error.response.data : { message: error.message };
+        }
     }
-}
-
+};
 
 export const createStudyGroup = (data) => async (dispatch) => {
     

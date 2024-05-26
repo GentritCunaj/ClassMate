@@ -22,6 +22,7 @@ export const VideoChat = () => {
         setRoomId(id || '');
     }, [id, setRoomId]);
 
+    // Determine the correct screen sharing video stream
     const screenSharingVideo = screenSharingId ? (screenSharingId === userId ? screenStream : peers[screenSharingId]?.screenStream) : null;
 
     const { [screenSharingId]: sharing, ...peersToShow } = peers;
@@ -29,7 +30,7 @@ export const VideoChat = () => {
     return (
         <>
             <div className="flex flex-col min-h-screen">
-              
+               
                 <div className={`flex grow ${screenSharingVideo ? 'flex-row' : ''}`}>
                     {screenSharingVideo && (
                         <div className="w-4/5 pr-4">

@@ -29,6 +29,7 @@ export default function authReducer(state = initialState, { type, payload }) {
       };
     case types.LOGIN_USER_SUCCESS:
       localStorage.setItem("token", payload.token);
+      localStorage.setItem("refreshToken",payload.refreshToken)
       return {
         ...state,
         userLogin: { loading: false, error: false, message: payload.message },

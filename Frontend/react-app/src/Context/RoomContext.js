@@ -8,23 +8,20 @@ import {
     addPeerNameAction,
     removePeerStreamAction,
     addAllPeersAction,
+    SET_SCREEN_SHARING_ID
 } from "../reducers/peerActions";
 import { useSelector } from "react-redux";
-import { v4 as uuidv4 } from 'uuid'; // Import UUID library
 
-// Context Declaration
 const RoomContext = createContext({
     peers: {},
     shareScreen: () => {},
     setRoomId: (id) => {},
     screenSharingId: "",
     roomId: "",
-    leaveRoom: () => {}, // Add leaveRoom to context
+    leaveRoom: () => {}, 
 });
 
-// RoomProvider Component
 const RoomProvider = ({ children }) => {
-    // State and Hooks Initialization
     const { user } = useSelector((store) => store.auth);
     const { email: userName, id: userId } = user;
     const [me, setMe] = useState(null);
@@ -33,9 +30,8 @@ const RoomProvider = ({ children }) => {
     const [peers, dispatch] = useReducer(peersReducer, {});
     const [screenSharingId, setScreenSharingId] = useState("");
     const [roomId, setRoomId] = useState("");
-    const navigate = useNavigate(); // Add navigate hook
+    const navigate = useNavigate();
 
-    // Helper Functions
     const getUsers = ({ participants }) => {
         dispatch(addAllPeersAction(participants));
     };
@@ -44,15 +40,9 @@ const RoomProvider = ({ children }) => {
         dispatch(removePeerStreamAction(peerId));
     };
 
-    const switchStream = (stream) => {
-        setTimeout(() => {
-            if (me) {
-                setScreenSharingId(me.id || "");
-            }
-        }, 2000); // Adjust the timeout duration as needed
-    
+    const switchStream = (newStream) => {
         Object.values(me?.connections).forEach((connection) => {
-            const videoTrack = stream?.getTracks().find((track) => track.kind === "video");
+            const videoTrack = newStream?.getTracks().find((track) => track.kind === "video");
             connection[0].peerConnection
                 .getSenders()
                 .find((sender) => sender.track.kind === "video")
@@ -60,47 +50,40 @@ const RoomProvider = ({ children }) => {
                 .catch((err) => console.error(err));
         });
     };
-    
 
     const shareScreen = () => {
         if (screenSharingId) {
-            setTimeout(() => {
-                navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(switchStream);
-            }, 500); // Adjust the delay as necessary
+            navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((newStream) => {
+                switchStream(newStream);
+                setScreenStream(null);
+                setScreenSharingId("");
+            });
         } else {
-            setTimeout(() => {
-                navigator.mediaDevices.getDisplayMedia({}).then((stream) => {
-                    switchStream(stream);
-                    setScreenStream(stream);
-                });
-            }, 500); // Adjust the delay as necessary
+            navigator.mediaDevices.getDisplayMedia({}).then((newStream) => {
+                switchStream(newStream);
+                setScreenStream(newStream);
+                setScreenSharingId(userId);
+            });
         }
     };
 
-
-// Function to initialize PeerJS and WebSocket
-const initializePeerJS = (mediaStream, initialId) => {
-    let peerId = initialId;
-
-    const createPeer = (id) => {
-        const peer = new Peer(id, {
+    const initializePeerJS = (mediaStream, initialId) => {
+        const peer = new Peer(initialId, {
             host: "localhost",
             port: 9001,
             path: "/myapp",
             config: {
                 iceServers: [
                     { url: 'stun:stun01.sipphone.com' },
-                    // Other ICE servers...
                 ]
             }
         });
 
         peer.on('open', () => {
-            console.log('PeerJS connection established with ID:', id);
+            console.log('PeerJS connection established with ID:', initialId);
             setMe(peer);
         });
 
-       
         peer.on("call", (call) => {
             const { userName } = call.metadata;
             dispatch(addPeerNameAction(call.peer, userName));
@@ -114,86 +97,78 @@ const initializePeerJS = (mediaStream, initialId) => {
         return peer;
     };
 
-    return createPeer(peerId);
-};
+    useEffect(() => {
+        const initialize = async () => {
+            try {
+                const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                setStream(mediaStream);
+                initializePeerJS(mediaStream, userId);
+            } catch (error) {
+                console.error('Error accessing user media:', error);
+            }
+        };
 
-// Effect to initialize media and PeerJS
-useEffect(() => {
-    const initialize = async () => {
-        try {
-            const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-            setStream(mediaStream);
-            initializePeerJS(mediaStream, userId);
-        } catch (error) {
-            console.error('Error accessing user media:', error);
-        }
-    };
+        initialize();
 
-    initialize();
-
-    // WebSocket listeners setup and cleanup
-    ws.on("get-users", getUsers);
-    ws.on("user-disconnected", removePeer);
-    ws.on("user-started-sharing", (peerId) => setScreenSharingId(peerId));
-    ws.on("user-stopped-sharing", () => setScreenSharingId(""));
-
-    return () => {
-        ws.off("get-users", getUsers);
-        ws.off("user-disconnected", removePeer);
-        ws.off("user-started-sharing", (peerId) => setScreenSharingId(peerId));
-        ws.off("user-stopped-sharing", () => setScreenSharingId(""));
-        me?.disconnect();
-    };
-}, [userId]);
-
-useEffect(() => {
-    // Emit screen sharing events to WebSocket
-    if (screenSharingId) {
-        ws.emit("start-sharing", { peerId: screenSharingId, roomId });
-    } else {
-        ws.emit("stop-sharing");
-    }
-}, [screenSharingId, roomId]);
-
-useEffect(() => {
-    // PeerJS call handling
-    if (!me || !stream) return;
-
-    // Listener for 'user-joined' event
-    ws.on("user-joined", ({ peerId, userName }) => {
-        const call = me.call(peerId, stream, {
-            metadata: {
-                userName,
-            },
+        ws.on("get-users", getUsers);
+        ws.on("user-disconnected", removePeer);
+        ws.on("user-started-sharing", (peerId) => {
+            setScreenSharingId(peerId);
+            ws.emit("user-started-sharing", { peerId, roomId });
         });
+        ws.on("user-stopped-sharing", () => setScreenSharingId(""));
 
-        if (call) {
-            call.on("stream", (peerStream) => {
-                dispatch(addPeerStreamAction(peerId, peerStream));
+        return () => {
+            ws.off("get-users", getUsers);
+            ws.off("user-disconnected", removePeer);
+            ws.off("user-started-sharing", (peerId) => setScreenSharingId(peerId));
+            ws.off("user-stopped-sharing", () => setScreenSharingId(""));
+            me?.disconnect();
+        };
+    }, [userId]);
+
+    useEffect(() => {
+        if (screenSharingId) {
+            ws.emit("start-sharing", { peerId: screenSharingId, roomId });
+        } else {
+            ws.emit("stop-sharing");
+        }
+    }, [screenSharingId, roomId]);
+
+    useEffect(() => {
+        if (!me || !stream) return;
+
+        ws.on("user-joined", ({ peerId, userName }) => {
+            const call = me.call(peerId, stream, {
+                metadata: {
+                    userName,
+                },
             });
 
-            dispatch(addPeerNameAction(peerId, userName));
-        }
-    });
+            if (call) {
+                call.on("stream", (peerStream) => {
+                    dispatch(addPeerStreamAction(peerId, peerStream));
+                });
 
-    // Cleanup by removing the 'user-joined' listener
-    return () => {
-        ws.off("user-joined");
+                dispatch(addPeerNameAction(peerId, userName));
+            }
+        });
+
+        return () => {
+            ws.off("user-joined");
+        };
+    }, [me, stream]);
+
+    const leaveRoom = () => {
+        ws.emit("leave-room", { roomId, peerId: me.id });
+        me.disconnect();
+        setRoomId("");
+        setScreenStream(null);
+        setStream(null);
+        dispatch({ type: 'RESET_PEERS' });
+        navigate("/studyGroups");
     };
-}, [me, stream]);
 
-// Function to handle leaving the room
-const leaveRoom = () => {
-    ws.emit("leave-room", { roomId, peerId: me.id });
-    me.disconnect();
-    setRoomId("");
-    setScreenStream(null);
-    setStream(null);
-    dispatch({ type: 'RESET_PEERS' }); // Add a reset action in your reducer
-    navigate("/studyGroups"); // Navigate to the home or another page
-};
-
-// Return Statement
     return (
         <RoomContext.Provider
             value={{
@@ -204,12 +179,12 @@ const leaveRoom = () => {
                 roomId,
                 setRoomId,
                 screenSharingId,
-                leaveRoom, // Pass leaveRoom to context
+                leaveRoom,
             }}
         >
             {children}
-          
         </RoomContext.Provider>
     );
-}
+};
+
 export { RoomContext, RoomProvider };
