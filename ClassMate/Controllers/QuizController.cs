@@ -20,10 +20,12 @@ namespace ClassMate.Controllers
     public class QuizController : ControllerBase, IQuizController
     {
         private readonly DataContext _db;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public QuizController(DataContext db)
+        public QuizController(DataContext db, UserManager<ApplicationUser> userManager)
         {
             _db = db;
+            _userManager = userManager;
         }
 
         [Authorize(Roles = "Teacher")]
@@ -230,7 +232,7 @@ namespace ClassMate.Controllers
 
             return Ok(response);
         }
-
+        [Authorize(Roles = "Student")]
         [HttpGet("subjects/{subjectId}")]
         public async Task<ActionResult<ServiceResponse<List<Quiz>>>> GetQuizzesBySubject(int subjectId)
         {
@@ -260,5 +262,105 @@ namespace ClassMate.Controllers
             // Return an HTTP response with the service response object (serialized to JSON)
             return Ok(response);
         }
+          [HttpPost("attempt")]
+        [Authorize(Roles = "Student")]
+        public async Task<ActionResult<ServiceResponse<QuizAttemptDto>>> SubmitQuizAttempt(QuizAttemptDto quizAttemptDto)
+        {
+            var response = new ServiceResponse<QuizAttemptDto>();
+
+            try
+            {
+                // Retrieve the user from the HttpContext
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    response.Success = false;
+                    response.Message = "User not authorized.";
+                    return Unauthorized(response);
+                }
+
+                // Retrieve the quiz from the database
+                var quiz = await _db.Quizzes
+                                    .Include(q => q.Questions)
+                                    .FirstOrDefaultAsync(q => q.QuizID == quizAttemptDto.QuizId);
+
+                if (quiz == null)
+                {
+                    return NotFound("Quiz not found");
+                }
+
+                // Validate the quiz attempt
+                int score = 0;
+                foreach (var questionAttempt in quizAttemptDto.QuestionAttempts)
+                {
+                    var question = quiz.Questions.FirstOrDefault(q => q.QuestionID == questionAttempt.QuestionId);
+                    if (question == null)
+                    {
+                        return BadRequest($"Question with ID {questionAttempt.QuestionId} not found in the quiz");
+                    }
+
+                    if (question.CorrectAnswer == questionAttempt.SelectedOption)
+                    {
+                        score += quiz.PointPerQuestion;
+                    }
+                }
+
+                // Determine if the student has passed the quiz
+                bool isPassed = score >= (quiz.NoOfQuestions * quiz.PointPerQuestion) / 2;
+
+                // Create a new QuizAttempt object
+                var quizAttempt = new QuizAttempt
+                {
+                    QuizId = quizAttemptDto.QuizId,
+                    StudentId = user.Id,
+                    AttemptedOn = DateTime.UtcNow,
+                    Score = score,
+                    IsPassed = isPassed,
+                    QuestionAttempts = quizAttemptDto.QuestionAttempts.Select(qa => new QuestionAttempt
+                    {
+                        QuestionId = qa.QuestionId,
+                        SelectedOption = qa.SelectedOption
+                    }).ToList()
+                };
+
+                _db.QuizAttempts.Add(quizAttempt);
+                await _db.SaveChangesAsync();
+
+                response.Data = quizAttemptDto;
+                response.Success = true;
+                response.Message = "Quiz attempt submitted successfully";
+            }
+            catch (DbUpdateException dbEx)
+            {
+                Console.Error.WriteLine($"DB Update Error: {dbEx.Message}");
+                if (dbEx.InnerException != null)
+                {
+                    Console.Error.WriteLine($"Inner Exception: {dbEx.InnerException.Message}");
+                }
+
+                response.Success = false;
+                response.Message = "A database error occurred while submitting the quiz attempt.";
+                return StatusCode(500, response);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception details
+                Console.Error.WriteLine($"Error: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.Error.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+                }
+
+                response.Success = false;
+                response.Message = "An error occurred while submitting the quiz attempt. Please try again later.";
+                return StatusCode(500, response); // Return a 500 status code for internal server errors
+            }
+
+            return Ok(response);
+        }
+
+
+
     }
 }
+

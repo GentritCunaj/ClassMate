@@ -36,6 +36,7 @@ import Chat from './Pages/Chat';
 import Assignments from './Pages/Assignments';
 import Quizs from './Pages/Quizs';
 import VideoChat from './Pages/VideoChat';
+import QuizDetails from './Pages/QuizDetail';
 import { RoomProvider } from './Context/RoomContext';
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
       <Route path="/studyGroups" element={<StudyGroup/>}/>
       <Route path="/chat/:groupId" element={<Chat/>}/>
       <Route path="/subject/:subjectId" element={<Subject/>} />
+      <Route path="/quizz/:quizId" element={<QuizDetails/>} /> 
       <Route path="/video/:id" element={
         <RoomProvider>
       <VideoChat/></RoomProvider>}/>
