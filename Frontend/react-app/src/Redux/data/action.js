@@ -710,11 +710,6 @@ export const createResource = (data) => async (dispatch) => {
     }
 };
 
-
-
-
-
-
 export const getAllSubjects = () => async (dispatch) => {
     try {
 

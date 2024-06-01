@@ -131,13 +131,10 @@ export const refreshToken = async () => {
     return null;
   };
 
-export const authLogin = (data) => async (dispatch) => {
+  export const authLogin = (data) => async (dispatch) => {
     try {
         dispatch({ type: types.LOGIN_USER_REQUEST });
-        const res = await axios.post(
-            "https://localhost:7168/Auth/loginUser",
-            data
-        );
+        const res = await axios.post("https://localhost:7168/Auth/loginUser", data);
 
         dispatch({
             type: types.LOGIN_USER_SUCCESS,
@@ -145,24 +142,30 @@ export const authLogin = (data) => async (dispatch) => {
                 message: res.data.message,
                 success: res.data.success,
                 token: res.data.data[0],
-                refreshToken:res.data.data[1]
+                refreshToken: res.data.data[1]
             },
         });
-        return res.data;
+        return { 
+            success: res.data.success, 
+            message: res.data.message 
+        };
     } catch (error) {
+        const message = error.response && error.response.data && error.response.data.message
+            ? error.response.data.message
+            : 'An error occurred during login';
 
         dispatch({
-
             type: types.LOGIN_USER_ERROR,
             payload: {
-                message: error.response.data.message,
-
+                message: message,
             },
         });
-        return error.response.data
+        return { 
+            success: false, 
+            message: message 
+        };
     }
 };
-
 export const changePassword = (data) => async (dispatch) => {
     try {
        

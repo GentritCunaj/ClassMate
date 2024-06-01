@@ -44,6 +44,14 @@ const Assignments = ({ subjectId }) => {
             return;
         }
 
+        const assignment = assignments.find(assignment => assignment.assignmentId === currentAssignmentId);
+
+        // Kontrolloni nëse duedata është kaluar
+        if (isDue(assignment.dueDate)) {
+            toast.error('Due date has passed. You cannot submit the assignment.');
+            return;
+        }
+
         const formData = new FormData();
         formData.append('submittedFile', selectedFile);
         formData.append('assignmentId', currentAssignmentId);
@@ -58,6 +66,10 @@ const Assignments = ({ subjectId }) => {
         }
     };
 
+    const isDue = (dueDate) => {
+        return new Date(dueDate) < new Date();
+    };
+
     return (
         <>
             <div className="subject-container">
@@ -67,16 +79,16 @@ const Assignments = ({ subjectId }) => {
                 <div className="subject-wrapper">
                     {assignments && assignments.length > 0 ? (
                         assignments.map((assignment) => (
-                            <div className="subject-card" key={assignment.assignmentId}>
+                            <div className={`subject-card ${isDue(assignment.dueDate) ? 'overdue' : ''}`} key={assignment.assignmentId}>
                                 <div className="subject-details">
                                     <h2 className="subject-title">{assignment.title.toUpperCase()}</h2>
                                     <p><strong>Description:</strong> {assignment.description}</p>
                                     <p><strong>Due Date:</strong> {new Date(assignment.dueDate).toLocaleString()}</p>
-                                    <button 
+                                    <button
                                         onClick={() => {
                                             setCurrentAssignmentId(assignment.assignmentId);
                                             setShowModal(true);
-                                        }} 
+                                        }}
                                         className="submit-button"
                                     >
                                         Submit
@@ -89,11 +101,12 @@ const Assignments = ({ subjectId }) => {
                     )}
                 </div>
             </div>
-            <Modal 
-                show={showModal} 
-                onClose={() => setShowModal(false)} 
-                onSubmit={handleSubmit} 
-                onFileChange={handleFileChange} 
+            <Modal
+                show={showModal}
+                onClose={() => setShowModal(false)}
+                onSubmit={handleSubmit}
+                onFileChange={handleFileChange}
+                dueDate={assignments.find(assignment => assignment.assignmentId === currentAssignmentId)?.dueDate}
             />
         </>
     );

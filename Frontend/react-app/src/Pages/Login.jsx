@@ -41,15 +41,17 @@ function Login() {
     }
     try {
       dispatch(authLogin(form)).then((res) => {
-        const decodedToken = decodeToken(localStorage.getItem("token"));
-        if (decodedToken && decodedToken.role === 'Student') {
-          notify("Login Successful.");
-          return navigate("/");
-        } else if (res.success === true) {
-          notify("Login Successful.");
-          return navigate("/dashboard");
+        if (res.success) {
+          const decodedToken = decodeToken(localStorage.getItem("token"));
+          if (decodedToken && decodedToken.role === 'Student') {
+            notify("Login Successful.");
+            return navigate("/");
+          } else {
+            notify("Login Successful.");
+            return navigate("/dashboard");
+          }
         } else {
-          notify(res.message);
+          notify("Incorrect email or password.");
         }
       });
     } catch (error) {
