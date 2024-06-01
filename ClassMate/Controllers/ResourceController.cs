@@ -11,6 +11,9 @@ using Azure;
 using ClassMate.Dtos;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Google.Cloud.Storage.V1;
+using Google.Apis.Auth.OAuth2;
+
 
 namespace ClassMate.Controllers
 {
@@ -18,46 +21,134 @@ namespace ClassMate.Controllers
     [ApiController]
     public class ResourceController : ControllerBase, IResourceController
     {
+        private readonly StorageClient _storageClient;
+        private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly DataContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ResourceController(DataContext context, IHttpContextAccessor httpContextAccessor)
+        public ResourceController(DataContext context, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment hostingEnvironment, StorageClient  storageClient)
         {
+            _storageClient=storageClient;
+            _hostingEnvironment = hostingEnvironment;
             _context = context;
             _httpContextAccessor = httpContextAccessor;
         }
 
         // GET: api/Resources
-
         [Authorize(Roles = "Teacher,Admin,Student")]
         [HttpGet]
         public async Task<ActionResult<ServiceResponse<IEnumerable<Resource>>>> GetResources()
         {
             var response = new ServiceResponse<IEnumerable<Resource>>();
-             var resources=  await _context.Resources.ToListAsync();
-            response.Data = resources;
-            response.Success= true;
-            response.Message = "Resources retrieved succesfully";
+            try
+            {
+                // Retrieve all resources from the database
+                var resources = await _context.Resources.ToListAsync();
+
+                // Set the response data with the retrieved resources
+                response.Data = resources;
+                response.Success = true;
+                response.Message = "Resources retrieved successfully";
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as per your application's requirement
+                response.Success = false;
+                response.Message = "An error occurred while retrieving the resources. See the inner exception for details.";
+
+                // Log the inner exception details for diagnostic purposes
+                if (ex.InnerException != null)
+                {
+                    response.Message += " Inner exception: " + ex.InnerException.Message;
+                }
+
+                // Return 500 status code with error message
+                return StatusCode(500, response);
+            }
+
+            // Return 200 OK response with the resources data
             return Ok(response);
         }
 
-        // GET: api/Resources/5
+        [Authorize(Roles = "Teacher,Admin,Student")]
+        [HttpGet("subjects/{subject}")]
+        public async Task<ActionResult<ServiceResponse<IEnumerable<Resource>>>> GetResourcesBySubject(int subject)
+        {
+            var response = new ServiceResponse<IEnumerable<Resource>>();
+            try
+            {
+                // Retrieve all resources from the database
+                var resources = await _context.Resources.Where(r => r.SubjectId == subject).ToListAsync();
+
+                // Set the response data with the retrieved resources
+                response.Data = resources;
+                response.Success = true;
+                response.Message = "Resources retrieved successfully";
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as per your application's requirement
+                response.Success = false;
+                response.Message = "An error occurred while retrieving the resources. See the inner exception for details.";
+
+                // Log the inner exception details for diagnostic purposes
+                if (ex.InnerException != null)
+                {
+                    response.Message += " Inner exception: " + ex.InnerException.Message;
+                }
+
+                // Return 500 status code with error message
+                return StatusCode(500, response);
+            }
+
+            // Return 200 OK response with the resources data
+            return Ok(response);
+        }
+
         [Authorize(Roles = "Teacher,Admin,Student")]
         [HttpGet("{id}")]
         public async Task<ActionResult<ServiceResponse<Resource>>> GetResource(int id)
         {
             var response = new ServiceResponse<Resource>();
-            var resource = await _context.Resources.FindAsync(id);
-            
-            if (resource == null)
+            try
             {
-                return NotFound();
+                // Retrieve the resource from the database based on the provided ID
+                var resource = await _context.Resources.FindAsync(id);
+
+                if (resource == null)
+                {
+                    // If the resource is not found, return a 404 Not Found response
+                    return NotFound("Resource not found");
+                }
+
+                // Set the response data with the retrieved resource
+                response.Data = resource;
+                response.Success = true;
+                response.Message = "Resource retrieved successfully";
             }
-            response.Data = resource;
-            response.Success = true;
-            response.Message = "Resources retrieved succesfully";
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as per your application's requirement
+                response.Success = false;
+                response.Message = "An error occurred while retrieving the resource. See the inner exception for details.";
+
+                // Log the inner exception details for diagnostic purposes
+                if (ex.InnerException != null)
+                {
+                    response.Message += " Inner exception: " + ex.InnerException.Message;
+                }
+
+                // Return 500 status code with error message
+                return StatusCode(500, response);
+            }
+
+            // Return 200 OK response with the resource data
             return Ok(response);
         }
+
+
+
+
 
         [Authorize(Roles = "Teacher,Admin")]
         [HttpPost("add")]
@@ -78,17 +169,14 @@ namespace ClassMate.Controllers
 
                 // Retrieve the user from the database based on the user ID
                 var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == resourceDto.UserId);
-                var studyGroup = await _context.StudyGroups.FirstOrDefaultAsync(s => s.StudyGroupId == resourceDto.StudyGroupId);
+                
 
                 if (user == null)
                 {
                     return NotFound("User not found");
                 }
 
-                if (studyGroup == null)
-                {
-                    return NotFound("Study group not found");
-                }
+               
 
                 // Process file input if present
                 string fileUrl = null;
@@ -96,33 +184,33 @@ namespace ClassMate.Controllers
                 {
                     // Generate a unique file name or use other logic to manage file storage
                     var fileName = Guid.NewGuid().ToString() + Path.GetExtension(resourceDto.FileInput.FileName);
-                    var filePath = Path.Combine("uploads", fileName); // Path to the uploads directory
 
-                    // Save the file to disk
-                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    // Upload the file to Google Cloud Storage
+                    using (var memoryStream = new MemoryStream())
                     {
-                        await resourceDto.FileInput.CopyToAsync(stream);
+                        await resourceDto.FileInput.CopyToAsync(memoryStream);
+                        var objectName = $"uploads/{fileName}"; // Adjust the path as needed
+                        _storageClient.UploadObject("class-mate-1", objectName, null, memoryStream);
+                        fileUrl = $"https://storage.googleapis.com/class-mate-1/{objectName}";
                     }
-
-                    // Set the file URL
-                    fileUrl = Path.Combine("/", "uploads", fileName);
                 }
 
                 // Create a new Resource object
                 var resource = new Resource
                 {
-                   
                     UserId = resourceDto.UserId,
                     Title = resourceDto.Title,
                     Description = resourceDto.Description,
-                    FileUrl = fileUrl,
+                    FileUrl = fileUrl, // Assign the file URL obtained from Google Cloud Storage
                     User = user,
-                
+                    SubjectId = resourceDto.SubjectId,
                     FileInput = resourceDto.FileInput
                 };
 
-                // Add resource to the database context and save changes
+                // Add resource to the database context
                 _context.Resources.Add(resource);
+
+                // Save changes to the database
                 await _context.SaveChangesAsync();
 
                 // Set the response data
@@ -134,12 +222,20 @@ namespace ClassMate.Controllers
             {
                 // Log the exception or handle it as per your application's requirement
                 response.Success = false;
-                response.Message = ex.Message;
+                response.Message = "An error occurred while saving the entity changes. See the inner exception for details.";
+
+                // Log the inner exception details for diagnostic purposes
+                if (ex.InnerException != null)
+                {
+                    response.Message += " Inner exception: " + ex.InnerException.Message;
+                }
+
                 return StatusCode(500, response); // Return 500 status code with error message
             }
 
             return Ok(response);
         }
+
 
         [Authorize(Roles = "Teacher,Admin")]
         [HttpPut("{id}")]
@@ -241,6 +337,9 @@ namespace ClassMate.Controllers
 
             return Ok(response);
         }
+
+
+
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("del/{id}")]

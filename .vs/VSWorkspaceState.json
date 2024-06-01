@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\ClassMate"
+    "\\ClassMate",
+    "\\Frontend"
   ],
+  "SelectedNode": "\\ClassMate\\Program.cs",
   "PreviewInSolutionExplorer": false
 }

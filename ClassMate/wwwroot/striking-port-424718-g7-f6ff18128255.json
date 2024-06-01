@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "striking-port-424718-g7",
+  "private_key_id": "f6ff18128255a5fd131bd8d5884143523402bd94",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEugIBADANBgkqhkiG9w0BAQEFAASCBKQwggSgAgEAAoIBAQCPBUB6X8B871ZV\nARs/F7NOZHow/meiUAzFMZRTNZA8HlMrIZFeVs4pUr51FPrsz2ji5ULezwjNpLJw\n8udnH7cfYcWdV1b9r0gKQ15Z0YPHVvLFc6hfYGNpC1ceHHBrJnRsQ+DmB68qzCcg\nUKnhbCRhT8F1jKQOFibqldBRopUNqDSKIyUOF38hJBVJ/SsmLCHKKDUlo2ckQM27\nGNUjbAoAL+mP/aadNw3yjVj3t1X8WfwDadhFa4drjyuE0roic4UDvYFiNdtpKsTG\npRpdGUauls2CydD/n+EgocVU42KKa3U5XAkDNMcmrITxTFChvsOiX4bJ9g3AIrLU\nEiytEw2BAgMBAAECgf8xcR9ZLsDcb+DogflpVkgmUZXsWgZ5ljLT+M/N9DZokhMu\nVexrMJcUsgYlc5tLQmiAB8GWRPxGGymU4mQcwloL/0DRo9/u0ymUYrW7VzK3Nte2\nasVKM4gqSEFVp381i5Wz18NnwkBMC0d7ZGdWBoyNF4VJndUZCY9qiV/62LmufnNH\nx5AtQGxszQ3ZFDA1zfTtLE8XsLGOp9O7cTiZHbpAvzu1Qb5q2Q5KMQ+4IUzCPxVG\n68dRw2uH7zIQZzly8cMJmGYZ+1DuwpZ6SQytLODSCJr12a6/ht4RfEueU/XIIDnQ\nbJo24aLCBqsA0yViQkReMMPZOFd9SDE8arwONgECgYEAxpObtDomB0iOlwZGZYbs\nOaupGW/JK/U0Nze4Z/ExIMnjtZx/M63bNO5VwTSAHkWv+o+bCbAqFzitEC8eDRze\nWw6HHHcG9duWmST+2VrW3IR1yCvtY8WUCpA8/6BaiYOTR9x/JfJeMzk5NsYH1vED\nd68a9pIHj37lRojVFm5dUCECgYEAuGDkdUsT489Bqqt3B1ErLN/ty2TcS9LrqDGa\nai/O8NKTHPChTNOdAo/LjHMdIOTQEUtMegApmry0nYJBlNyY5JYrAf/G/9WssuX+\nZrlK7z0vsuqDyYHBvbOH4OJ10XpNTs0+CETz8BbtAuAUUJb5DWQ0ROWIsym9nt0A\nbRq1kWECgYBPLsr2yf0iCF+7fygREgUeVgIe/4FTgvpoTlK9N+MkNP0VDSt32wq/\nB46wdRPlflpW6m6jJVkTW2k/O9qa1fkgjCF6S0g+P2rE9Iie+WcWFce1ozaNA1st\n/ygjsriHfyz6icU1x3iiql3TJpI3tnFwhyWUTtSu9qXMQ4Hc6PNSoQKBgDMrULvs\nlhyHDGZdJ690K1NM4iWsXCb+5j/LZFtL4VacWg+SCHHV2KE5XvgfilnypnvmNdc1\n7FXxQP7lg2XYwuXNdyoa3hNqLX+IrM29Zrp2dKJmyyRFSotnI7KZprD4DDRuaWTK\nHhjng+dkYL7s5zl8MbVdLk7qqqFIHDIrU3CBAoGANnsJe47oCXe2jSN1L8E9xBHR\nFAlSdq77B8kLxOijO3EAo+X2oqovCpxwQoUMU6WJgP3ApfIUUSgAl13NKa0GYECx\nAnRJ6p4OV9mrQIqpEMVz3Og5vAPZR9MxWNLuNr+RPprT/CbDhJRefGg51jHrMtRk\nCYcCGsByCBVU7Y+PiXI=\n-----END PRIVATE KEY-----\n",
+  "client_email": "classmate-sa@striking-port-424718-g7.iam.gserviceaccount.com",
+  "client_id": "114154363206609381068",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/classmate-sa%40striking-port-424718-g7.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

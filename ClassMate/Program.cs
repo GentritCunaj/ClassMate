@@ -13,6 +13,9 @@ using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.Text;
 using System.Text.Json.Serialization;
+using Google.Cloud.Storage.V1;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -73,6 +76,8 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
+var clientId = builder.Configuration.GetSection("Authentication:ClientId").Get<string>();
+var clientSecret = builder.Configuration.GetSection("Authentication:ClientSecret").Get<string>();
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -125,6 +130,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
      };
  });
 
+builder.Services.AddSingleton(provider =>
+{
+    var credentialPath = Path.Combine(builder.Environment.ContentRootPath, "striking-port-424718-g7-f6ff18128255.json");
+    var googleCredential = GoogleCredential.FromFile(credentialPath);
+    return StorageClient.Create(googleCredential);
+});
+
+builder.Services.AddAuthentication().AddGoogle(googleOptions =>
+{
+    googleOptions.ClientId = clientId;
+    googleOptions.ClientSecret = clientSecret;
+});
 
 
 builder.Services.AddCors(p => p.AddPolicy("corspolicy", build =>
