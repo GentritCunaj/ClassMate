@@ -5,7 +5,9 @@ namespace ClassMate.Dtos
     public class ResourceDto
     {
         public int ResourceId { get; set; }
-        public string? StudyGroupId { get; set; }
+
+        public int SubjectId { get; set; }
+
         public string? UserId { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }

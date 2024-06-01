@@ -679,7 +679,7 @@ export const createResource = (data) => async (dispatch) => {
         dispatch({ type: types.POST_RESOURCE_REQUEST });
 
         const formData = new FormData();
-        formData.append('studyGroupId', data.studyGroupId);
+        formData.append('subjectId', data.subjectId);
         formData.append('title', data.title);
         formData.append('description', data.description);
         formData.append('userId', data.userId);
@@ -974,6 +974,43 @@ export const getQuizzesBySubjectId = (subjectId) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: types.GET_QUIZZES_BY_SUBJECT_ID_ERROR,
+            payload: {
+                message: error.response.data.message
+            }
+        });
+
+        throw error.response.data;
+    }
+};
+
+
+export const getResourceBySubjectId = (subjectId) => async (dispatch) => {
+    debugger;
+    try {
+        dispatch({ type: types.GET_RESOURCE_BY_SUBJECT_ID_REQUEST });
+
+        const res = await axios.get(
+            `https://localhost:7168/Resource/subjects/${subjectId}`,
+            {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token")
+                }
+            }
+        );
+
+        dispatch({
+            type: types.GET_RESOURCE_BY_SUBJECT_ID_SUCCESS,
+            payload: {
+                message: res.data.message,
+                success: res.data.success,
+                data: res.data.data
+            }
+        });
+
+        return res.data;
+    } catch (error) {
+        dispatch({
+            type: types.GET_RESOURCE_BY_SUBJECT_ID_ERROR,
             payload: {
                 message: error.response.data.message
             }

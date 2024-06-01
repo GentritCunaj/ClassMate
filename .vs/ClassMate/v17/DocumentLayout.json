@@ -1,7 +1,40 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\user\\source\\repos\\ClassMate\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\Users\\Drago\\Desktop\\projekti lab2\\ClassMate\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Drago\\Desktop\\projekti lab2\\ClassMate\\ClassMate\\Controllers\\ResourceController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:ClassMate\\Controllers\\ResourceController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Drago\\Desktop\\projekti lab2\\ClassMate\\ClassMate\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:ClassMate\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Drago\\Desktop\\projekti lab2\\ClassMate\\ClassMate\\ClassMate.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:ClassMate\\ClassMate.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Drago\\Desktop\\projekti lab2\\ClassMate\\ClassMate\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:ClassMate\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Drago\\Desktop\\projekti lab2\\ClassMate\\ClassMate\\appsettings.Development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:ClassMate\\appsettings.Development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Drago\\Desktop\\projekti lab2\\ClassMate\\ClassMate\\Models\\GoogleDriveConfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:ClassMate\\Models\\GoogleDriveConfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Drago\\Desktop\\projekti lab2\\ClassMate\\credentials.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:credentials.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Drago\\Desktop\\projekti lab2\\ClassMate\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,8 +42,12 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 8,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{a80febb4-e7e0-4147-b476-21aaf2453969}"
@@ -29,15 +66,115 @@
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{dee22b65-9761-4a26-8fb2-759b971d6dfc}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ClassMate.csproj",
+              "DocumentMoniker": "C:\\Users\\Drago\\Desktop\\projekti lab2\\ClassMate\\ClassMate\\ClassMate.csproj",
+              "RelativeDocumentMoniker": "ClassMate\\ClassMate.csproj",
+              "ToolTip": "C:\\Users\\Drago\\Desktop\\projekti lab2\\ClassMate\\ClassMate\\ClassMate.csproj",
+              "RelativeToolTip": "ClassMate\\ClassMate.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-05-28T20:38:38.011Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ResourceController.cs",
+              "DocumentMoniker": "C:\\Users\\Drago\\Desktop\\projekti lab2\\ClassMate\\ClassMate\\Controllers\\ResourceController.cs",
+              "RelativeDocumentMoniker": "ClassMate\\Controllers\\ResourceController.cs",
+              "ToolTip": "C:\\Users\\Drago\\Desktop\\projekti lab2\\ClassMate\\ClassMate\\Controllers\\ResourceController.cs",
+              "RelativeToolTip": "ClassMate\\Controllers\\ResourceController.cs",
+              "ViewState": "AQIAADwAAAAAAAAAAAAAAFcAAAAvAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-28T20:31:13.775Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Drago\\Desktop\\projekti lab2\\ClassMate\\ClassMate\\Program.cs",
+              "RelativeDocumentMoniker": "ClassMate\\Program.cs",
+              "ToolTip": "C:\\Users\\Drago\\Desktop\\projekti lab2\\ClassMate\\ClassMate\\Program.cs",
+              "RelativeToolTip": "ClassMate\\Program.cs",
+              "ViewState": "AQIAACsAAAAAAAAAAAAAAHgAAAAlAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-28T20:22:18.771Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\Drago\\Desktop\\projekti lab2\\ClassMate\\ClassMate\\appsettings.json",
+              "RelativeDocumentMoniker": "ClassMate\\appsettings.json",
+              "ToolTip": "C:\\Users\\Drago\\Desktop\\projekti lab2\\ClassMate\\ClassMate\\appsettings.json",
+              "RelativeToolTip": "ClassMate\\appsettings.json",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAACcAAAAnAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-05-28T20:22:29.432Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "C:\\Users\\Drago\\Desktop\\projekti lab2\\ClassMate\\ClassMate\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "ClassMate\\appsettings.Development.json",
+              "ToolTip": "C:\\Users\\Drago\\Desktop\\projekti lab2\\ClassMate\\ClassMate\\appsettings.Development.json",
+              "RelativeToolTip": "ClassMate\\appsettings.Development.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-05-28T20:35:51.863Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "GoogleDriveConfig.cs",
+              "DocumentMoniker": "C:\\Users\\Drago\\Desktop\\projekti lab2\\ClassMate\\ClassMate\\Models\\GoogleDriveConfig.cs",
+              "RelativeDocumentMoniker": "ClassMate\\Models\\GoogleDriveConfig.cs",
+              "ToolTip": "C:\\Users\\Drago\\Desktop\\projekti lab2\\ClassMate\\ClassMate\\Models\\GoogleDriveConfig.cs",
+              "RelativeToolTip": "ClassMate\\Models\\GoogleDriveConfig.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-28T20:24:45.449Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "credentials.json",
+              "DocumentMoniker": "C:\\Users\\Drago\\Desktop\\projekti lab2\\ClassMate\\credentials.json",
+              "RelativeDocumentMoniker": "credentials.json",
+              "ToolTip": "C:\\Users\\Drago\\Desktop\\projekti lab2\\ClassMate\\credentials.json",
+              "RelativeToolTip": "credentials.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAABhAQAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-05-28T20:22:08.092Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": ".gitignore",
+              "DocumentMoniker": "C:\\Users\\Drago\\Desktop\\projekti lab2\\ClassMate\\.gitignore",
+              "RelativeDocumentMoniker": ".gitignore",
+              "ToolTip": "C:\\Users\\Drago\\Desktop\\projekti lab2\\ClassMate\\.gitignore",
+              "RelativeToolTip": ".gitignore",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-05-28T20:22:06.553Z",
+              "EditorCaption": ""
             }
           ]
         }

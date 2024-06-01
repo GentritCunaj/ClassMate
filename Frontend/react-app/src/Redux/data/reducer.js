@@ -105,6 +105,14 @@ export default function dataReducer(state = initialState, { type, payload }) {
         error: null
       };
 
+      case types.GET_RESOURCE_BY_SUBJECT_ID_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        resources: payload.data,
+        error: null
+      };
+
       case types.GET_QUIZZES_BY_SUBJECT_ID_SUCCESS:
       return {
         ...state,
