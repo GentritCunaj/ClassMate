@@ -7,7 +7,7 @@ const Hero = () => {
     <>
       <section className='hero'>
         <div className='container'>
-          <div className='row'>
+          <div className='rows'>
             <Heading subtitle='WELCOME TO CLASSMATE' title='Best Online Education Expertise' />
             <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
             <div className='button'>
