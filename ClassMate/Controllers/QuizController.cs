@@ -262,7 +262,7 @@ namespace ClassMate.Controllers
             // Return an HTTP response with the service response object (serialized to JSON)
             return Ok(response);
         }
-          [HttpPost("attempt")]
+        [HttpPost("attempt")]
         [Authorize(Roles = "Student")]
         public async Task<ActionResult<ServiceResponse<QuizAttemptDto>>> SubmitQuizAttempt(QuizAttemptDto quizAttemptDto)
         {
@@ -291,6 +291,8 @@ namespace ClassMate.Controllers
 
                 // Validate the quiz attempt
                 int score = 0;
+                int negativeMarking = int.TryParse(quiz.NegativeMarkingPerQuestion, out int result) ? result : 0;
+
                 foreach (var questionAttempt in quizAttemptDto.QuestionAttempts)
                 {
                     var question = quiz.Questions.FirstOrDefault(q => q.QuestionID == questionAttempt.QuestionId);
@@ -302,6 +304,10 @@ namespace ClassMate.Controllers
                     if (question.CorrectAnswer == questionAttempt.SelectedOption)
                     {
                         score += quiz.PointPerQuestion;
+                    }
+                    else if (negativeMarking != 0)
+                    {
+                        score += negativeMarking; // Deduct points for incorrect answers
                     }
                 }
 
@@ -358,6 +364,7 @@ namespace ClassMate.Controllers
 
             return Ok(response);
         }
+
 
 
 
