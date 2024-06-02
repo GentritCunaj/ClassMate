@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getQuizById, submitQuizAttempt } from '../Redux/data/action';
+import Header from './common/header/Header'; // Importing Header component
 
 const QuizDetails = () => {
     const dispatch = useDispatch();
@@ -9,10 +10,28 @@ const QuizDetails = () => {
     const { quizs, loading, error } = useSelector(state => state.data);
     const [selectedOptions, setSelectedOptions] = useState({});
     const [attemptSubmitted, setAttemptSubmitted] = useState(false);
+    const [timeLeft, setTimeLeft] = useState(0);
 
     useEffect(() => {
         dispatch(getQuizById(quizId));
     }, [dispatch, quizId]);
+
+    useEffect(() => {
+        if (quizs && quizs.totalTimeInMinutes) {
+            setTimeLeft(quizs.totalTimeInMinutes * 60); // convert minutes to seconds
+        }
+    }, [quizs]);
+
+    useEffect(() => {
+        if (timeLeft > 0) {
+            const timer = setInterval(() => {
+                setTimeLeft(prevTime => prevTime - 1);
+            }, 1000);
+            return () => clearInterval(timer);
+        } else if (timeLeft === 0 && !attemptSubmitted) {
+            handleSubmit(false); // auto-submit when time is up
+        }
+    }, [timeLeft, attemptSubmitted]);
 
     const handleOptionChange = (questionId, option) => {
         setSelectedOptions({
@@ -21,7 +40,7 @@ const QuizDetails = () => {
         });
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (isButtonClicked) => {
         const quizAttemptDto = {
             quizId: parseInt(quizId, 10),
             attemptedOn: new Date().toISOString(),
@@ -44,12 +63,25 @@ const QuizDetails = () => {
             console.error('Error submitting quiz attempt:', error);
             console.error('Error details:', error.response);
         } finally {
-            window.location.reload(); // Refresh the page after submitting the quiz
+            if (isButtonClicked) {
+                const goHome = window.confirm('Quiz attempt submitted successfully! Do you want to go to the home page?');
+                if (goHome) {
+                    window.location.href = '/'; // Redirect to home page
+                }
+            }
         }
+    };
+
+    const formatTime = (seconds) => {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
     };
 
     return (
         <>
+        <Header prop={true}/>
+ 
             <style>
                 {`
                 .quiz-container {
@@ -59,7 +91,7 @@ const QuizDetails = () => {
                     background-color: #f9f9f9;
                     border-radius: 10px;
                     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                    height: calc(100vh - 100px); /* Adjust 100px according to your header's height */
+                   
                     overflow-y: auto; /* Add scrollbar if content exceeds height */
                 }
                 
@@ -130,12 +162,22 @@ const QuizDetails = () => {
                     font-size: 16px;
                     margin-top: 20px;
                 }
+
+                .timer {
+                    font-size: 20px;
+                    font-weight: bold;
+                    color: red;
+                    margin-bottom: 20px;
+                }
                 `}
             </style>
             <div className="quiz-container">
                 <h1>{quizs?.title}</h1>
                 <p>Points per Question: {quizs?.pointPerQuestion}</p>
                 {quizs?.negativeMarking === 'Yes' && <p>Negative Marking per Question: {quizs?.negativeMarkingPerQuestion}</p>}
+                <div className="timer">
+                    Time Left: {formatTime(timeLeft)}
+                </div>
                 <div className="questions">
                     {quizs?.questions && quizs.questions.map((question, index) => (
                         <div key={question.questionID} className="question">
@@ -157,7 +199,7 @@ const QuizDetails = () => {
                         </div>
                     ))}
                 </div>
-                {!attemptSubmitted && <button onClick={handleSubmit}>Submit Quiz</button>}
+                {!attemptSubmitted && <button onClick={() => handleSubmit(true)} disabled={timeLeft <= 0}>Submit Quiz</button>}
                 {attemptSubmitted && <p>Quiz attempt submitted successfully!</p>}
             </div>
         </>
