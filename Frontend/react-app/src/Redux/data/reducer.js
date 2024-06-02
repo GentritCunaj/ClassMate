@@ -1,4 +1,5 @@
 ﻿
+import { Types } from 'mongoose';
 import * as types from './types';
 
 const initialState = {
@@ -251,6 +252,10 @@ export default function dataReducer(state = initialState, { type, payload }) {
 
       };
       case types.GET_SUBJECTS_SUCCESS:
+        return { ...state, subjects: payload.data, loading: false };
+      case types.CREATE_SUBJECTS_SUCCESS:
+        return { ...state, subjects: payload.data, loading: false };
+      case types.DELETE_SUBJECTS_SUCCESS : 
         return { ...state, subjects: payload.data, loading: false };
 
     case types.GET_STUDY_GROUPS_SUCCESS:

@@ -10,6 +10,8 @@ import { GetInfo } from '../Redux/auth/action';
 import { getAllUsers } from '../Redux/data/action';
 import Containers from '../Partials/Containers';
 
+import Subjects from '../Partials/Subjects';
+
 const Dashboard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -57,6 +59,7 @@ const Dashboard = () => {
             {user.fRole === 'Teacher' && <PublicGroups />}
             {user.fRole === 'Admin' && <PublicGroups />}
             {user.fRole === 'Admin' && <StudyGroupsReports />}
+            {(user.fRole === 'Admin' || user.fRole === 'Teacher') && <Subjects/>}
           </>
         )}
       </div>

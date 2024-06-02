@@ -92,8 +92,9 @@ const Header = ({ prop }) => {
             )}
           </ul>
           <div className="start">
-            {!user && <Link to="/login" className="button">LOGIN</Link>}
-            {user && user.fRole === "Student" && <Link to="/profile" className="button">PROFILE</Link>}
+            {!user &&  user == null && <Link to="/login" className="button">LOGIN</Link>}
+            
+            {user &&  <Link to="/profile" className="button">PROFILE</Link>}
           </div>
           <button className="toggle" onClick={() => setClick(!click)}>
             {click ? <i className="fa fa-times"> </i> : <i className="fa fa-bars"></i>}
