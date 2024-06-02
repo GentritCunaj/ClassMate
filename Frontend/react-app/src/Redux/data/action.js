@@ -257,6 +257,7 @@ export const deleteReport = (reportId) => async (dispatch) => {
 };
 
 export const deleteReports = (type, id) => async (dispatch) => {
+    debugger;
     try {
         dispatch({ type: types.DELETE_REPORT_REQUEST });
 

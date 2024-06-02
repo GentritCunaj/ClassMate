@@ -35,7 +35,7 @@ const ModalC= ({ onClose,visible }) => {
     groupName: '',
     description: '',
     creatorId: userId, 
-    visibility: visible ? '0':'', // Default value
+    visibility: '', // Default value
     type: "",
     reports:0,
     
@@ -61,7 +61,7 @@ const ModalC= ({ onClose,visible }) => {
       groupName: studyGroupData.groupName,
       description: studyGroupData.description,
       creatorId: studyGroupData.creatorId,
-      visibility: visible ? studyGroupData.visibility: '0',
+      visibility: studyGroupData.visibility,
       type: studyGroupData.type,
       reports: studyGroupData.reports
     };

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination,Button } from "@mui/material";
-import { getAllResources,deleteResource } from "../../../Redux/data/action";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination,Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
+import { getAllResources,deleteResource,deleteReports } from "../../../Redux/data/action";
 import { Link } from 'react-router-dom';
 
 
@@ -19,6 +19,8 @@ const AllResources = () => {
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(3);
+    const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
+    const [resourceToDelete, setResourceToDelete] = useState(null);
 
     useEffect(() => {
         dispatch(getAllResources());
@@ -32,11 +34,26 @@ const AllResources = () => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-    const handleDeleteResource = (resourceId) => {
-
-        dispatch(deleteResource(resourceId)); // Dispatch deleteResource action with the resourceId
+    const handleDeleteResource = async (resourceId) => {
+        try {
+            dispatch(deleteReports("Resource",resourceId));
+            await dispatch(deleteResource(resourceId));
+            console.log("Resource deleted successfully.");
+            dispatch(getAllResources());
+        } catch (error) {
+            console.error("Error deleting resource:", error);
+        }
+    };
+    const openDeleteConfirmation = (resourceId) => {
+        setResourceToDelete(resourceId);
+        setDeleteConfirmationOpen(true);
     };
 
+    const closeDeleteConfirmation = () => {
+        setResourceToDelete(null);
+        setDeleteConfirmationOpen(false);
+    };
+    
     // Filter quizzes based on the creatorId
     const userResources =  resources ? resources || resources.filter(resource => resource.userId === user.id) : [];
 
@@ -71,7 +88,7 @@ const AllResources = () => {
                                         <Button 
                         variant="contained" 
                         color="secondary" 
-                        onClick={() => handleDeleteResource(row.resourceId)} // Call deleteResource with the resourceId
+                        onClick={() => openDeleteConfirmation(row.resourceId)} // Call deleteResource with the resourceId
                     >
                         Delete
                     </Button>
@@ -92,6 +109,17 @@ const AllResources = () => {
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}
             />
+            <Dialog open={deleteConfirmationOpen} onClose={closeDeleteConfirmation}>
+                <DialogTitle>Are you sure you want to delete this resource?</DialogTitle>
+                <DialogActions>
+                    <Button onClick={closeDeleteConfirmation} color="primary">
+                        No
+                    </Button>
+                    <Button onClick={() => { handleDeleteResource(resourceToDelete); closeDeleteConfirmation(); }} color="secondary">
+                        Yes
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 };

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { getResourceBySubjectId } from '../Redux/data/action';
+import ReportResource from './reportModals/Resource';  // Correct the import path
 import Modal from './Modal'; // Import the Modal component
 import '../assets/css/subject.css';
 
@@ -12,6 +13,8 @@ const Resources = ({ subjectId }) => {
 
     const [selectedFile, setSelectedFile] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentResourceId, setCurrentResourceId] = useState(null); // State to store the current resourceId
 
     useEffect(() => {
         const fetchResources = async () => {
@@ -27,6 +30,15 @@ const Resources = ({ subjectId }) => {
             fetchResources();
         }
     }, [dispatch, subjectId]);
+
+    const openModal = (resourceId) => {
+        setCurrentResourceId(resourceId);  // Set the current resourceId
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
 
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
@@ -64,6 +76,14 @@ const Resources = ({ subjectId }) => {
                                             Download Resource
                                         </button>
                                     )}
+                                    <div>
+                                        <button 
+                                            onClick={() => openModal(resource.resourceId)} 
+                                            className="btn btn-primary"
+                                        >
+                                            Report
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         ))
@@ -72,6 +92,11 @@ const Resources = ({ subjectId }) => {
                     )}
                 </div>
             </div>
+            <ReportResource 
+                isOpen={isModalOpen} 
+                onClose={closeModal} 
+                resourceId={currentResourceId}  // Pass the resourceId to the modal
+            />
             <Modal 
                 show={showModal} 
                 onClose={() => setShowModal(false)} 

@@ -206,7 +206,7 @@ namespace ClassMate.Controllers
             return Ok(response);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Teacher,Student")]
         [HttpDelete("del/{type}/{id}")]
         public async Task<ActionResult<ServiceResponse<List<Report>>>> DeleteReports(string type,string id)
         {

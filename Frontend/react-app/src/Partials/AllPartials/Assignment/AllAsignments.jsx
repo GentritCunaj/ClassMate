@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
-import { deleteAssignment, getAllAssignment } from "../../../Redux/data/action";
+import { deleteAssignment, getAllAssignment,deleteReports } from "../../../Redux/data/action";
 import { Link } from 'react-router-dom';
 
 
@@ -39,6 +39,7 @@ const AllAssignments = () => {
 
     const handleDeleteAssignment = async (assignmentId) => {
         try {
+            dispatch(deleteReports("Assignment",assignmentId));
             await dispatch(deleteAssignment(assignmentId));
             console.log("Assignment deleted successfully.");
             dispatch(getAllAssignment());
