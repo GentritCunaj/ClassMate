@@ -21,6 +21,7 @@ import CreateReportResource from './Partials/AllPartials/Resource/CreateReport';
 import CreateReportAssignment from './Partials/AllPartials/Assignment/CreateReport';
 import CreateReportQuiz from './Partials/AllPartials/Quizzes/CreateReport';
 import CreateReportStudyGroup from './Partials/CreateReportStudyGroup';
+import CreateReportChat from './Partials/CreateReportChat';
 import AllAsignments from './Partials/AllPartials/Assignment/AllAsignments';
 import AllQuizzes from './Partials/AllPartials/Quizzes/Quizzes';
 import Assignment from './Partials/AllPartials/Assignment/Assignment';
@@ -120,6 +121,10 @@ function App() {
         <PrivateRoute roles={['Teacher', 'Admin']}><CreateReportStudyGroup /></PrivateRoute>} />
         
 
+        <Route path="/reportmessage/:messageId" element={
+        <PrivateRoute roles={['Teacher', 'Admin','Student']}><CreateReportChat /></PrivateRoute>} />
+
+        
         <Route path="/allquiz" element={
           <PrivateRoute roles={['Teacher', 'Admin']}><AllQuizzes /></PrivateRoute>} />
 

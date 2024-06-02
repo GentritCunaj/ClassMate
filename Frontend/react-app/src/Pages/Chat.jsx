@@ -6,6 +6,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import "../assets/css/chat.css";
 import Header from "./common/header/Header";
 import Footer from "./common/footer/Footer";
+import ReportChat from './reportModals/Chat';  // Correct the import path
+import Modal from './Modal'; // Import the Modal component
 
 function Chat() {
   const { groupId } = useParams();
@@ -16,7 +18,22 @@ function Chat() {
   const [userColors, setUserColors] = useState({});
   const [onlineUsers,setOnlineUsers]= useState([]);
 
+  const [showModal, setShowModal] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentChatId, setCurrentChatId] = useState(null);
+    const openModal = (chatId) => {
+      setCurrentChatId(chatId);  // Set the current resourceId
+      setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+      setIsModalOpen(false);
+  };
+
   const navigate = useNavigate();
+
+  const [hoveredMessage, setHoveredMessage] = useState(null);
+
 
   useEffect(() => {
     const conn = createConnection(groupId);
@@ -108,6 +125,12 @@ function Chat() {
     }
     return userColors[userId];
   };
+  const handleReport = (messageId) => {
+    // Implement reporting logic here
+    
+    console.log("Message reported:", hoveredMessage);
+    // You can perform reporting action here
+  };
 
   const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
@@ -129,88 +152,81 @@ function Chat() {
 
   return (
     <>
-    <Header prop={true}/>
-  <div style={{ float: "left", width: "20%", marginLeft: "4rem", height: "550px", display: "flex", flexDirection: "column", justifyContent: "space-between",marginTop:"2rem"}}>
-    <div>
-        <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-            <div className="online-status"></div>
-            <h3 style={{ textAlign: "end", margin: "0 0 0 10px" }}>Online Users</h3>
-        </div>
-        <ul>
-            {onlineUsers.map((user) => (
-                <li key={user.id} style={{ backgroundColor: userColors[user.id] || "slateblue", padding: "0.7rem", borderRadius: "15px", marginBottom: "10px" }}>
-                    <span style={{ fontFamily: "monospace" }}>{user.firstName} {user.lastName} {user.email}</span>
-                </li>
-            ))}
-        </ul>
-    </div>
-
-    <div className="button-container" style={{ textAlign: "center" }}>
-        <button onClick={leaveGroup} style={{ marginBottom: "1rem" }}>Leave Chat</button>
-    </div>
-</div>
-    <div className="chatcontainer">
-      <div className="chat-page">
-        <div className="msg-inbox">
-          <div className="chats">
-            <AnimatePresence>
-              {messages.map((message, index) => (
-                <motion.div key={index} initial={{ opacity: 0, height: 0 }} transition={{ opacity: 0.15 }} animate={{ opacity: 1, height: "auto" }} className={message.type === "sent" ? "outgoing-chats" : "received-chats"}>
-                  <div className={message.type === "sent" ? "outgoing-msg" : "received-msg"}>
-                    {message.type === "sent" ? (
-                      <div className="outgoing-chats-msg">
-                        <p className="multi-msg">{message.message}</p>
-                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                          <span className="time">{formatTimestamp(message.timestamp)}</span>
-                          <div style={{ position: "relative", top: "-10px", backgroundColor: "darkslateblue"}} className="avatar1">
-                            <h3 style={{ position: "relative", left: "13px", top: "5px" }}> {user && user.firstName.charAt(0)}{user && user.lastName.charAt(0)} </h3>
+      <Header prop={true} />
+      <div style={{ float: "left", width: "20%", marginLeft: "4rem", height: "550px", display: "flex", flexDirection: "column", justifyContent: "space-between", marginTop: "2rem" }}>
+        {/* Online users */}
+        {/* Leave chat button */}
+      </div>
+      <div className="chatcontainer">
+        <div className="chat-page">
+          <div className="msg-inbox">
+            <div className="chats">
+              <AnimatePresence>
+                {messages.map((message, index) => (
+                  <motion.div key={index} initial={{ opacity: 0, height: 0 }} transition={{ opacity: 0.15 }} animate={{ opacity: 1, height: "auto" }} className={message.type === "sent" ? "outgoing-chats" : "received-chats"}>
+                    <div
+                      className={message.type === "sent" ? "outgoing-msg" : "received-msg"}
+                      onMouseEnter={() => setHoveredMessage(message)}
+                      onMouseLeave={() => setHoveredMessage(null)}
+                    >
+                      {message.type === "sent" ? (
+                        <div className="outgoing-chats-msg">
+                          <p className="multi-msg">{message.message}</p>
+                          <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                            <span className="time">{formatTimestamp(message.timestamp)}</span>
+                            <div style={{ position: "relative", top: "-10px", backgroundColor: "darkslateblue" }} className="avatar1">
+                              <h3 style={{ position: "relative", left: "13px", top: "5px" }}> {user && user.firstName.charAt(0)}{user && user.lastName.charAt(0)} </h3>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ) : (
-                      <div className="received-msg-inbox">
-                        <p className="multi-msg">{message.message}</p>
-                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingLeft: "10px" }}>
-                            <div style={{display:"flex"}}>
-                          <div style={{ position: "relative", top: "-10px", backgroundColor: getUserColor(message.creator && message.creator.id) }} className="avatar1">
-                            <h3 style={{ position: "relative", left: "13px", top: "5px" }}> {message.creator && message.creator.firstName.charAt(0)}{message.creator && message.creator.lastName.charAt(0)}</h3>
+                      ) : (
+                        <div className="received-msg-inbox">
+                          <p className="multi-msg">{message.message}</p>
+                          <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", paddingLeft: "10px" }}>
+                            <div style={{ display: "flex" }}>
+                              <div style={{ position: "relative", top: "-10px", backgroundColor: getUserColor(message.creator && message.creator.id) }} className="avatar1">
+                                <h3 style={{ position: "relative", left: "13px", top: "5px" }}> {message.creator && message.creator.firstName.charAt(0)}{message.creator && message.creator.lastName.charAt(0)}</h3>
+                              </div>
+                              <span style={{ left: "10%" }} className="time">{message.creator && message.creator.firstName} {message.creator && message.creator.lastName}</span>
+                            </div>
+                            <span className="time">{formatTimestamp(message.timestamp)}</span>
+                            {hoveredMessage === message && (
+                              <div style={{ position: "relative", top: "-10px" }}>
+                                <button onClick={() => openModal(message.chatMessageId)}>Report</button>
+                              </div>
+                            )}
                           </div>
-                          <span style={{left:"10%"}} className="time">{message.creator && message.creator.firstName} {message.creator && message.creator.lastName}</span>
-                          </div>
-                          <span className="time">{formatTimestamp(message.timestamp)}</span>
                         </div>
-                      </div>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
-          <div className="input-group">
-            <input
-              type="text"
-              id="messageInput"
-              className="form-control"
-              placeholder="Send message..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
+                      )}
+                    </div>
+                    <ReportChat 
+                isOpen={isModalOpen} 
+                onClose={closeModal} 
+                chatId={currentChatId}  // Pass the resourceId to the modal
             />
-            <span id="sendSpan" onClick={sendMessage} className="input-group-text send-icon">
-              <svg style={{
-                width: '80%',
-                position: 'relative',
-                left: '-20px',
-                height: 'auto'
-              }} fill="#000000" width="800px" height="800px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2.009,10.845a1,1,0,0,0,.849.859l8.258,1.18,1.18,8.258a1,1,0,0,0,1.909.252l7.714-18a1,1,0,0,0-1.313-1.313L2.606,9.8A1,1,0,0,0,2.009,10.845Zm11.762,6.483-.711-4.974,4.976-4.976Zm2.85-11.363-4.974,4.974-4.976-.71Z" />
-              </svg>
-            </span>
+            
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+            <div className="input-group">
+              <input
+                type="text"
+                id="messageInput"
+                className="form-control"
+                placeholder="Send message..."
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+              />
+              <span id="sendSpan" onClick={sendMessage} className="input-group-text send-icon">
+                <svg style={{ width: '80%', position: 'relative', left: '-20px', height: 'auto' }} fill="#000000" width="800px" height="800px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2.009,10.845a1,1,0,0,0,.849.859l8.258,1.18,1.18,8.258a1,1,0,0,0,1.909.252l7.714-18a1,1,0,0,0-1.313-1.313L2.606,9.8A1,1,0,0,0,2.009,10.845Zm11.762,6.483-.711-4.974,4.976-4.976Zm2.85-11.363-4.974,4.974-4.976-.71Z" />
+                </svg>
+              </span>
+            </div>
           </div>
-         
         </div>
       </div>
-    </div>
-
     </>
   );
 }

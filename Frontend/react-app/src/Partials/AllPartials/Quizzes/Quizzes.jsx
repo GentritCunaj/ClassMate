@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
-import { getAllQuizzes, deleteQuiz } from "../../../Redux/data/action";
+import { getAllQuizzes, deleteQuiz,deleteReports } from "../../../Redux/data/action";
 import { Link } from "react-router-dom";
 
 const Quizzes = () => {
@@ -42,6 +42,7 @@ const Quizzes = () => {
 
     const handleDeleteQuiz = async (quizID) => {
         try {
+            dispatch(deleteReports("Quiz",quizID));
             await dispatch(deleteQuiz(quizID));
             console.log("Quiz deleted successfully.");
             dispatch(getAllQuizzes());
