@@ -114,7 +114,8 @@ export const deleteStudyGroup = (studyGroupId) => async (dispatch) => {
 
         throw error.response.data;
     }
-};export const deleteResources = (id) => async (dispatch) => {
+};
+export const deleteResources = (id) => async (dispatch) => {
     try {
         dispatch({ type: types.DELETE_RESOURCE_REQUEST });
 
@@ -489,6 +490,46 @@ export const createStudyGroup = (data) => async (dispatch) => {
     }
 }
 
+
+export const createSubject = (data) => async (dispatch) => {
+    
+    try {
+
+        dispatch({ type: types.CREATE_SUBJECTS_REQUEST });
+        const res = await axios.post(
+            `https://localhost:7168/Room/addSubject`, data,
+            {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token")
+                }
+            }
+
+        );
+
+        dispatch({
+            type: types.CREATE_SUBJECTS_SUCCESS,
+            payload: {
+                message: res.data.message,
+                success: res.data.success,
+                data: res.data.data
+            }
+        });
+        console.log(res.data);
+        return res.data;
+    }
+
+    catch (error) {
+
+        dispatch({
+            type: types.CREATE_SUBJECTS_ERROR,
+            payload: {
+                message: error.data.message
+            }
+        })
+        return error.respsonse.data;
+    }
+}
+
 export const createQuiz = (data) => async (dispatch) => {
     try {
 
@@ -551,6 +592,43 @@ export const deleteQuiz = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: types.DELETE_QUIZ_ERROR,
+            payload: {
+                message: error.response.data.message
+            }
+        });
+
+        throw error.response.data;
+    }
+};
+
+
+export const deleteSubject = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: types.DELETE_SUBJECTS_REQUEST });
+
+        const res = await axios.delete(
+            `https://localhost:7168/Room/deleteSubject/${id}`,
+            {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token")
+                }
+            }
+        );
+
+        dispatch({
+            type: types.DELETE_SUBJECTS_SUCCESS,
+            payload: {
+                message: res.data.message,
+                success: res.data.success,
+                data:res.data.data
+
+            }
+        });
+
+        return res.data;
+    } catch (error) {
+        dispatch({
+            type: types.DELETE_SUBJECTS_ERROR,
             payload: {
                 message: error.response.data.message
             }
@@ -793,6 +871,8 @@ export const getAllSubjects = () => async (dispatch) => {
         return error.respsonse.data;
     }
 }
+
+
 
 export const getAllQuizzes = () => async (dispatch) => {
     try {

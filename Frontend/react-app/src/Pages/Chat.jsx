@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { createConnection } from "./signalr";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { AnimatePresence, motion } from 'framer-motion';
 import "../assets/css/chat.css";
@@ -16,6 +16,7 @@ function Chat() {
   const [userColors, setUserColors] = useState({});
   const [onlineUsers,setOnlineUsers]= useState([]);
 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const conn = createConnection(groupId);
@@ -86,6 +87,8 @@ function Chat() {
   };
 
   const leaveGroup = () => {
+    
+    navigate("/studyGroups");
     connection.invoke("LeaveGroup", groupId).catch((err) => console.error(err));
 };
 

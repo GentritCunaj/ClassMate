@@ -2,6 +2,7 @@
 
 using Azure;
 using ClassMate.Data;
+using ClassMate.Dtos;
 using ClassMate.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -264,6 +265,60 @@ namespace ClassMate.Controllers
                 response.Message = $"Error retrieving study groups with multiple reports: {ex.Message}";
                 return StatusCode(StatusCodes.Status500InternalServerError, response);
             }
+        }
+
+     
+        [HttpPost("addSubject")]
+        public async Task<ActionResult<ServiceResponse<List<Subject>>>> PostSubject(SubjectDto subject)
+        {
+            var response = new ServiceResponse<List<Subject>>();
+            Subject newSubject = new Subject{
+                Name = subject.Name,
+                Description = subject.Description,
+            };
+            _db.Subjects.Add(newSubject);
+            await _db.SaveChangesAsync();
+            var subjects = await _db.Subjects.ToListAsync();
+            response.Data = subjects;
+            response.Message = "Subject added";
+            response.Success = true;
+            return response;
+
+        }
+
+        [HttpDelete("deleteSubject/{id}")]
+        public async Task<ActionResult<ServiceResponse<List<Subject>>>> DeleteSubject(int id)
+        {
+            var response = new ServiceResponse<List<Subject>>();
+
+
+            try
+            {
+                var subject = await _db.Subjects.FindAsync(id);
+                if (subject == null)
+                {
+                    response.Success = false;
+                    response.Message = "Subject not found.";
+                    return NotFound(response);
+                }
+
+
+                _db.Subjects.Remove(subject);
+                await _db.SaveChangesAsync();
+
+                response.Data = await _db.Subjects.ToListAsync();
+                response.Success = true;
+                response.Message = "Subject deleted successfully.";
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = $"Error deleting Subject: {ex.Message}";
+                return StatusCode(500, response);
+            }
+
+
         }
 
         [Authorize(Roles = "Admin")]
