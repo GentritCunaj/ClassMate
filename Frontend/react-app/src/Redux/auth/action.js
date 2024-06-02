@@ -114,7 +114,7 @@ export const refreshToken = async () => {
     const response = await axios.post('https://localhost:7168/Auth/refresh', 
      {accessToken:localStorage.getItem("token"),refreshToken });
    
-    debugger;
+
     console.log(response);
   
     if (response.status === 200) {
