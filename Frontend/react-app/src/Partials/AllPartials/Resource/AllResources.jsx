@@ -11,10 +11,12 @@ const AllResources = () => {
 
     const columns = [
         { id: 'resourceId', name: "Resource ID" },
-        { id: 'title', name: "Title" },
-        { id: 'description', name: "Description" },
+        { id: 'userId', name: "Username" },
+        { id: 'title', name: "Resource Title" },
+        { id: 'description', name: "Resource Description" },
         { id: 'subjectId', name: "Subject" }, // Change "Subject ID" to "Subject"
         { id: 'fileUrl', name: "File" },
+        
     ];
 
     const [page, setPage] = useState(0);
@@ -81,28 +83,37 @@ const AllResources = () => {
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row, index) => (
                             <TableRow key={index}>
-                                {columns.map((column, colIndex) => {
-                                    let value = column.id === 'subjectId' ? getSubjectName(row[column.id]) : row[column.id];
-                                    return (
-                                        <TableCell key={colIndex}>
-                                            {value}
-                                        </TableCell>
-                                    );
-                                })}
-                                <TableCell>
-                                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                                        <Button style={{ marginRight: '10px' }} component={Link} to={`/UpdateResource/${row.resourceId}`} variant="contained" color="primary">Edit</Button>
-                                        <Button
-                                            variant="contained"
-                                            color="secondary"
-                                            onClick={() => openDeleteConfirmation(row.resourceId)} // Call deleteResource with the resourceId
-                                        >
-                                            Delete
-                                        </Button>
-                                        <Button style={{ marginLeft: '10px' }} component={Link} to={`/ReportResource/${row.resourceId}`} variant="contained" color="primary">Report</Button>
-                                    </div>
-                                </TableCell>
-                            </TableRow>
+    {columns.map((column, colIndex) => {
+        let value;
+        if (column.id === 'subjectId') {
+            value = getSubjectName(row[column.id]);
+        } else if (column.id === 'userId') {
+            value = row.user['userName'];
+        } else {
+            value = row[column.id];
+        }
+
+        return (
+            <TableCell key={colIndex}>
+                {value}
+            </TableCell>
+        );
+    })}
+
+    <TableCell>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Button style={{ marginRight: '10px' }} component={Link} to={`/UpdateResource/${row.resourceId}`} variant="contained" color="primary">Edit</Button>
+            <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => openDeleteConfirmation(row.resourceId)}
+            >
+                Delete
+            </Button>
+            <Button style={{ marginLeft: '10px' }} component={Link} to={`/ReportResource/${row.resourceId}`} variant="contained" color="primary">Report</Button>
+        </div>
+    </TableCell>
+</TableRow>
                         ))}
                 </TableBody>
             </Table>

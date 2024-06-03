@@ -96,7 +96,7 @@ const AllReports = () => {
                                 <TableCell style={{ backgroundColor: 'black', color: 'white' }}>Creator</TableCell>
                                 <TableCell style={{ backgroundColor: 'black', color: 'white' }}>Actions</TableCell>
                             </TableRow>
-                        </TableHead>
+                        </TableHead> 
                         <TableBody>
                             {(rowsPerPage > 0
                                 ? reports.filter(report => report.chatMessageId !== null).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)

@@ -43,7 +43,7 @@ namespace ClassMate.Controllers
             try
             {
                 // Retrieve all resources from the database
-                var resources = await _context.Resources.ToListAsync();
+                var resources = await _context.Resources.Include(r=> r.User).ToListAsync();
 
                 // Set the response data with the retrieved resources
                 response.Data = resources;
@@ -337,7 +337,7 @@ namespace ClassMate.Controllers
                 _context.Resources.Remove(resource);
                 await _context.SaveChangesAsync();
 
-                response.Data = await _context.Resources.ToListAsync();
+                response.Data = await _context.Resources.Include(r => r.User).ToListAsync();
                 response.Success = true;
                 response.Message = "Resource Deleted";
             }
@@ -379,7 +379,7 @@ namespace ClassMate.Controllers
                 _context.Resources.RemoveRange(resourcesToRemove);
                 await _context.SaveChangesAsync();
 
-                response.Data = await _context.Reports.ToListAsync();
+                response.Data = await _context.Reports.Include(r => r.User).Include(r => r.Creator).Include(r => r.StudyGroup).Include(r => r.Assignment).Include(r => r.ChatMessage).Include(r => r.Resource).Include(r => r.Quiz).ToListAsync();
                 response.Success = true;
                 response.Message = "Resources Deleted";
             }

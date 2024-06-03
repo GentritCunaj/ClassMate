@@ -66,7 +66,7 @@ const Resources = ({ subjectId }) => {
                             <div className="subject-card" key={resource.resourceId}>
                                 <div className="subject-details">
                                     <h2 className="subject-title">{resource.title.toUpperCase()}</h2>
-                                    <p><strong>Title:</strong> {resource.title}</p>
+                                    
                                     <p><strong>Description:</strong> {resource.description}</p>
                                     {resource.fileUrl && (
                                         <button 
