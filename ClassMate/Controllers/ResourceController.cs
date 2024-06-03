@@ -38,9 +38,9 @@ namespace ClassMate.Controllers
         // GET: api/Resources
         [Authorize(Roles = "Teacher,Admin,Student")]
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<IEnumerable<Resource>>>> GetResources()
+        public async Task<ActionResult<ServiceResponse<List<Resource>>>> GetResources()
         {
-            var response = new ServiceResponse<IEnumerable<Resource>>();
+            var response = new ServiceResponse<List<Resource>>();
             try
             {
                 // Retrieve all resources from the database
@@ -240,9 +240,9 @@ namespace ClassMate.Controllers
 
         [Authorize(Roles = "Teacher,Admin")]
         [HttpPut("{id}")]
-        public async Task<ActionResult<ServiceResponse<Resource>>> UpdateResource(int id, ResourceDto updatedResourceDto)
+        public async Task<ActionResult<ServiceResponse<List<Resource>>>> UpdateResource(int id, ResourceDto updatedResourceDto)
         {
-            var response = new ServiceResponse<Resource>();
+            var response = new ServiceResponse<List<Resource>>();
 
             try
             {
@@ -288,7 +288,7 @@ namespace ClassMate.Controllers
                 await _context.SaveChangesAsync();
 
                 // Set the updated resource to the response data
-                response.Data = existingResource;
+                response.Data = await _context.Resources.Include(r => r.User).ToListAsync();
 
                 // Set response properties indicating success
                 response.Success = true;
@@ -322,7 +322,7 @@ namespace ClassMate.Controllers
 
         [Authorize(Roles = "Teacher,Admin")]
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ServiceResponse<Resource>>> DeleteResource(int id)
+        public async Task<ActionResult<ServiceResponse<List<Resource>>>> DeleteResource(int id)
         {
 
             var response = new ServiceResponse<List<Resource>>();
