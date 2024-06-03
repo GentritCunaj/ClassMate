@@ -34,7 +34,7 @@ namespace ClassMate.Controllers
         public async Task<ActionResult<ServiceResponse<IEnumerable<Report>>>> GetReports()
         {
             var response = new ServiceResponse<IEnumerable<Report>>();
-            var reports = await _context.Reports.ToListAsync();
+            var reports = await _context.Reports.Include(r => r.User).Include(r=> r.Creator).Include(r=> r.StudyGroup).Include(r=> r.Assignment).Include(r=> r.ChatMessage).Include(r=> r.Resource).Include(r=> r.Quiz).ToListAsync();
             response.Data = reports;
             response.Success = true;
             response.Message = "Reports retrieved succesfully";
@@ -177,7 +177,6 @@ namespace ClassMate.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<ServiceResponse<Report>>> DeleteReport(int id)
         {
-
             var response = new ServiceResponse<List<Report>>();
             try
             {
@@ -185,26 +184,56 @@ namespace ClassMate.Controllers
 
                 if (report == null)
                 {
-                    return NotFound();
+                    response.Success = false;
+                    response.Message = "Report not found";
+                    return NotFound(response);
                 }
 
+                // Log report details before deletion
+                Console.WriteLine($"Attempting to delete report: {report.ReportId}, created by: {report.CreatorId}");
+
                 _context.Reports.Remove(report);
+
+                // Log entity state before saving changes
+                Console.WriteLine($"Entity state before save: {_context.Entry(report).State}");
+
                 await _context.SaveChangesAsync();
 
-                response.Data = await _context.Reports.ToListAsync();
+                // Verify if the report is actually removed
+                var reportExists = await _context.Reports.FindAsync(id);
+                if (reportExists != null)
+                {
+                    response.Success = false;
+                    response.Message = "Report could not be deleted";
+                    return StatusCode(500, response); // Internal Server Error
+                }
+
+                response.Data = await _context.Reports
+                    .Include(r => r.User)
+                    .Include(r => r.Creator)
+                    .Include(r => r.StudyGroup)
+                    .Include(r => r.Assignment)
+                    .Include(r => r.ChatMessage)
+                    .Include(r => r.Resource)
+                    .Include(r => r.Quiz)
+                    .ToListAsync();
+
                 response.Success = true;
                 response.Message = "Report Deleted";
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it as per your application's requirement
+                // Log the exception with stack trace
+                Console.WriteLine($"Exception occurred: {ex.Message}\n{ex.StackTrace}");
+
                 response.Success = false;
                 response.Message = ex.Message;
-                return StatusCode(500, response); // Return 500 status code with error message
+                return StatusCode(500, response); // Internal Server Error
             }
 
             return Ok(response);
         }
+
 
         [Authorize(Roles = "Admin,Teacher,Student")]
         [HttpDelete("del/{type}/{id}")]
