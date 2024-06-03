@@ -31,6 +31,7 @@ import Students from './Partials/Students';
 import Teachers from './Partials/Teachers';
 import Home from "./Pages/home/Home"
 import About from "./Pages/about/About"
+import Team from "./Pages/team/Team"
 import Subject from './Pages/Subject';
 import StudyGroup from './Pages/StudyGroup';
 import Chat from './Pages/Chat';
@@ -46,6 +47,7 @@ function App() {
       <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
+      <Route path="/team" element={<Team/>} />
       <Route path="/login" element={<Login />} />
       <Route path="/profile" element={<UserProfile />} />
       <Route path="/studyGroups" element={<StudyGroup/>}/>
