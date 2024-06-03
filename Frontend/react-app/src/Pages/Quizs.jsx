@@ -62,7 +62,7 @@ const Quizzes = () => {
                     quizs.map((quiz) => (
                         <div className="subject-card" key={quiz.quizID}>
                             <div className="subject-details">
-                                <h2 className="subject-title">{quiz.title.toUpperCase()}</h2>
+                                <h2 className="subject-title"> {quiz.title.toUpperCase()}</h2>
                                 <p><strong>Number of Questions:</strong> {quiz.noOfQuestions}</p>
                                 <p><strong>Total Time:</strong> {quiz.totalTimeInMinutes} min</p>
                                 <button 
