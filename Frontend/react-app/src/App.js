@@ -31,6 +31,7 @@ import Students from './Partials/Students';
 import Teachers from './Partials/Teachers';
 import Home from "./Pages/home/Home"
 import About from "./Pages/about/About"
+import Team from "./Pages/team/Team"
 import Subject from './Pages/Subject';
 import StudyGroup from './Pages/StudyGroup';
 import Chat from './Pages/Chat';
@@ -39,6 +40,8 @@ import Quizs from './Pages/Quizs';
 import VideoChat from './Pages/VideoChat';
 import QuizDetails from './Pages/QuizDetail';
 import { RoomProvider } from './Context/RoomContext';
+import GetQuizResults from './Partials/AllPartials/Quizzes/GetQuizResults';
+import QuizResults from './Partials/AllPartials/Quizzes/QuizResults';
 function App() {
   return (
     <Router>
@@ -46,12 +49,14 @@ function App() {
       <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
+      <Route path="/team" element={<Team/>} />
       <Route path="/login" element={<Login />} />
       <Route path="/profile" element={<UserProfile />} />
       <Route path="/studyGroups" element={<StudyGroup/>}/>
       <Route path="/chat/:groupId" element={<Chat/>}/>
       <Route path="/subject/:subjectId" element={<Subject/>} />
       <Route path="/quizz/:quizId" element={<QuizDetails/>} /> 
+      <Route path="/results/:quizId" element={<QuizResults/>} /> 
       <Route path="/video/:id" element={
         <RoomProvider>
       <VideoChat/></RoomProvider>}/>
@@ -72,6 +77,8 @@ function App() {
       <Route path="/assignment" element={
         <PrivateRoute roles={['Teacher', 'Admin']}><Assignment /></PrivateRoute>} />
 
+     <Route path="/quizResults" element={
+     <PrivateRoute roles={['Teacher']}><GetQuizResults /></PrivateRoute>} />
 
       <Route path="/resource" element={
         <PrivateRoute roles={['Teacher', 'Admin']}><Resource /></PrivateRoute>} />

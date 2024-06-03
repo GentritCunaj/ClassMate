@@ -28,6 +28,21 @@ const Quiz = () => {
           >
             Add Quiz
           </Link>
+          <Link
+            to="/quizResults" // Update this with the correct path to quiz results
+            style={{
+              textDecoration: 'none',
+              padding: '10px 20px', /* Adjust padding */
+              backgroundColor: '#28a745', // Change color to green (or any desired color)
+              color: '#fff',
+              borderRadius: '5px',
+              fontSize: '16px',
+              fontWeight: 'bold',
+              marginLeft: '20px' /* Add margin to separate buttons */
+            }}
+          >
+            Quiz Results
+          </Link>
         </div>
 
         <div style={{ marginLeft: "50px" }}>

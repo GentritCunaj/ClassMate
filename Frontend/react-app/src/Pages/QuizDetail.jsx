@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getQuizById, submitQuizAttempt } from '../Redux/data/action';
@@ -11,6 +11,7 @@ const QuizDetails = () => {
     const [selectedOptions, setSelectedOptions] = useState({});
     const [attemptSubmitted, setAttemptSubmitted] = useState(false);
     const [timeLeft, setTimeLeft] = useState(0);
+    const isSubmittingRef = useRef(false); // Ref to track if submission is in progress
 
     useEffect(() => {
         dispatch(getQuizById(quizId));
@@ -28,10 +29,8 @@ const QuizDetails = () => {
                 setTimeLeft(prevTime => prevTime - 1);
             }, 1000);
             return () => clearInterval(timer);
-        } else if (timeLeft === 0 && !attemptSubmitted) {
-            handleSubmit(false); // auto-submit when time is up
         }
-    }, [timeLeft, attemptSubmitted]);
+    }, [timeLeft]);
 
     const handleOptionChange = (questionId, option) => {
         setSelectedOptions({
@@ -41,6 +40,9 @@ const QuizDetails = () => {
     };
 
     const handleSubmit = async (isButtonClicked) => {
+        if (isSubmittingRef.current || attemptSubmitted) return;
+        isSubmittingRef.current = true;
+
         const quizAttemptDto = {
             quizId: parseInt(quizId, 10),
             attemptedOn: new Date().toISOString(),
@@ -63,6 +65,7 @@ const QuizDetails = () => {
             console.error('Error submitting quiz attempt:', error);
             console.error('Error details:', error.response);
         } finally {
+            isSubmittingRef.current = false;
             if (isButtonClicked) {
                 const goHome = window.confirm('Quiz attempt submitted successfully! Do you want to go to the home page?');
                 if (goHome) {
@@ -80,8 +83,7 @@ const QuizDetails = () => {
 
     return (
         <>
-        <Header prop={true}/>
- 
+            <Header prop={true} />
             <style>
                 {`
                 .quiz-container {
@@ -91,14 +93,11 @@ const QuizDetails = () => {
                     background-color: #f9f9f9;
                     border-radius: 10px;
                     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                   
                     overflow-y: auto; /* Add scrollbar if content exceeds height */
                 }
-                
                 .questions {
                     padding-right: 20px; /* Add padding to accommodate scrollbar */
                 }
-                
                 .question {
                     margin-bottom: 20px;
                     padding: 20px;
@@ -107,35 +106,28 @@ const QuizDetails = () => {
                     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
                     transition: background-color 0.3s ease;
                 }
-                
                 .question:hover {
                     background-color: #f2f2f2;
                 }
-                
                 h2 {
                     font-size: 20px;
                     margin-bottom: 10px;
                 }
-                
                 .options {
                     margin-top: 10px;
                 }
-                
                 .option {
                     display: block;
                     margin-bottom: 10px;
                 }
-                
                 label {
                     display: flex;
                     align-items: center;
                     cursor: pointer;
                 }
-                
                 input[type="radio"] {
                     margin-right: 10px;
                 }
-                
                 button {
                     display: block;
                     margin-top: 20px;
@@ -148,21 +140,17 @@ const QuizDetails = () => {
                     font-size: 16px;
                     transition: background-color 0.3s ease;
                 }
-                
                 button:hover {
                     background-color: #45a049;
                 }
-                
                 button:disabled {
                     background-color: #ccc;
                     cursor: not-allowed;
                 }
-                
                 p {
                     font-size: 16px;
                     margin-top: 20px;
                 }
-
                 .timer {
                     font-size: 20px;
                     font-weight: bold;
@@ -199,7 +187,13 @@ const QuizDetails = () => {
                         </div>
                     ))}
                 </div>
-                {!attemptSubmitted && <button onClick={() => handleSubmit(true)} disabled={timeLeft <= 0}>Submit Quiz</button>}
+                {!attemptSubmitted && (
+                    <button 
+                        onClick={() => handleSubmit(true)} 
+                        disabled={timeLeft <= 0 || isSubmittingRef.current}>
+                        Submit Quiz
+                    </button>
+                )}
                 {attemptSubmitted && <p>Quiz attempt submitted successfully!</p>}
             </div>
         </>

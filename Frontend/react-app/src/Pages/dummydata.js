@@ -245,46 +245,46 @@ export const online = [
 ]
 export const team = [
   {
-    cover: "./images/team/t1.webp",
+    cover: "t1.webp",
     name: "Ph.D Adrian Molises",
     work: "DEVELOPER AND LEAD INSTRUCTOR",
   },
   {
-    cover: "./images/team/t2.webp",
+    cover: "t2.webp",
     name: "Ph.D Arthur MaGregor",
     work: "DEVELOPER AND LEAD INSTRUCTOR",
   },
   {
-    cover: "./images/team/t3.webp",
+    cover: "t3.webp",
     name: "Ph.D Anna Hanzen",
     work: "DEVELOPER AND LEAD INSTRUCTOR",
   },
   {
-    cover: "./images/team/t4.webp",
+    cover: "t4.webp",
     name: "Ph.D Brian Wooden",
     work: "DEVELOPER AND LEAD INSTRUCTOR",
   },
   {
-    cover: "./images/team/t5.webp",
-    name: "Ph.D Adrian Molises",
+    cover: "t5.webp",
+    name: "Ph.D Claire Johnson",
     work: "DEVELOPER AND LEAD INSTRUCTOR",
   },
   {
-    cover: "./images/team/t6.webp",
-    name: "Ph.D Arthur MaGregor",
+    cover: "t6.webp",
+    name: "Ph.D Emma Stone",
     work: "DEVELOPER AND LEAD INSTRUCTOR",
   },
   {
-    cover: "./images/team/t7.webp",
-    name: "Ph.D Anna Hanzen",
+    cover: "t7.webp",
+    name: "Ph.D John Doe",
     work: "DEVELOPER AND LEAD INSTRUCTOR",
   },
   {
-    cover: "./images/team/t8.webp",
-    name: "Ph.D Brian Wooden",
+    cover: "t8.webp",
+    name: "Ph.D Jane Smith",
     work: "DEVELOPER AND LEAD INSTRUCTOR",
   },
-]
+];
 export const price = [
   {
     name: "BASIC PLAN",

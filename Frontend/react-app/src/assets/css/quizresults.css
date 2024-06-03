@@ -1,0 +1,80 @@
+.quiz-results-container {
+    display: flex;
+  }
+  
+  .sidebar {
+    flex: 0 0 200px; /* Fixed width for the sidebar */
+  }
+  
+  .quiz-results {
+    margin: 20px;
+    font-family: Arial, sans-serif;
+    flex-grow: 1;
+    max-width: calc(100% - 235px); /* Adjusted to fit more to the right of the sidebar */
+    margin-left: 235px; /* Prevent overlap with the sidebar */
+  }
+  
+  .quiz-results h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .results-table {
+    width: 95%; /* Adjusted width of the table */
+    margin: 0 auto;
+    border-collapse: collapse;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .results-table th,
+  .results-table td {
+    border: 1px solid #ddd;
+    padding: 10px; /* Reduced padding */
+    text-align: center;
+    font-size: 14px; /* Reduced font size */
+  }
+  
+  .results-table th {
+    background-color: #f4f4f4;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .results-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .results-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .results-table tr.failed {
+    background-color: #ffe6e6;
+  }
+  
+  .results-table td.failed {
+    color: red;
+  }
+  
+  @media (max-width: 600px) {
+    .quiz-results {
+      max-width: 100%; /* Full width on smaller screens */
+      margin: 10px;
+      margin-left: 0; /* Adjust margin when sidebar is hidden */
+    }
+  
+    .results-table, .results-table th, .results-table td {
+      font-size: 10px; /* Further reduced font size */
+      padding: 4px; /* Further reduced padding */
+    }
+  
+    .sidebar {
+      display: none; /* Hide sidebar on small screens */
+    }
+  
+    .quiz-results {
+      margin-left: 0; /* Adjust margin when sidebar is hidden */
+    }
+  }
+  
