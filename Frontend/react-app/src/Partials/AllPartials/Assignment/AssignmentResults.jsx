@@ -66,7 +66,7 @@ const AssignmentResults = () => {
                 <th>Student Name</th>
                 <th>Submitted On</th>
                 <th>File Name</th>
-                <th>Is Submitted</th>
+                
               </tr>
             </thead>
             <tbody>
@@ -78,7 +78,6 @@ const AssignmentResults = () => {
                   <td>{submission.studentName}</td>
                   <td>{new Date(submission.submittedOn).toLocaleString()}</td>
                   <td>{submission.fileName}</td>
-                  <td>{submission.isSubmitted ? "Yes" : "No"}</td>
                 </tr>
               ))}
             </tbody>
