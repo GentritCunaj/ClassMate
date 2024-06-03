@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "../../Sidebar"; // Importing Sidebar component
 
 const AssignmentSubmission = ({ assignment, onViewSubmission }) => (
-  <Card style={{ marginBottom: "20px" }}>
+  <Card style={{ marginBottom: "20px",backgroundColor: "#f0f0f0"}}>
     <CardContent>
       <Typography variant="h6">Assignment ID: {assignment.assignmentId}</Typography>
       <Typography variant="h5">{assignment.title}</Typography>
@@ -75,7 +75,7 @@ const Assignments = () => {
   }));
 
   return (
-    <div style={{ display: "flex", height: "100%" }}>
+    <div style={{ display: "flex", height: "100%",marginTop:'30px'}}>
       <Sidebar />
       <div style={{ marginLeft: "275px", marginRight: "20px", width: "100%" }}>
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>

@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from '../../Sidebar'; // Importing Sidebar component
 
 const QuizCard = ({ quiz, onViewResults }) => (
-  <Card style={{ marginBottom: '20px' }}>
+  <Card style={{marginBottom: '20px',backgroundColor: "#f0f0f0"}}>
     <CardContent>
       <Typography variant="h6">Quiz ID: {quiz.quizID}</Typography>
       <Typography variant="h5">{quiz.title}</Typography>
@@ -79,7 +79,7 @@ const Quizzes = () => {
   }
 
   return (
-    <div style={{ display: 'flex', height: '100%' }}>
+    <div style={{ display: 'flex', height: '100%',marginTop:'30px' }}>
       {/* Sidebar on the left */}
       <Sidebar />
 
