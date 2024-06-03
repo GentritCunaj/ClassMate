@@ -21,13 +21,19 @@ function Chat() {
 
 
   const [isGroupModalOpen, setIsGroupModalOpen] = useState(false);
+
+  const [thisMessage, setThisMessage] = useState(false);
   const [showModal, setShowModal] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentChatId, setCurrentChatId] = useState(null);
     const [usersId, setCurrentUsersId] = useState(null);
-    const openModal = (chatId,usersId) => {
+    const [username, setCurrentUserName] = useState(null);
+
+    const openModal = (chatId,usersId,message,username) => {
       setCurrentChatId(chatId);
-      setCurrentUsersId(usersId);  // Set the current resourceId
+      setCurrentUsersId(usersId);
+      setThisMessage(message);
+      setCurrentUserName(username);  // Set the current resourceId
       setIsModalOpen(true);
   };
 
@@ -140,12 +146,7 @@ const closeGroupModal = () => {
     }
     return userColors[userId];
   };
-  const handleReport = (messageId) => {
-    // Implement reporting logic here
-    
-    console.log("Message reported:", hoveredMessage);
-    // You can perform reporting action here
-  };
+  
 
   const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
@@ -198,7 +199,7 @@ const closeGroupModal = () => {
                   <motion.div key={index} initial={{ opacity: 0, height: 0 }} transition={{ opacity: 0.15 }} animate={{ opacity: 1, height: "auto" }} className={message.type === "sent" ? "outgoing-chats" : "received-chats"}>
                     <div
                       className={message.type === "sent" ? "outgoing-msg" : "received-msg"}
-                      onMouseEnter={() => setHoveredMessage(message)}
+                      onMouseEnter={() => setHoveredMessage(message) }
                       onMouseLeave={() => setHoveredMessage(null)}
                     >
                       {message.type === "sent" ? (
@@ -224,7 +225,7 @@ const closeGroupModal = () => {
                             <span className="time">{formatTimestamp(message.timestamp)}</span>
                             {hoveredMessage === message && (
                               <div style={{ position: "relative", top: "-10px" }}>
-                                <button onClick={() => openModal(message.chatMessageId,message.creatorId)}>Report</button>
+                                <button onClick={() => openModal(message.chatMessageId,message.creatorId,message.message,message.creator.userName)}>Report</button>
                               </div>
                             )}
                           </div>
@@ -235,7 +236,9 @@ const closeGroupModal = () => {
                 isOpen={isModalOpen} 
                 onClose={closeModal} 
                 chatId={currentChatId}
-                userSent={usersId}  // Pass the resourceId to the modal
+                userSent={usersId}
+                message={thisMessage}  
+                username={username}
             />
             
                   </motion.div>

@@ -33,7 +33,7 @@ const StudyGroupsReports = () => {
     }, [dispatch]);
 
     const handleDeleteStudyGroup = async (studyGroupId) => {
-        debugger;
+      
         try {
             // Dispatch deleteReports action first
             const deleteReportsResponse = await dispatch(deleteReports("StudyGroup", studyGroupId));
