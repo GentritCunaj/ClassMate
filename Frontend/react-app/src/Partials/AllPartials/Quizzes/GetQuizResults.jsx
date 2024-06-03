@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { getAllQuizzes } from "../../../Redux/data/action";
 import { useNavigate } from "react-router-dom";
+import Sidebar from '../../Sidebar'; // Importing Sidebar component
 
 const QuizCard = ({ quiz, onViewResults }) => (
   <Card style={{ marginBottom: '20px' }}>
@@ -33,11 +34,10 @@ const QuizCard = ({ quiz, onViewResults }) => (
 const Quizzes = () => {
   const dispatch = useDispatch();
   const { quizs, loading, subjects } = useSelector((store) => store.data);
-  const { user } = useSelector((store) => store.auth); // Accessing logged-in user info
+  const { user } = useSelector((store) => store.auth);
   const navigate = useNavigate();
 
-  const creatorId = user.id; // Extracting creatorId from logged-in user
-
+  const creatorId = user.id;
   const [selectedSubjectName, setSelectedSubjectName] = useState('');
 
   useEffect(() => {
@@ -58,20 +58,19 @@ const Quizzes = () => {
     return subject ? subject.subjectId : null;
   };
 
-  // Filter quizzes based on the creatorId
-  const filteredQuizzes = quizs.filter(quiz => quiz.creatorId === creatorId && (selectedSubjectName === '' || quiz.subjectName === selectedSubjectName))
-                                .map(quiz => ({
-                                  ...quiz,
-                                  subjectName: getSubjectName(quiz.subjectId)
-                                }));
+  const filteredQuizzes = quizs.filter(quiz => {
+    const subjectId = getSubjectId(selectedSubjectName);
+    return selectedSubjectName === '' || quiz.subjectId === subjectId;
+  }).map(quiz => ({
+    ...quiz,
+    subjectName: getSubjectName(quiz.subjectId)
+  }));
 
   const onViewResults = (quizId) => {
-    // Navigate to specific quiz ID
     navigate(`/results/${quizId}`);
   };
 
   const navigateToQuiz = () => {
-    // Navigate back to the quiz page
     navigate('/quiz');
   };
 
@@ -80,37 +79,43 @@ const Quizzes = () => {
   }
 
   return (
-    <div id="dashboardContainer" className="container pt-4">
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-        <Typography variant="h6" gutterBottom style={{ marginRight: '10px' }}>
-          Filter Quizzes Results by Subject
-        </Typography>
-        <Select
-          value={selectedSubjectName}
-          onChange={handleSubjectChange}
-          displayEmpty
-          style={{ marginRight: '10px' }}
-        >
-          <MenuItem value="">
-            <em>All Subjects</em>
-          </MenuItem>
-          {subjects.map(subject => (
-            <MenuItem key={subject.subjectId} value={subject.name}>
-              {subject.name}
+    <div style={{ display: 'flex', height: '100%' }}>
+      {/* Sidebar on the left */}
+      <Sidebar />
+
+      {/* Main content on the right */}
+      <div style={{ marginLeft: '275px', marginRight: '20px', width: '100%' }}>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+          <Typography variant="h6" gutterBottom style={{ marginRight: '10px' }}>
+            Filter Quizzes Results by Subject
+          </Typography>
+          <Select
+            value={selectedSubjectName}
+            onChange={handleSubjectChange}
+            displayEmpty
+            style={{ marginRight: '10px' }}
+          >
+            <MenuItem value="">
+              <em>All Subjects</em>
             </MenuItem>
+            {subjects.map(subject => (
+              <MenuItem key={subject.subjectId} value={subject.name}>
+                {subject.name}
+              </MenuItem>
+            ))}
+          </Select>
+          <Button variant="contained" color="primary" onClick={navigateToQuiz}>
+            Back to Quiz
+          </Button>
+        </div>
+        <Typography variant="h4" gutterBottom>
+          Quizzes Results
+        </Typography>
+        <div>
+          {filteredQuizzes.map((quiz, index) => (
+            <QuizCard key={index} quiz={quiz} onViewResults={onViewResults} />
           ))}
-        </Select>
-        <Button variant="contained" color="primary" onClick={navigateToQuiz}>
-          Back to Quiz
-        </Button>
-      </div>
-      <Typography variant="h4" gutterBottom>
-        Quizzes Results
-      </Typography>
-      <div>
-        {filteredQuizzes.map((quiz, index) => (
-          <QuizCard key={index} quiz={quiz} onViewResults={onViewResults} />
-        ))}
+        </div>
       </div>
     </div>
   );

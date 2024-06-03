@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"; // Import the useNavigate hook
+import { Button } from "@mui/material"; // Import Button from Material-UI
 import Sidebar from "../../Sidebar"; // Adjust the import path as needed
 import "../../../assets/css/quizresults.css";
+
 const QuizResults = () => {
   const { quizId } = useParams(); // Extract quizId from URL parameters
   const [attempts, setAttempts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); // Initialize the navigate function
 
   useEffect(() => {
     const fetchQuizAttemptDetails = async () => {
@@ -34,6 +37,11 @@ const QuizResults = () => {
 
     fetchQuizAttemptDetails();
   }, [quizId]);
+
+  const handleNavigateBack = () => {
+    // Navigate back to the quiz results page
+    navigate('/quizResults');
+  };
 
   return (
     <div className="quiz-results-container">
@@ -67,6 +75,17 @@ const QuizResults = () => {
             </tbody>
           </table>
         )}
+       <Button
+    variant="contained"
+    color="primary"
+    onClick={handleNavigateBack}
+    style={{
+        marginTop: '20px',
+        marginLeft: '30px', // Move the button to the right
+    }}
+>
+    Back to Quiz Results
+</Button>
       </div>
     </div>
   );
