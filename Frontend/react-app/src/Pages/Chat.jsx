@@ -6,7 +6,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import "../assets/css/chat.css";
 import Header from "./common/header/Header";
 import Footer from "./common/footer/Footer";
-import ReportChat from './reportModals/Chat';  // Correct the import path
+import ReportChat from './reportModals/Chat';
+import ReportGroup from'./reportModals/Group';  // Correct the import path
 import Modal from './Modal'; // Import the Modal component
 
 function Chat() {
@@ -18,17 +19,31 @@ function Chat() {
   const [userColors, setUserColors] = useState({});
   const [onlineUsers,setOnlineUsers]= useState([]);
 
+
+  const [isGroupModalOpen, setIsGroupModalOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentChatId, setCurrentChatId] = useState(null);
-    const openModal = (chatId) => {
-      setCurrentChatId(chatId);  // Set the current resourceId
+    const [usersId, setCurrentUsersId] = useState(null);
+    const openModal = (chatId,usersId) => {
+      setCurrentChatId(chatId);
+      setCurrentUsersId(usersId);  // Set the current resourceId
       setIsModalOpen(true);
   };
 
   const closeModal = () => {
       setIsModalOpen(false);
   };
+
+
+  const openGroupModal = (chatId) => {
+    setCurrentChatId(chatId);  // Set the current resourceId
+    setIsGroupModalOpen(true);
+};
+
+const closeGroupModal = () => {
+    setIsGroupModalOpen(false);
+};
 
   const navigate = useNavigate();
 
@@ -154,8 +169,25 @@ function Chat() {
     <>
       <Header prop={true} />
       <div style={{ float: "left", width: "20%", marginLeft: "4rem", height: "550px", display: "flex", flexDirection: "column", justifyContent: "space-between", marginTop: "2rem" }}>
-        {/* Online users */}
-        {/* Leave chat button */}
+      <div>
+        <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+            <div className="online-status"></div>
+            <h3 style={{ textAlign: "end", margin: "0 0 0 10px" }}>Online Users</h3>
+        </div>
+        <ul>
+            {onlineUsers.map((user) => (
+                <li key={user.id} style={{ backgroundColor: userColors[user.id] || "slateblue", padding: "0.7rem", borderRadius: "15px", marginBottom: "10px" }}>
+                    <span style={{ fontFamily: "monospace" }}>{user.firstName} {user.lastName} {user.email}</span>
+                </li>
+            ))}
+        </ul>
+    </div>
+    <div className="button-container" style={{ textAlign: "center" }}>
+        <button onClick={leaveGroup} style={{ marginBottom: "1rem" }}>Leave Chat</button>
+    </div>
+    <div className="button-container" style={{ textAlign: "center" }}>
+    <button onClick={() => openGroupModal(groupId)} style={{ marginBottom: "1rem" }}>Report Group</button>
+    </div>
       </div>
       <div className="chatcontainer">
         <div className="chat-page">
@@ -192,7 +224,7 @@ function Chat() {
                             <span className="time">{formatTimestamp(message.timestamp)}</span>
                             {hoveredMessage === message && (
                               <div style={{ position: "relative", top: "-10px" }}>
-                                <button onClick={() => openModal(message.chatMessageId)}>Report</button>
+                                <button onClick={() => openModal(message.chatMessageId,message.creatorId)}>Report</button>
                               </div>
                             )}
                           </div>
@@ -202,7 +234,8 @@ function Chat() {
                     <ReportChat 
                 isOpen={isModalOpen} 
                 onClose={closeModal} 
-                chatId={currentChatId}  // Pass the resourceId to the modal
+                chatId={currentChatId}
+                userSent={usersId}  // Pass the resourceId to the modal
             />
             
                   </motion.div>
@@ -227,6 +260,11 @@ function Chat() {
           </div>
         </div>
       </div>
+      <ReportGroup
+                isOpen={isGroupModalOpen} 
+                onClose={closeGroupModal} 
+                groupId={groupId}  // Pass the resourceId to the modal
+            />
     </>
   );
 }

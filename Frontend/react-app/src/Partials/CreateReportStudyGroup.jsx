@@ -50,8 +50,8 @@ const CreateReport = () => {
     
         dispatch(createReport(reportDto)).then((res)=>{
             setReportValue(initData);
-            debugger;
-            reportRoom(studyGroupId);
+            
+            dispatch(reportRoom(studyGroupId));
             notify("Reported")
         });
 

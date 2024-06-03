@@ -1,7 +1,7 @@
-import React, { useState,useEffect } from 'react';
-import { useDispatch,useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { EditResource,getResourceById } from "../../../Redux/data/action";
+import { EditResource, getResourceById, getAllSubjects } from "../../../Redux/data/action";
 import { ToastContainer, toast } from 'react-toastify';
 import Sidebar from '../../Sidebar';
 
@@ -11,45 +11,65 @@ const UpdateResources = () => {
   const { error, message } = useSelector((store) => store.data);
   const { user } = useSelector((store) => store.auth);
   const userId = user.id;
+  const { subjects } = useSelector((store) => store.data);
+
   const [formData, setFormData] = useState({
-        studyGroupId: "",
-        title: "",
-        userId:userId,
-        description: "",
-        fileInput: "",
+    subjectId: "",
+    title: "",
+    userId: userId,
+    description: "",
+    fileInput: null,
   });
+
   useEffect(() => {
     dispatch(getResourceById(resourceId))
       .then((data) => {
         const resource = data.data;
         setFormData({
-          studyGroupId: resource.studyGroupId,
+          subjectId: resource.subjectId,
           title: resource.title,
           userId: resource.userId,
           description: resource.description,
-          fileInput:resource.fileInput
+          fileInput: null,
         });
       })
       .catch((error) => {
-        console.error('Error fetching resource :', error);
+        console.error('Error fetching resource:', error);
         toast.error('Error fetching resource. Please try again.');
       });
-  }, [dispatch,resourceId]);
+  }, [dispatch, resourceId]);
 
   const onChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
+
+  const onFileChange = (e) => {
+    setFormData({ ...formData, fileInput: e.target.files[0] });
+  };
+
+  useEffect(() => {
+    dispatch(getAllSubjects());
+  }, [dispatch]);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(EditResource(resourceId, formData))
+    const updatedFormData = new FormData();
+    updatedFormData.append("subjectId", formData.subjectId);
+    updatedFormData.append("title", formData.title);
+    updatedFormData.append("userId", formData.userId);
+    updatedFormData.append("description", formData.description);
+    if (formData.fileInput) {
+      updatedFormData.append("fileInput", formData.fileInput);
+    }
+
+    dispatch(EditResource(resourceId, updatedFormData))
       .then((data) => {
         toast.success(data.message);
       })
       .catch((error) => {
-        // Handle error, e.g., show an error message
         console.error('Failed to update resource:', error.message);
-        toast.error('Error updating quiz. Please try again.')
+        toast.error('Error updating resource. Please try again.');
       });
   };
 
@@ -57,21 +77,26 @@ const UpdateResources = () => {
     <>
       <ToastContainer />
       <div className="assignment-container">
-        <Sidebar></Sidebar>
+        <Sidebar />
         <div className="main-content" style={{ marginLeft: '400px' }}>
           <h1>Update Resource</h1>
           <form onSubmit={onSubmit}>
-          <div className="form-group">
-              <label>Study Group</label>
-              <input
-                type="text"
+            <div className="form-group">
+              <label>Select Subject</label>
+              <select
                 className="form-control"
-                placeholder="Enter studygroupId"
-                name="studyGroupId"
-                value={formData.studyGroupId}
+                name="subjectId"
+                value={formData.subjectId}
                 onChange={onChange}
                 required
-              />
+              >
+                <option value="">Select a Subject</option>
+                {subjects.map(subject => (
+                  <option key={subject.subjectId} value={subject.subjectId}>
+                    {subject.name}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="form-group">
               <label>Title</label>
@@ -102,17 +127,13 @@ const UpdateResources = () => {
                 type="file"
                 className="form-control"
                 name="fileInput"
-                value={formData.fileInput}
-                onChange={onChange}
-                required
+                onChange={onFileChange}
               />
             </div>
-
             <button type="submit" className="btn btn-primary">Edit Resource</button>
           </form>
         </div>
       </div>
-
     </>
   );
 };

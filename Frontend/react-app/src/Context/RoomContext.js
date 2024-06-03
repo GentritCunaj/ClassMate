@@ -160,6 +160,7 @@ const RoomProvider = ({ children }) => {
     }, [me, stream]);
 
     const leaveRoom = () => {
+        navigate("/studyGroups")
         ws.emit("leave-room", { roomId, peerId: me.id });
         me.disconnect();
         setRoomId("");

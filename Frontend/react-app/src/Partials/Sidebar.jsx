@@ -54,10 +54,21 @@ const Sidebar = () => {
               </a>
             </li>
           )}
-          {user && user.fRole === 'Teacher' && (
+          {user && user.fRole === 'Teacher'  && (
             <li>
               <div className="iocn-link">
-                <a href="/resource">
+                <a href="/resource">  
+                  <i id="sideIcon" className='bx bx-book-alt'></i>
+                  <span className="link_name">Resource</span>
+                </a>
+                <i className='bx bxs-chevron-down arrow'></i>
+              </div>
+            </li>
+          )}
+          {user && user.fRole === 'Admin'  && (
+            <li>
+              <div className="iocn-link">
+                <a href="/resource">  
                   <i id="sideIcon" className='bx bx-book-alt'></i>
                   <span className="link_name">Resource</span>
                 </a>

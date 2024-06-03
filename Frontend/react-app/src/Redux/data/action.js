@@ -43,20 +43,17 @@ export const getAllUsers = (data) => async (dispatch) => {
 
 
 export const reportRoom = (data) => async (dispatch) => {
-    
     try {
         dispatch({ type: types.REPORT_STUDY_ROOM_REQUEST });
 
-
         const res = await axios.post(
             `https://localhost:7168/Room/report?studyGroupId=${data}`,
+            null, // pass null as the second argument for POST requests with no body
             {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem("token")
                 }
             }
-
-
         );
 
         dispatch({
@@ -601,6 +598,9 @@ export const deleteQuiz = (id) => async (dispatch) => {
         throw error.response.data;
     }
 };
+
+
+
 
 
 export const deleteSubject = (id) => async (dispatch) => {

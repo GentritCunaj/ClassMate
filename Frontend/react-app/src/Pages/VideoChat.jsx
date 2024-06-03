@@ -1,9 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect,useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { ShareScreenButton } from '../Partials/ShareScreenButton';
 import { VideoPlayer } from '../Partials/VideoPlayer';
 import { RoomContext } from '../Context/RoomContext';
+import ReportGroup from'./reportModals/Group'; 
 import ws from './socket';
 
 export const VideoChat = () => {
@@ -12,6 +13,16 @@ export const VideoChat = () => {
     const { user } = useSelector((store) => store.auth);
     const { email: userName, id: userId } = user;
 
+    const [isGroupModalOpen, setIsGroupModalOpen] = useState(false);
+    const [currentChatId, setCurrentChatId] = useState(null);
+    const openGroupModal = (chatId) => {
+        setCurrentChatId(chatId);  // Set the current resourceId
+        setIsGroupModalOpen(true);
+    };
+    
+    const closeGroupModal = () => {
+        setIsGroupModalOpen(false);
+    };
     useEffect(() => {
         if (stream) {
             ws.emit('join-room', { roomId: id, peerId: userId, userName });
@@ -57,7 +68,14 @@ export const VideoChat = () => {
             <div style={{ display: "flex", flexDirection: "row", width: 'fit-content', position: "relative", left: "5%" }} className="h-28 fixed bottom-0 p-6 w-full flex items-center justify-center border-t-2">
                 <ShareScreenButton onClick={shareScreen} />
                 <button onClick={leaveRoom}>Leave Room</button>
+                <button onClick={() => openGroupModal(id)} style={{ marginBottom: "1rem" }}>Report Group</button>
             </div>
+            <ReportGroup
+                isOpen={isGroupModalOpen} 
+                onClose={closeGroupModal} 
+                groupId={id}  // Pass the resourceId to the modal
+            />
+            
         </>
     );
 };
