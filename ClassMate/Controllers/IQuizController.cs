@@ -18,6 +18,7 @@ namespace ClassMate.Controllers
 
         Task<ActionResult<ServiceResponse<QuizAttemptDto>>> SubmitQuizAttempt(QuizAttemptDto quizAttemptDto);
 
+        Task<ActionResult<ServiceResponse<List<QuizAttemptDto>>>> GetQuizAttemptDetailsByQuizId(int quizId);
 
     }
 }
