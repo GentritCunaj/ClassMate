@@ -79,7 +79,7 @@ export const reportRoom = (data) => async (dispatch) => {
 }
 
 export const deleteStudyGroup = (studyGroupId) => async (dispatch) => {
-    debugger;
+   
     try {
         dispatch({ type: types.DELETE_STUDY_GROUP_REQUEST });
 
@@ -254,7 +254,7 @@ export const deleteReport = (reportId) => async (dispatch) => {
 };
 
 export const deleteReports = (type, id) => async (dispatch) => {
-    debugger;
+   
     try {
         dispatch({ type: types.DELETE_REPORT_REQUEST });
 

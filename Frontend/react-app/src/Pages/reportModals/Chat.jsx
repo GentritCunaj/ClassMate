@@ -5,13 +5,14 @@ import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'; // Import toastify CSS
 import './Report.css';  // Assuming you will add CSS for modal
 
-const ReportChat = ({ isOpen, onClose, chatId,userSent }) => {
-    debugger;
+const ReportChat = ({ isOpen, onClose, chatId,userSent,message,username}) => {
+  
     
     const dispatch = useDispatch();
     const { loading, error } = useSelector((store) => store.data);
     const { user } = useSelector((store) => store.auth);
     const userId = user.id;
+    const thisUser = user.userName;
     const initData = {
         studyGroupId: null,
         title: "",
@@ -35,10 +36,11 @@ const ReportChat = ({ isOpen, onClose, chatId,userSent }) => {
     const handleReportSubmit = (e) => {
        
         e.preventDefault();
-
+        
         const reportDto = {
+            
             title: reportValue.title,
-            description: reportValue.description,
+            description: thisUser + " sent the report : \"" + reportValue.description + "\" . For the chat sent by  username: \"" + username + "\" containing : \"" + message + "\" ",
             creatorId: reportValue.creatorId,
             studyGroupId: reportValue.studyGroupId,
             resourceId: reportValue.resourceId,

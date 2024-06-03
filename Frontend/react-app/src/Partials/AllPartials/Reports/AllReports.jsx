@@ -76,44 +76,52 @@ const AllReports = () => {
             <ToastContainer />
             {/* Additional Tables */}
             <div className="container pt-4">
-    <h2>Chat Messages</h2>
-    <TableContainer id="tableContainer" sx={{ width: 1000 }}>
-        <Table stickyHeader>
-            <TableHead>
-                <TableRow>
-                    <TableCell style={{ backgroundColor: 'black', color: 'white' }}>Report ID</TableCell>
-                    <TableCell style={{ backgroundColor: 'black', color: 'white' }}>Chat Message ID</TableCell>
-                    <TableCell style={{ backgroundColor: 'black', color: 'white' }}>User ID</TableCell>
-                    <TableCell style={{ backgroundColor: 'black', color: 'white' }}>Title</TableCell>
-                    <TableCell style={{ backgroundColor: 'black', color: 'white' }}>Description</TableCell>
-                    <TableCell style={{ backgroundColor: 'black', color: 'white' }}>Creator ID</TableCell>
-                    <TableCell style={{ backgroundColor: 'black', color: 'white' }}>Actions</TableCell>
-                    {/* Other columns if needed */}
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {reports.filter(report => report.chatMessageId !== null).map((report, idx) => (
-                    <TableRow key={idx}>
-                        <TableCell>{report.reportId}</TableCell>
-                        <TableCell>{report.chatMessageId}</TableCell>
-                        <TableCell>{report.userId}</TableCell>
-                        <TableCell>{report.title}</TableCell>
-                        <TableCell>{report.description}</TableCell>
-                        <TableCell>{report.creatorId}</TableCell>
-                        <TableCell>
-                                    <Button variant="contained" color="secondary" onClick={() => handleDeleteReport(report.reportId)}>
-                                        Delete
-                                    </Button>
-                                </TableCell>
-                        
-                        
-                        {/* Render other columns if needed */}
-                    </TableRow>
-                ))}
-            </TableBody>
-        </Table>
-    </TableContainer>
-</div>
+            <h2>Chat Messages</h2>
+                <TableContainer id="tableContainer" sx={{ width: 1000 }}>
+                    <Table stickyHeader>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell style={{ backgroundColor: 'black', color: 'white' }}>Report ID</TableCell>
+                                <TableCell style={{ backgroundColor: 'black', color: 'white' }}>Chat Message ID</TableCell>
+                                <TableCell style={{ backgroundColor: 'black', color: 'white' }}>User ID</TableCell>
+                                <TableCell style={{ backgroundColor: 'black', color: 'white' }}>Title</TableCell>
+                                <TableCell style={{ backgroundColor: 'black', color: 'white' }}>Description</TableCell>
+                                <TableCell style={{ backgroundColor: 'black', color: 'white' }}>Creator ID</TableCell>
+                                <TableCell style={{ backgroundColor: 'black', color: 'white' }}>Actions</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {(rowsPerPage > 0
+                                ? reports.filter(report => report.chatMessageId !== null).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                : reports.filter(report => report.chatMessageId !== null)
+                            ).map((report, idx) => (
+                                <TableRow key={idx}>
+                                    <TableCell>{report.reportId}</TableCell>
+                                    <TableCell>{report.chatMessageId}</TableCell>
+                                    <TableCell>{report.userId} "</TableCell>
+                                    <TableCell>{report.title}</TableCell>
+                                    <TableCell>{report.description}</TableCell>
+                                    <TableCell>{report.creatorId}</TableCell>
+                                    <TableCell>
+                                        <Button variant="contained" color="secondary" onClick={() => handleDeleteReport(report.reportId)}>
+                                            Delete
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <TablePagination
+                    rowsPerPageOptions={[3, 6, 9, 12]}
+                    component="div"
+                    count={reports.filter(report => report.chatMessageId !== null).length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handlePageChange}
+                    onRowsPerPageChange={handleRowsPerPageChange}
+                />
+            </div>
 {columns.slice(4).filter(column => column.id !== 'chatMessageId').map((column, index) => (
     <div key={index} className="container pt-4">
         <h2>{column.name}</h2>
