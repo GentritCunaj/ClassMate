@@ -32,6 +32,7 @@ import Teachers from './Partials/Teachers';
 import Home from "./Pages/home/Home"
 import About from "./Pages/about/About"
 import Team from "./Pages/team/Team"
+import Contacts from './Pages/contacts/Contacts';
 import Subject from './Pages/Subject';
 import StudyGroup from './Pages/StudyGroup';
 import Chat from './Pages/Chat';
@@ -42,8 +43,6 @@ import QuizDetails from './Pages/QuizDetail';
 import { RoomProvider } from './Context/RoomContext';
 import GetQuizResults from './Partials/AllPartials/Quizzes/GetQuizResults';
 import QuizResults from './Partials/AllPartials/Quizzes/QuizResults';
-import AssignmentResults from './Partials/AllPartials/Assignment/AssignmentResults';
-import GetSubmissions from './Partials/AllPartials/Assignment/GetSubmissions'
 function App() {
   return (
     <Router>
@@ -53,12 +52,12 @@ function App() {
       <Route path="/about" element={<About />} />
       <Route path="/team" element={<Team/>} />
       <Route path="/login" element={<Login />} />
+      <Route path="/contacts" element={<Contacts />} />
       <Route path="/profile" element={<UserProfile />} />
       <Route path="/studyGroups" element={<StudyGroup/>}/>
       <Route path="/chat/:groupId" element={<Chat/>}/>
       <Route path="/subject/:subjectId" element={<Subject/>} />
       <Route path="/quizz/:quizId" element={<QuizDetails/>} /> 
-      <Route path="/resultsAssignment/:assignmentId" element={<AssignmentResults/>} /> 
       <Route path="/results/:quizId" element={<QuizResults/>} /> 
       <Route path="/video/:id" element={
         <RoomProvider>
@@ -82,9 +81,6 @@ function App() {
 
      <Route path="/quizResults" element={
      <PrivateRoute roles={['Teacher']}><GetQuizResults /></PrivateRoute>} />
-
-     <Route path="/assignmentResults" element={
-     <PrivateRoute roles={['Teacher']}><GetSubmissions /></PrivateRoute>} />
 
       <Route path="/resource" element={
         <PrivateRoute roles={['Teacher', 'Admin']}><Resource /></PrivateRoute>} />

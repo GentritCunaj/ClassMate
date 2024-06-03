@@ -37,7 +37,7 @@ const Header = ({ prop }) => {
               <Link to="/team">Team</Link>
             </li>
             <li>
-              <Link to="/contact">Contact</Link>
+              <Link to="/contacts">Contact</Link>
             </li>
             {user && user.fRole === "Student" && (
               <>
