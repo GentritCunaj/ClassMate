@@ -12,7 +12,7 @@ const PublicStudyGroups = () => {
         { id: 'studyGroupId', name: "StudyGroupId" },
         { id: 'groupName', name: "Name" },
         { id: 'description', name: "Description" },
-        { id: 'creatorId', name: "CreatorId" },
+        { id: 'creatorId', name: "Creator" },
         { id: 'reports', name: "Reports" },
         { id: 'report', name: "Report" } // New column for report button
     ];
@@ -63,7 +63,9 @@ const PublicStudyGroups = () => {
                                                 </TableCell>
                                             );
                                         } else {
+                                            let value = column.id === 'creatorId' ? row.creator['userName'] : row[column.id];
                                             return (
+                                                
                                                 <TableCell key={colIndex}>
                                                     {value}
                                                 </TableCell>

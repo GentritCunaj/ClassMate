@@ -13,6 +13,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Google.Cloud.Storage.V1;
 using Google.Apis.Auth.OAuth2;
+using Humanizer.Localisation;
 
 
 namespace ClassMate.Controllers
@@ -78,7 +79,7 @@ namespace ClassMate.Controllers
             try
             {
                 // Retrieve all resources from the database
-                var resources = await _context.Resources.Where(r => r.SubjectId == subject).ToListAsync();
+                var resources = await _context.Resources.Include(r=> r.User).Where(r => r.SubjectId == subject).ToListAsync();
 
                 // Set the response data with the retrieved resources
                 response.Data = resources;
@@ -214,7 +215,7 @@ namespace ClassMate.Controllers
                 await _context.SaveChangesAsync();
 
                 // Set the response data
-                response.Data = await _context.Resources.ToListAsync();
+                response.Data = await _context.Resources.Include(r => r.User).ToListAsync();
                 response.Success = true;
                 response.Message = "Resource Created";
             }
