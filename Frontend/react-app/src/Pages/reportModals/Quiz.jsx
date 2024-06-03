@@ -5,9 +5,7 @@ import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'; // Import toastify CSS
 import './Report.css';  // Assuming you will add CSS for modal
 
-const ReportChat = ({ isOpen, onClose, chatId,userSent }) => {
-    debugger;
-    
+const ReportQuiz = ({ isOpen, onClose, quizId }) => {
     const dispatch = useDispatch();
     const { loading, error } = useSelector((store) => store.data);
     const { user } = useSelector((store) => store.auth);
@@ -19,23 +17,26 @@ const ReportChat = ({ isOpen, onClose, chatId,userSent }) => {
         description: "",
         resourceId: null,
         assignmentId: null,
-        quizId: null,
-        userId: userSent,
-        chatMessageId: chatId,
+        quizId: quizId,
+        userId: null,
+        chatMessageId: null,
     };
     const [reportValue, setReportValue] = useState(initData);
     const [isReported, setIsReported] = useState(false); // State to manage submission status
 
-    
+    useEffect(() => {
+        // Update quizId in reportValue when quizId prop changes
+        setReportValue(prev => ({ ...prev, quizId }));
+    }, [quizId]);
 
     const handleReportChange = (e) => {
         setReportValue({ ...reportValue, [e.target.name]: e.target.value });
     };
 
     const handleReportSubmit = (e) => {
-       
         e.preventDefault();
 
+        // Create a ReportDto object from reportValue
         const reportDto = {
             title: reportValue.title,
             description: reportValue.description,
@@ -44,17 +45,19 @@ const ReportChat = ({ isOpen, onClose, chatId,userSent }) => {
             resourceId: reportValue.resourceId,
             assignmentId: reportValue.assignmentId,
             quizId: reportValue.quizId,
-            userId: userSent,
-            chatMessageId: reportValue.chatMessageId  
+            userId: reportValue.userId,
+            chatMessageId: reportValue.chatMessageId
         };
 
-        dispatch(createReport(reportDto)).then((res) => {
+        dispatch(createReport(reportDto)).then(() => {
             setReportValue(initData);
-            setIsReported(true); 
-
-            // Automatically close the modal after 3 seconds
+         
+             setIsReported(true);
+             
+           
             setTimeout(() => {
-                handleModalClose(); 
+                
+                handleModalClose();
             }, 7000);
         });
     };
@@ -74,7 +77,8 @@ const ReportChat = ({ isOpen, onClose, chatId,userSent }) => {
                     <button onClick={handleModalClose} className="close-button">X</button>
                     {isReported ? (
                         <div className="success-message">
-                            <h1>Chat Message Reported</h1>
+                            
+                            <h1>Quiz Reported</h1>
                             <p>Thank you for your report.</p>
                         </div>
                     ) : (
@@ -117,4 +121,4 @@ const ReportChat = ({ isOpen, onClose, chatId,userSent }) => {
     );
 };
 
-export default ReportChat;
+export default ReportQuiz;

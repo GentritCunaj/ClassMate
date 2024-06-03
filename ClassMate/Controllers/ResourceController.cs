@@ -245,44 +245,48 @@ namespace ClassMate.Controllers
 
             try
             {
-
-                string fileUrl = null;
-                if (updatedResourceDto.FileInput != null && updatedResourceDto.FileInput.Length > 0)
+                // Validate the incoming resourceDto
+                if (!ModelState.IsValid)
                 {
-                    // Generate a unique file name or use other logic to manage file storage
-                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(updatedResourceDto.FileInput.FileName);
-                    var filePath = Path.Combine("uploads", fileName); // Path to the uploads directory
-
-                    // Save the file to disk
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await updatedResourceDto.FileInput.CopyToAsync(stream);
-                    }
-
-                    // Set the file URL
-                    fileUrl = Path.Combine("/", "uploads", fileName);
+                    return BadRequest(ModelState);
                 }
-                // Retrieve the existing assignment from the database based on the provided ID
+
+                // Retrieve the existing resource from the database based on the provided ID
                 var existingResource = await _context.Resources.FindAsync(id);
 
                 if (existingResource == null)
                 {
-                    // If assignment with the specified ID is not found, return 404 Not Found
-                    return NotFound();
+                    // If resource with the specified ID is not found, return 404 Not Found
+                    return NotFound("Resource not found");
                 }
 
-                // Update properties of the existing assignment with the values from updatedAssignmentDto
+                // Process file input if present
+                string fileUrl = existingResource.FileUrl; // Keep the existing file URL if no new file is uploaded
+                if (updatedResourceDto.FileInput != null && updatedResourceDto.FileInput.Length > 0)
+                {
+                    // Generate a unique file name or use other logic to manage file storage
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(updatedResourceDto.FileInput.FileName);
+
+                    // Upload the file to Google Cloud Storage
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await updatedResourceDto.FileInput.CopyToAsync(memoryStream);
+                        var objectName = $"uploads/{fileName}"; // Adjust the path as needed
+                        _storageClient.UploadObject("class-mate-1", objectName, null, memoryStream);
+                        fileUrl = $"https://storage.googleapis.com/class-mate-1/{objectName}";
+                    }
+                }
+
+                // Update properties of the existing resource with the values from updatedResourceDto
                 existingResource.Title = updatedResourceDto.Title;
                 existingResource.Description = updatedResourceDto.Description;
                 existingResource.FileUrl = fileUrl;
-                existingResource.FileInput = updatedResourceDto.FileInput;
-
 
                 // Save the changes to the database asynchronously
                 _context.Resources.Update(existingResource);
                 await _context.SaveChangesAsync();
 
-                // Set the updated assignment to the response data
+                // Set the updated resource to the response data
                 response.Data = existingResource;
 
                 // Set response properties indicating success
@@ -293,18 +297,28 @@ namespace ClassMate.Controllers
             {
                 // If an exception occurs during database interaction, handle it here
                 response.Success = false;
-                response.Message = ex.Message; // Provide the exception message in the response
+                response.Message = "An error occurred while saving the entity changes. See the inner exception for details.";
+
+                // Log the inner exception details for diagnostic purposes
+                if (ex.InnerException != null)
+                {
+                    response.Message += " Inner exception: " + ex.InnerException.Message;
+                }
+
+                return StatusCode(500, response); // Return 500 status code with error message
             }
 
             // Return an HTTP response with the service response object (serialized to JSON)
             return Ok(response);
         }
 
+
         // POST: api/Resources
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
 
 
-        // DELETE: api/Resources/5
+        
+
         [Authorize(Roles = "Teacher,Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<ServiceResponse<Resource>>> DeleteResource(int id)
@@ -338,45 +352,55 @@ namespace ClassMate.Controllers
             return Ok(response);
         }
 
-
-
-
         [Authorize(Roles = "Admin")]
         [HttpDelete("del/{id}")]
         public async Task<ActionResult<ServiceResponse<List<Report>>>> DeleteResources(int id)
         {
-
             var response = new ServiceResponse<List<Report>>();
             try
             {
-
                 var resourcesToRemove = await _context.Resources.Where(r => r.SubjectId == id).ToListAsync();
 
-
-
-                if (resourcesToRemove == null)
+                if (resourcesToRemove == null || !resourcesToRemove.Any())
                 {
-                    return NotFound();
+                    return NotFound("No resources found for the given subject ID");
                 }
+
+                // Delete the files from Google Cloud Storage if they exist
+                foreach (var resource in resourcesToRemove)
+                {
+                    if (!string.IsNullOrEmpty(resource.FileUrl))
+                    {
+                        var objectName = resource.FileUrl.Replace("https://storage.googleapis.com/class-mate-1/", "");
+                        _storageClient.DeleteObject("class-mate-1", objectName);
+                    }
+                }
+
                 _context.Resources.RemoveRange(resourcesToRemove);
                 await _context.SaveChangesAsync();
 
-
-
                 response.Data = await _context.Reports.ToListAsync();
                 response.Success = true;
-                response.Message = "Report Deleted";
+                response.Message = "Resources Deleted";
             }
             catch (Exception ex)
             {
                 // Log the exception or handle it as per your application's requirement
                 response.Success = false;
-                response.Message = ex.Message;
+                response.Message = "An error occurred while deleting the resources. See the inner exception for details.";
+
+                // Log the inner exception details for diagnostic purposes
+                if (ex.InnerException != null)
+                {
+                    response.Message += " Inner exception: " + ex.InnerException.Message;
+                }
+
                 return StatusCode(500, response); // Return 500 status code with error message
             }
 
             return Ok(response);
         }
+
 
 
     }

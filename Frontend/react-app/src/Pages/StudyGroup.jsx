@@ -157,6 +157,7 @@ function StudyGroup() {
             <p className="roomP">{pg.groupName}</p>
             <p style={{ fontSize: "0.8em", color: "white" }}>{pg.description}</p>
             <p style={{ fontSize: "1.2em", color: "white",top:"-10px",position:"relative" }}>{pg.creator.firstName}</p>
+          
           </div>
           </div>
         </div>

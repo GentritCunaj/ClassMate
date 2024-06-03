@@ -12,6 +12,7 @@ namespace ClassMate.Controllers
         Task<ActionResult<ServiceResponse<Assignment>>> GetAssignmentById(int id);
         Task<ActionResult<ServiceResponse<Assignment>>> UpdateAssignment(int id, AssignmentDto updatedAssignmentDto);
         Task<ActionResult<ServiceResponse<string>>> DeleteAssignment(int id);
+
         Task<ActionResult<ServiceResponse<List<Assignment>>>> GetAssignmentsBySubject(int subjectId);
     }
 }

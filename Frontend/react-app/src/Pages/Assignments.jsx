@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { getAssignmentBySubjectId, submitAssignment } from '../Redux/data/action';
 import Modal from './Modal'; // Import the Modal component
+import ReportAssignment from './reportModals/Assignment';
 import '../assets/css/subject.css';
 
 const Assignments = ({ subjectId }) => {
@@ -13,6 +14,8 @@ const Assignments = ({ subjectId }) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [currentAssignmentId, setCurrentAssignmentId] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [showReportModal, setShowReportModal] = useState(false);
+    const [isReportModalOpen, setIsReportModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchAssignments = async () => {
@@ -31,6 +34,14 @@ const Assignments = ({ subjectId }) => {
 
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
+    };
+    const openReportModal = (assignmentId) => {
+        setCurrentAssignmentId(assignmentId);  // Set the current resourceId
+        setIsReportModalOpen(true);
+    };
+
+    const closeReportModal = () => {
+        setIsReportModalOpen(false);
     };
 
     const handleSubmit = async () => {
@@ -93,6 +104,14 @@ const Assignments = ({ subjectId }) => {
                                     >
                                         Submit
                                     </button>
+                                    <div>
+                                        <button 
+                                            onClick={() => openReportModal(assignment.assignmentId)} 
+                                            className="btn btn-primary"
+                                        >
+                                            Report
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         ))
@@ -101,6 +120,11 @@ const Assignments = ({ subjectId }) => {
                     )}
                 </div>
             </div>
+            <ReportAssignment
+                isOpen={isReportModalOpen} 
+                onClose={closeReportModal} 
+                assignmentId={currentAssignmentId}  // Pass the resourceId to the modal
+            />
             <Modal
                 show={showModal}
                 onClose={() => setShowModal(false)}

@@ -12,7 +12,7 @@ namespace ClassMate.Models
         public string FileUrl { get; set; }
         public ApplicationUser User { get; set; }
 
-        public int SubjectId { get; set; }
+        public int? SubjectId { get; set; }
         public virtual Subject Subject { get; set; }
 
         [NotMapped]

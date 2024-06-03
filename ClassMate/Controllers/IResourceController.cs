@@ -11,5 +11,7 @@ namespace ClassMate.Controllers
         Task<ActionResult<ServiceResponse<List<Resource>>>> PostResource(ResourceDto resourceDto);
         Task<ActionResult<ServiceResponse<Resource>>> DeleteResource(int id);
         Task<ActionResult<ServiceResponse<Resource>>> UpdateResource(int id, ResourceDto updatedResourceDto);
+
+        Task<ActionResult<ServiceResponse<List<Report>>>> DeleteResources(int id);
     }
 }

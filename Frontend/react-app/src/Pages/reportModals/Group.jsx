@@ -1,41 +1,43 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createReport } from "../../Redux/data/action";
+import { createReport,reportRoom } from "../../Redux/data/action";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'; // Import toastify CSS
 import './Report.css';  // Assuming you will add CSS for modal
 
-const ReportChat = ({ isOpen, onClose, chatId,userSent }) => {
-    debugger;
-    
+const ReportGroup = ({ isOpen, onClose, groupId }) => {
     const dispatch = useDispatch();
     const { loading, error } = useSelector((store) => store.data);
     const { user } = useSelector((store) => store.auth);
     const userId = user.id;
     const initData = {
-        studyGroupId: null,
+        studyGroupId: groupId,
         title: "",
         creatorId: userId,
         description: "",
         resourceId: null,
         assignmentId: null,
         quizId: null,
-        userId: userSent,
-        chatMessageId: chatId,
+        userId: null,
+        chatMessageId: null,
     };
     const [reportValue, setReportValue] = useState(initData);
     const [isReported, setIsReported] = useState(false); // State to manage submission status
 
-    
+    useEffect(() => {
+        // Update resourceId in reportValue when resourceId prop changes
+        setReportValue(prev => ({ ...prev, groupId }));
+    }, [groupId]);
 
     const handleReportChange = (e) => {
+        
         setReportValue({ ...reportValue, [e.target.name]: e.target.value });
     };
 
     const handleReportSubmit = (e) => {
-       
         e.preventDefault();
 
+        // Create a ReportDto object from reportValue
         const reportDto = {
             title: reportValue.title,
             description: reportValue.description,
@@ -44,17 +46,18 @@ const ReportChat = ({ isOpen, onClose, chatId,userSent }) => {
             resourceId: reportValue.resourceId,
             assignmentId: reportValue.assignmentId,
             quizId: reportValue.quizId,
-            userId: userSent,
-            chatMessageId: reportValue.chatMessageId  
+            userId: reportValue.userId,
+            chatMessageId: reportValue.chatMessageId
         };
 
         dispatch(createReport(reportDto)).then((res) => {
             setReportValue(initData);
-            setIsReported(true); 
+            setIsReported(true);
+            dispatch(reportRoom(groupId)); // Set isReported to true on successful report
 
             // Automatically close the modal after 3 seconds
             setTimeout(() => {
-                handleModalClose(); 
+                handleModalClose(); // Close the modal and reset the state
             }, 7000);
         });
     };
@@ -74,7 +77,7 @@ const ReportChat = ({ isOpen, onClose, chatId,userSent }) => {
                     <button onClick={handleModalClose} className="close-button">X</button>
                     {isReported ? (
                         <div className="success-message">
-                            <h1>Chat Message Reported</h1>
+                            <h1>Group Reported</h1>
                             <p>Thank you for your report.</p>
                         </div>
                     ) : (
@@ -117,4 +120,4 @@ const ReportChat = ({ isOpen, onClose, chatId,userSent }) => {
     );
 };
 
-export default ReportChat;
+export default ReportGroup;

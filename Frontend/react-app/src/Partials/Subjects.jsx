@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@mui/material";
-import { getAllSubjects, createSubject, deleteSubject } from "../Redux/data/action";
+import { getAllSubjects, createSubject, deleteSubject} from "../Redux/data/action";
 
 const Subjects = () => {
     const dispatch = useDispatch();
@@ -23,7 +23,9 @@ const Subjects = () => {
     };
 
     const handleDelete = (id) => {
+        
         dispatch(deleteSubject(id));
+        
     };
 
     const handleRowsPerPageChange = (event) => {

@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getQuizzesBySubjectId } from '../Redux/data/action'; // Assuming you have a Redux action to fetch quizzes by subject ID
+import { getQuizzesBySubjectId } from '../Redux/data/action';
+import ReportQuiz from './reportModals/Quiz'; // Assuming you have a Redux action to fetch quizzes by subject ID
 import '../assets/css/subject.css';
 
 const Quizzes = () => {
@@ -11,6 +12,10 @@ const Quizzes = () => {
     const navigate = useNavigate(); // Hook for navigation
 
     const { quizs, error, loading } = useSelector((store) => store.data);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentQuizId, setCurrentQuizId] = useState(null); 
+
 
     useEffect(() => {
         const fetchQuizzes = async () => {
@@ -28,15 +33,29 @@ const Quizzes = () => {
     }, [dispatch, subjectId]);
 
     const navigateToQuiz = (quizId) => {
-        // Navigate to the quiz details page using useNavigate
+        
         navigate(`/quizz/${quizId}`);
     };
 
-    if (loading) return <p>Loading quizzes...</p>;
-    if (error) return <p className="error-message">Error: {error}</p>;
+    const openModal = (quizId) => {
+        setCurrentQuizId(quizId); 
+        setIsModalOpen(true); 
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+
+
+    
 
     return (
+        <>
+        
         <div className="subject-container">
+            {loading && <p>Loading quizes...</p>}
+                {error && <p className="error-message">Error: {error}</p>}
             <h1 className="page-title">Quizzes</h1>
             <div className="subject-wrapper">
                 {quizs && quizs.length > 0 ? (
@@ -52,6 +71,14 @@ const Quizzes = () => {
                                 >
                                     Attempt Quiz
                                 </button>
+                                <div>
+                                        <button 
+                                            onClick={() => openModal(quiz.quizID)} 
+                                            className="btn btn-primary"
+                                        >
+                                            Report
+                                        </button>
+                                    </div>
                             </div>
                         </div>
                     ))
@@ -60,6 +87,13 @@ const Quizzes = () => {
                 )}
             </div>
         </div>
+        <ReportQuiz
+                isOpen={isModalOpen} 
+                onClose={closeModal} 
+                quizId={currentQuizId}  
+            />
+            
+        </>
     );
 };
 

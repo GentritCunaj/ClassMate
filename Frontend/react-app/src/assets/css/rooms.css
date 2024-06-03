@@ -1,6 +1,7 @@
 .roomsDiv {
     height: 50%;
 }
+
 .roomsCard {
     display: flex;
     flex-direction: row;

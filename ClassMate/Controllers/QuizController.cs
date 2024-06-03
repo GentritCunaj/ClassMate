@@ -169,6 +169,10 @@ namespace ClassMate.Controllers
             return Ok(response);
         }
 
+       
+
+
+
         [Authorize(Roles = "Teacher")]
         [HttpPut("{quizId}")]
         public async Task<ActionResult<ServiceResponse<Quiz>>> UpdateQuiz(int quizId, QuizDto updatedQuizDto)
