@@ -183,11 +183,13 @@ const closeGroupModal = () => {
             ))}
         </ul>
     </div>
+    <div style={{display:"flex",flexDirection:"row"}}>
     <div className="button-container" style={{ textAlign: "center" }}>
         <button onClick={leaveGroup} style={{ marginBottom: "1rem" }}>Leave Chat</button>
     </div>
     <div className="button-container" style={{ textAlign: "center" }}>
-    <button onClick={() => openGroupModal(groupId)} style={{ marginBottom: "1rem" }}>Report Group</button>
+    <button onClick={() => openGroupModal(groupId)} style={{ marginBottom: "1rem",marginLeft:"2rem" }}>Report Group</button>
+    </div>
     </div>
       </div>
       <div className="chatcontainer">
@@ -225,7 +227,7 @@ const closeGroupModal = () => {
                             <span className="time">{formatTimestamp(message.timestamp)}</span>
                             {hoveredMessage === message && (
                               <div style={{ position: "relative", top: "-10px" }}>
-                                <button onClick={() => openModal(message.chatMessageId,message.creatorId,message.message,message.creator.userName)}>Report</button>
+                                <button style={{padding:"0.4rem",borderRadius:"10px"}} onClick={() => openModal(message.chatMessageId,message.creatorId,message.message,message.creator.userName)}>Report</button>
                               </div>
                             )}
                           </div>

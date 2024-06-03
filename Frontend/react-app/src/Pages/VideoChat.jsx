@@ -68,7 +68,7 @@ export const VideoChat = () => {
             <div style={{ display: "flex", flexDirection: "row", width: 'fit-content', position: "relative", left: "5%" }} className="h-28 fixed bottom-0 p-6 w-full flex items-center justify-center border-t-2">
                 <ShareScreenButton onClick={shareScreen} />
                 <button onClick={leaveRoom}>Leave Room</button>
-                <button onClick={() => openGroupModal(id)} style={{ marginBottom: "1rem" }}>Report Group</button>
+                <button onClick={() => openGroupModal(id)} >Report Group</button>
             </div>
             <ReportGroup
                 isOpen={isGroupModalOpen} 
