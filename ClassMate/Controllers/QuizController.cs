@@ -365,6 +365,43 @@ namespace ClassMate.Controllers
             return Ok(response);
         }
 
+        [HttpGet("quizattempt/quiz/{quizId}")]
+       
+        public async Task<ActionResult<ServiceResponse<List<QuizAttemptDto>>>> GetQuizAttemptDetailsByQuizId(int quizId)
+        {
+            var response = new ServiceResponse<List<QuizAttemptDto>>();
+
+            try
+            {
+                // Retrieve quiz attempts related to the specified quizId
+                var quizAttempts = await _db.QuizAttempts
+                                            .Where(qa => qa.QuizId == quizId)
+                                            .ToListAsync();
+
+                // Map the quiz attempts to QuizAttemptDto
+                var quizAttemptsDto = quizAttempts.Select(qa => new QuizAttemptDto
+                {
+                    QuizId = qa.QuizId,
+                    QuizAttemptId=qa.QuizAttemptId,
+                    StudentId = qa.StudentId,
+                    AttemptedOn = qa.AttemptedOn,
+                    Score = qa.Score,
+                    IsPassed = qa.IsPassed,
+                    // Exclude QuestionAttempts
+                }).ToList();
+
+                response.Data = quizAttemptsDto;
+                response.Success = true;
+                response.Message = "Quiz attempts retrieved successfully";
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message; // Handle exceptions appropriately
+            }
+
+            return Ok(response);
+        }
 
 
 

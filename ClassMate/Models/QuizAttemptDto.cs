@@ -4,6 +4,7 @@
     {
         public int QuizId { get; set; }
         public string? StudentId { get; set; }
+        public int QuizAttemptId { get; set; }
 
         public DateTime AttemptedOn { get; set; }
         public int Score { get; set; }
