@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -95,5 +96,112 @@ namespace ClassMate.Controllers
 
             return Ok(response);
         }
+
+        [HttpGet]
+        [Authorize]
+        [Route("GetSubmissions/{assignmentId}")]
+        public async Task<ActionResult<ServiceResponse<List<SubmissionDto>>>> GetSubmissions(int assignmentId)
+        {
+            var response = new ServiceResponse<List<SubmissionDto>>();
+
+            try
+            {
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    response.Success = false;
+                    response.Message = "User not authorized.";
+                    return Unauthorized(response);
+                }
+
+                var assignment = await _db.Assignments.FindAsync(assignmentId);
+                if (assignment == null)
+                {
+                    response.Success = false;
+                    response.Message = "Assignment not found.";
+                    return NotFound(response);
+                }
+
+                // Check if the user requesting the submissions is the teacher who created the assignment
+                var isTeacher = await _userManager.IsInRoleAsync(user, "Teacher");
+                if (!isTeacher && assignment.TeacherId != user.Id)
+                {
+                    response.Success = false;
+                    response.Message = "Unauthorized to access submissions for this assignment.";
+                    return Unauthorized(response);
+                }
+
+                // Retrieve submissions for the specified assignment, including the Student navigation property
+                var submissions = await _db.Submissions
+                    .Include(s => s.Student)
+                    .Where(s => s.AssignmentId == assignmentId)
+                    .ToListAsync();
+
+                // Map the submissions to SubmissionDto
+                var submissionDtos = submissions.Select(s => new SubmissionDto
+                {
+                    SubmissionId = s.SubmissionId,
+                    AssignmentId = s.AssignmentId,
+                    StudentId = s.StudentId,
+                    StudentName = s.Student.UserName, // Assuming UserName is stored in the ApplicationUser model
+                    FileName = s.FileName,
+                    SubmittedOn = s.SubmittedOn
+                    // You can include additional properties as needed
+                }).ToList();
+
+                response.Data = submissionDtos;
+                response.Success = true;
+                response.Message = "Submissions retrieved successfully";
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+                return StatusCode(500, response);
+            }
+
+            return Ok(response);
+        }
+
+        [HttpGet]
+[Authorize]
+[Route("DownloadSubmission/{submissionId}")]
+public async Task<IActionResult> DownloadSubmission(int submissionId)
+{
+    try
+    {
+        var submission = await _db.Submissions.FindAsync(submissionId);
+        if (submission == null)
+        {
+            return NotFound("Submission not found.");
+        }
+
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null)
+        {
+            return Unauthorized("User not authorized.");
+        }
+
+        // Check if the user is authorized to download this submission
+        if (user.Id != submission.StudentId)
+        {
+            var isTeacher = await _userManager.IsInRoleAsync(user, "Teacher");
+            if (!isTeacher)
+            {
+                return Unauthorized("User not authorized to download this submission.");
+            }
+        }
+
+        // Return the submission file as a file stream
+        return File(submission.SubmittedFile, "application/octet-stream", submission.FileName);
     }
+    catch (Exception ex)
+    {
+        return StatusCode(500, ex.Message);
     }
+}
+
+    }
+}
+
+    

@@ -28,6 +28,21 @@ const Assignment = () => {
           >
             Add Assignment
           </Link>
+          <Link
+            to="/assignmentResults" // Update this with the correct path to assignment results
+            style={{
+              textDecoration: 'none',
+              padding: '10px 20px', /* Adjust padding */
+              backgroundColor: '#28a745', // Change color to green (or any desired color)
+              color: '#fff',
+              borderRadius: '5px',
+              fontSize: '16px',
+              fontWeight: 'bold',
+              marginLeft: '20px' /* Add margin to separate buttons */
+            }}
+          >
+          Submissions
+          </Link>
         </div>
 
         <div style={{marginLeft:"70px"}}>
