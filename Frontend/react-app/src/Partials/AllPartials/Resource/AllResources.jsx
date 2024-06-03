@@ -8,7 +8,9 @@ const AllResources = () => {
     const dispatch = useDispatch();
     const { resources, subjects, loading } = useSelector((store) => store.data); // Assuming subjects are also stored in data state
     const { user } = useSelector((store) => store.auth); // Assuming user information is stored in Redux state
-
+    useEffect(() => {
+        dispatch(getAllResources());
+    }, [dispatch, user.fRole, resources]);
     const columns = [
         { id: 'resourceId', name: "Resource ID" },
         { id: 'userId', name: "Username" },
@@ -64,7 +66,8 @@ const AllResources = () => {
         return subject ? subject.name : "Unknown";
     };
 
-    const userResources = resources ? (user.fRole === 'Admin' ? resources : resources.filter(resource => resource.userId === user.id)) : [];
+    const userResources = resources ? (user.fRole === 'Admin' ? resources : (Array.isArray(resources) && resources.filter(resource => resource.userId === user.id))) : [];
+
 
     return (
         <div id="dashboardContainer" className="container pt-4">
