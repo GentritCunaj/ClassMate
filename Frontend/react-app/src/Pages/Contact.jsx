@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Typography, TablePagination, Box, Drawer, List, ListItem, ListItemText } from '@mui/material';
+import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Typography, TablePagination, Box, Button } from '@mui/material';
 import Sidebar from '../Partials/Sidebar'; // Import the Sidebar component
 
 function Contact() {
     const [contacts, setContacts] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [openDrawer, setOpenDrawer] = useState(false);
 
     useEffect(() => {
         // Fetch contacts when the component mounts
@@ -26,6 +25,18 @@ function Contact() {
         }
     };
 
+    const handleDeleteContact = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:5000/contacts/${id}`, { method: 'DELETE' });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            setContacts(contacts.filter(contact => contact._id !== id));
+        } catch (error) {
+            console.error('Error deleting contact:', error);
+        }
+    };
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -38,19 +49,9 @@ function Contact() {
     const columns = [
         { id: 'name', name: 'Name' },
         { id: 'email', name: 'Email' },
-        { id: 'message', name: 'Message' }
+        { id: 'message', name: 'Message' },
+        { id: 'actions', name: 'Actions' } // New column for actions
     ];
-
-    const toggleDrawer = (open) => (event) => {
-        if (
-            event.type === 'keydown' &&
-            (event.key === 'Tab' || event.key === 'Shift')
-        ) {
-            return;
-        }
-
-        setOpenDrawer(open);
-    };
 
     return (
         <div id="dashboardContainer" className="container pt-4" style={{ display: 'flex', justifyContent: 'center' }}>
@@ -71,11 +72,14 @@ function Contact() {
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((contact, index) => (
                                     <TableRow key={index}>
-                                        {columns.map((column) => (
+                                        {columns.slice(0, -1).map((column) => (
                                             <TableCell key={column.id}>
                                                 {contact[column.id]}
                                             </TableCell>
                                         ))}
+                                        <TableCell>
+                                            <Button variant="contained" color="secondary" onClick={() => handleDeleteContact(contact._id)}>Delete</Button>
+                                        </TableCell>
                                     </TableRow>
                                 ))}
                         </TableBody>

@@ -52,6 +52,18 @@ app.get('/contacts', async (req, res) => {
     }
 });
 
+// DELETE endpoint to delete a contact by ID
+app.delete('/contacts/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        await Contact.findByIdAndDelete(id);
+        res.status(200).json({ message: "Contact deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting contact:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
