@@ -19,23 +19,23 @@ const Sidebar = () => {
 
   return (
     <>
-    <div className={`sidebar ${isOpen ? 'close' : ''}`}>
-    <div class="logo-details">
-    
-      <i id="sideIcon" class='bx bxl-c-plus-plus'></i>
-      <span class="logo_name">ClassMate</span>
-      <i onClick={toggleSidebar} class='bx bx-menu' ><FontAwesomeIcon icon={faBars} /> </i>
-   
- 
-    </div>
-    <ul class="nav-links">
-      <li>
-        <a href="/dashboard">
-          <i id="sideIcon" class='bx bx-grid-alt' ></i>
-          <span class="link_name">Dashboard</span>
-        </a>
-      </li>
-      {user && user.fRole === 'Teacher' && (
+      <div className={`sidebar ${isOpen ? 'close' : ''}`}>
+        <div class="logo-details">
+
+          <i id="sideIcon" class='bx bxl-c-plus-plus'></i>
+          <span class="logo_name">ClassMate</span>
+          <i onClick={toggleSidebar} class='bx bx-menu' ><FontAwesomeIcon icon={faBars} /> </i>
+
+
+        </div>
+        <ul class="nav-links">
+          <li>
+            <a href="/dashboard">
+              <i id="sideIcon" class='bx bx-grid-alt' ></i>
+              <span class="link_name">Dashboard</span>
+            </a>
+          </li>
+          {user && user.fRole === 'Teacher' && (
             <li>
               <div className="iocn-link">
                 <a href="../../quiz">
@@ -49,15 +49,15 @@ const Sidebar = () => {
           {user && user.fRole === 'Teacher' && (
             <li>
               <a href="/assignment">
-                <i id="sideIcon"  className='bx bx-compass'></i>
+                <i id="sideIcon" className='bx bx-compass'></i>
                 <span className="link_name">Assignment</span>
               </a>
             </li>
           )}
-          {user && user.fRole === 'Teacher'  && (
+          {user && user.fRole === 'Teacher' && (
             <li>
               <div className="iocn-link">
-                <a href="/resource">  
+                <a href="/resource">
                   <i id="sideIcon" className='bx bx-book-alt'></i>
                   <span className="link_name">Resource</span>
                 </a>
@@ -65,10 +65,10 @@ const Sidebar = () => {
               </div>
             </li>
           )}
-          {user && user.fRole === 'Admin'  && (
+          {user && user.fRole === 'Admin' && (
             <li>
               <div className="iocn-link">
-                <a href="/resource">  
+                <a href="/resource">
                   <i id="sideIcon" className='bx bx-book-alt'></i>
                   <span className="link_name">Resource</span>
                 </a>
@@ -76,11 +76,10 @@ const Sidebar = () => {
               </div>
             </li>
           )}
-
-{user && user.fRole === 'Teacher'  && (
+          {user && user.fRole === 'Admin' && (
             <li>
               <div className="iocn-link">
-                <a href="/contact">  
+                <a href="/contact">
                   <i id="sideIcon" className='bx bx-book-alt'></i>
                   <span className="link_name">Contacts</span>
                 </a>
@@ -88,66 +87,54 @@ const Sidebar = () => {
               </div>
             </li>
           )}
-
-{user && user.fRole === 'Admin'  && (
+          {user && user.fRole === 'Admin' && (
             <li>
-              <div className="iocn-link">
-                <a href="/contact">  
-                  <i id="sideIcon" className='bx bx-book-alt'></i>
-                  <span className="link_name">Contacts</span>
+              <div class="iocn-link">
+                <a href="/report">
+                  <i id="sideIcon" class='bx bx-book-alt' ></i>
+                  <span class="link_name">Reports</span>
                 </a>
-                <i className='bx bxs-chevron-down arrow'></i>
+                <i id="sideIcon" class='bx bxs-chevron-down arrow' ></i>
               </div>
             </li>
           )}
-           {user && (user.fRole === 'Teacher' || user.fRole === 'Admin') && (
-      <li>
-        <div class="iocn-link">
-          <a href="/report">
-            <i id="sideIcon" class='bx bx-book-alt' ></i>
-            <span class="link_name">Reports</span>
-          </a>
-          <i id="sideIcon" class='bx bxs-chevron-down arrow' ></i>
-        </div>
-      </li>
-      )}
-      <li>
-        <a href="/students">
-          <i id="sideIcon" class='bx bx-pie-chart-alt-2' ></i>
-          <span class="link_name">Students</span>
-        </a>
-       
-      </li>
-      <li>
-        <a href="/teachers">
-          <i id="sideIcon" class='bx bx-line-chart' ></i>
-          <span class="link_name">Teachers</span>
-        </a>
-       
-      </li>
-      <li>
-        <div class="iocn-link">
-          <a href="/profile">
-            <i id="sideIcon" class='bx bx-plug' ></i>
-            <span class="link_name">Profile</span>
-          </a>
-          <i class='bx bxs-chevron-down arrow' ></i>
-        </div>
-      </li>
-     
-      <li class="logout">
-        
-      <a
-      style={{flexDirection:"column-reverse"}}
-        className="cart-link"
-        onClick={() => {
-            dispatch(authLogout());
-        }}
-        href="/"
-        >
-        LogOut 
-        <div className="icon">
-            <FiLogOut />
+          <li>
+            <a href="/students">
+              <i id="sideIcon" class='bx bx-pie-chart-alt-2' ></i>
+              <span class="link_name">Students</span>
+            </a>
+
+          </li>
+          <li>
+            <a href="/teachers">
+              <i id="sideIcon" class='bx bx-line-chart' ></i>
+              <span class="link_name">Teachers</span>
+            </a>
+
+          </li>
+          <li>
+            <div class="iocn-link">
+              <a href="/profile">
+                <i id="sideIcon" class='bx bx-plug' ></i>
+                <span class="link_name">Profile</span>
+              </a>
+              <i class='bx bxs-chevron-down arrow' ></i>
+            </div>
+          </li>
+
+          <li class="logout">
+
+            <a
+              style={{ flexDirection: "column-reverse" }}
+              className="cart-link"
+              onClick={() => {
+                dispatch(authLogout());
+              }}
+              href="/"
+            >
+              LogOut
+              <div className="icon">
+                <FiLogOut />
               </div>
             </a>
           </li>

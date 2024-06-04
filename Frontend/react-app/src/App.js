@@ -39,6 +39,8 @@ import Chat from './Pages/Chat';
 import Assignments from './Pages/Assignments';
 import Quizs from './Pages/Quizs';
 import VideoChat from './Pages/VideoChat';
+import AssignmentResults from './Partials/AllPartials/Assignment/AssignmentResults';
+import GetSubmissions from './Partials/AllPartials/Assignment/GetSubmissions'
 import QuizDetails from './Pages/QuizDetail';
 import { RoomProvider } from './Context/RoomContext';
 import GetQuizResults from './Partials/AllPartials/Quizzes/GetQuizResults';
@@ -57,6 +59,7 @@ function App() {
       <Route path="/studyGroups" element={<StudyGroup/>}/>
       <Route path="/chat/:groupId" element={<Chat/>}/>
       <Route path="/subject/:subjectId" element={<Subject/>} />
+      <Route path="/resultsAssignment/:assignmentId" element={<AssignmentResults/>} /> 
       <Route path="/quizz/:quizId" element={<QuizDetails/>} /> 
       <Route path="/results/:quizId" element={<QuizResults/>} /> 
       <Route path="/video/:id" element={
@@ -70,14 +73,18 @@ function App() {
         <PrivateRoute roles={['Teacher', 'Admin']}><Dashboard /></PrivateRoute>} />
 
       <Route path="/register" element={<Register />} />
-      <Route path="/contact" element={<Contact />} />
 
-
+      <Route path="/contact" element={
+        <PrivateRoute roles={['Admin']}><Contact/></PrivateRoute>} />
+        
       <Route path="/quiz" element={
         <PrivateRoute roles={['Teacher', 'Admin']}><Quiz /></PrivateRoute>} />
 
       <Route path="/assignment" element={
         <PrivateRoute roles={['Teacher', 'Admin']}><Assignment /></PrivateRoute>} />
+
+      <Route path="/assignmentResults" element={
+     <PrivateRoute roles={['Teacher']}><GetSubmissions /></PrivateRoute>} />
 
      <Route path="/quizResults" element={
      <PrivateRoute roles={['Teacher']}><GetQuizResults /></PrivateRoute>} />
@@ -86,7 +93,7 @@ function App() {
         <PrivateRoute roles={['Teacher', 'Admin']}><Resource /></PrivateRoute>} />
 
         <Route path="/report" element={
-        <PrivateRoute roles={['Teacher', 'Admin']}><Report /></PrivateRoute>} />
+        <PrivateRoute roles={['Admin']}><Report /></PrivateRoute>} />
 
       <Route path="/unauthorized" element={<UnAuthorized />} />
 
